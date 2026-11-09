@@ -167,13 +167,22 @@
       </div>
     </div>
 
-    <!-- BARRA DE FILTROS (INCLUYE ASESOR) -->
+    <!-- BARRA DE FILTROS (INCLUYE ESTADO DE VALIDACIÓN) -->
     <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs">
       <div class="flex flex-wrap gap-2.5 items-center">
         
         <div class="flex-1 min-w-[200px] relative">
           <i data-lucide="search" class="w-3.5 h-3.5 text-monday-subtext absolute left-3 top-2.5"></i>
           <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca, Nombre o Producto..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none focus:bg-white focus:ring-2 focus:ring-monday-blue">
+        </div>
+
+        <!-- FILTRO ESTADO DE VALIDACIÓN -->
+        <div class="w-auto">
+          <select id="filterValidacion" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+            <option value="">Estado de Validación</option>
+            <option value="true">Validados</option>
+            <option value="false">Pendientes por Validar</option>
+          </select>
         </div>
 
         <div class="w-auto">
@@ -549,7 +558,7 @@
         container.innerHTML = `
           <div class="space-y-4">
             <div class="flex items-center justify-between border-b border-monday-border pb-3">
-              <span class="text-xs font-bold text-monday-blue">MODO EDICIÓN MANUALE DE FICHA</span>
+              <span class="text-xs font-bold text-monday-blue">MODO EDICIÓN MANUAL DE FICHA</span>
               <div class="flex space-x-2">
                 <button onclick="cancelEdit()" class="px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg hover:bg-gray-300">Deshacer</button>
                 <button onclick="saveEdit()" class="px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-lg hover:bg-emerald-700">Guardar Cambios</button>
@@ -648,19 +657,13 @@
                 <span>Ficha PDF</span>
               </button>
 
-              <!-- TRES ÍCONOS DE GESTIÓN: LÁPIZ, ELIMINAR X Y VALIDACIÓN ASESOR -->
               <div class="flex items-center space-x-1.5 bg-gray-50 p-1 rounded-lg border border-monday-border">
-                <!-- 1. Ícono Lápiz (Editar) -->
                 <button onclick="toggleEdit()" title="Editar Ficha" class="p-1 text-monday-subtext hover:text-monday-blue hover:bg-white rounded transition">
                   <i data-lucide="pencil" class="w-4 h-4"></i>
                 </button>
-
-                <!-- 2. Ícono X (Eliminar) -->
                 <button onclick="openDeleteModal()" title="Eliminar Registro" class="p-1 text-monday-subtext hover:text-sercotec-red hover:bg-white rounded transition">
                   <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
-
-                <!-- 3. Ícono Validación (Advertencia / Check Azul) -->
                 <button onclick="openValidateModal()" title="${item.validado ? 'Información Validada por Asesor' : 'Pendiente de Validación'}" class="p-1 rounded transition ${item.validado ? 'text-monday-blue hover:bg-white' : 'text-amber-500 hover:bg-amber-50 animate-pulse'}">
                   <i data-lucide="${item.validado ? 'shield-check' : 'alert-triangle'}" class="w-4 h-4"></i>
                 </button>
@@ -668,7 +671,7 @@
             </div>
           </div>
 
-          <!-- Contacto & Instagram Alineado -->
+          <!-- Contacto & Instagram -->
           <div class="grid grid-cols-2 gap-3 bg-monday-bg p-3.5 rounded-xl border border-monday-border text-xs">
             <div>
               <span class="text-monday-subtext block font-medium">Encargado/a</span>
@@ -749,7 +752,7 @@
             </button>
           </div>
 
-          <!-- ASESOR CDN REUBICADO AL FINAL DEL TODO -->
+          <!-- ASESOR CDN AL FINAL -->
           <div class="bg-monday-softblue/60 border border-blue-200 p-3.5 rounded-xl flex items-center justify-between mt-2">
             <div>
               <span class="text-[10px] font-bold text-monday-blue uppercase tracking-wider block">Asesor CDN a Cargo</span>
@@ -773,7 +776,6 @@
       lucide.createIcons();
     }
 
-    // LÓGICA DE EDICIÓN
     function toggleEdit() {
       isEditing = !isEditing;
       renderDetail(selectedItem);
@@ -802,7 +804,6 @@
       renderAll();
     }
 
-    // MODAL DE ELIMINACIÓN
     function openDeleteModal() { document.getElementById('deleteModal').classList.remove('hidden'); }
     function closeDeleteModal() { document.getElementById('deleteModal').classList.add('hidden'); }
     function confirmDelete() {
@@ -812,7 +813,6 @@
       closeDeleteModal();
     }
 
-    // MODAL DE VALIDACIÓN DE ASESOR
     function openValidateModal() { document.getElementById('validateModal').classList.remove('hidden'); }
     function closeValidateModal() { document.getElementById('validateModal').classList.add('hidden'); }
     function confirmValidation() {
@@ -925,9 +925,10 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
       }).catch(err => alert("Error al copiar texto: " + err));
     }
 
-    // APLICACIÓN DE FILTROS EXTENDIDOS CON ASESOR
+    // APLICACIÓN DE FILTROS INCLUYENDO VALIDACIÓN
     function applyFilters() {
       const q = document.getElementById('searchQuery').value.toLowerCase();
+      const validacion = document.getElementById('filterValidacion').value;
       const asesor = document.getElementById('filterAsesor').value;
       const comuna = document.getElementById('filterComuna').value;
       const cat = document.getElementById('filterCategoria').value;
@@ -942,6 +943,7 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
           item.contacto.toLowerCase().includes(q) ||
           (item.productos && item.productos.toLowerCase().includes(q));
 
+        const matchesValidacion = !validacion || (validacion === 'true' ? item.validado === true : item.validado === false);
         const matchesAsesor = !asesor || item.asesor === asesor;
         const matchesComuna = !comuna || item.comuna === comuna;
         const matchesCat = !cat || item.categoria === cat;
@@ -949,7 +951,7 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
         const matchesPerm = !perm || item.permisos.includes(perm);
         const matchesSust = !sust || item.sustentable === sust;
 
-        return matchesQ && matchesAsesor && matchesComuna && matchesCat && matchesRubro && matchesPerm && matchesSust;
+        return matchesQ && matchesValidacion && matchesAsesor && matchesComuna && matchesCat && matchesRubro && matchesPerm && matchesSust;
       });
 
       selectedItem = filteredData[0] || null;
@@ -969,8 +971,8 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
       doc.text("Directorio Vitrina Elqui - CDN La Serena", 14, 15);
       doc.autoTable({
         startY: 20,
-        head: [['ID', 'Marca', 'Contacto', 'Comuna', 'Teléfono', 'Asesor']],
-        body: filteredData.map(d => [d.id, d.marca, d.contacto, d.comuna, d.telefono, d.asesor])
+        head: [['ID', 'Marca', 'Contacto', 'Comuna', 'Teléfono', 'Asesor', 'Estado Validado']],
+        body: filteredData.map(d => [d.id, d.marca, d.contacto, d.comuna, d.telefono, d.asesor, d.validado ? 'Validado' : 'Pendiente'])
       });
       doc.save("Vitrina_Elqui_Directorio.pdf");
     }
