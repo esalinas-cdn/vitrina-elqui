@@ -1,862 +1,686 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Búsqueda y Gestión de Emprendimientos</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        /* Custom scrollbar for preview tables */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Directorio Vitrina Elqui | CDN La Serena</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- SheetJS (para exportar a Excel) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <!-- jsPDF & autoTable (para exportar a PDF) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sercotec: {
+              blue: '#0066B3',
+              darkblue: '#004A83',
+              red: '#E30613',
+              gray: '#4A4F54',
+              lightgray: '#F4F6F8'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+<body class="bg-gray-100 font-sans text-gray-800 antialiased min-h-screen flex flex-col">
 
-    <!-- Header / Navbar -->
-    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="bg-indigo-600 text-white p-2 rounded-lg shadow-sm">
-                    <i class="fa-solid fa-address-card text-xl"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-lg leading-tight">Directorio & Buscador de Emprendedores</h1>
-                    <p class="text-xs text-slate-400">Sistema de Consulta y Fichas Técnicas</p>
-                </div>
-            </div>
-            
-            <div class="flex items-center gap-2">
-                <button onclick="toggleConfigModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm px-3 py-2 rounded-lg font-medium transition-colors shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-link"></i>
-                    <span>Conectar Google Sheet</span>
-                </button>
-                <button onclick="syncLiveData()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm px-3 py-2 rounded-lg font-medium transition-colors shadow-sm flex items-center gap-2">
-                    <i class="fa-solid fa-rotate text-xs"></i>
-                    <span class="hidden sm:inline">Sincronizar en Vivo</span>
-                </button>
-            </div>
+  <!-- ENCABEZADO PRINCIPAL / NAVBAR -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
+      
+      <!-- Marca & Logo CDN La Serena -->
+      <div class="flex items-center space-x-4">
+        <div class="h-14 w-auto flex-shrink-0 flex items-center">
+          <!-- Logo SVG del CDN La Serena -->
+          <svg class="h-12 w-auto" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M427 150C274 150 150 274 150 427C150 500 180 567 228 615C228 615 100 660 100 800C220 800 320 750 380 700C400 703 410 704 427 704C580 704 704 580 704 427C704 274 580 150 427 150Z" fill="#0066B3"/>
+            <path d="M427 240C323 240 240 323 240 427C240 531 323 614 427 614C455 614 500 600 500 600C450 550 427 500 427 427C427 340 470 280 520 245C490 241 455 240 427 240Z" fill="#E30613"/>
+            <text x="450" y="320" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="95" fill="#4A4F54">CENTRO</text>
+            <text x="450" y="440" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="85" fill="#4A4F54">DE NEGOCIOS</text>
+            <text x="450" y="570" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="105" fill="#4A4F54">SERCOTEC</text>
+            <rect x="450" y="615" width="220" height="20" fill="#0066B3"/>
+            <rect x="670" y="615" width="220" height="20" fill="#E30613"/>
+            <text x="580" y="740" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="95" fill="#4A4F54">LA SERENA</text>
+          </svg>
         </div>
-    </header>
+        <div class="border-l border-gray-300 pl-4">
+          <h1 class="text-xl font-bold text-sercotec-blue leading-tight">Directorio Vitrina Elqui</h1>
+          <p class="text-xs text-sercotec-gray font-medium">Base de datos de clientes CDN La Serena para Eventos</p>
+        </div>
+      </div>
 
-    <!-- Banner Estado Conexión Google Sheets -->
-    <div id="connection-bar" class="bg-slate-800 text-slate-300 border-b border-slate-700 px-4 py-2 text-xs flex flex-wrap items-center justify-between gap-2">
-        <div class="flex items-center gap-2">
-            <span id="connection-status-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block animate-pulse"></span>
-            <span id="connection-status-text" class="font-medium">Modo Demo / Datos de prueba locales</span>
+      <!-- Conexión a Google Sheets y Sincronización -->
+      <div class="flex items-center space-x-2">
+        <button id="btnConnectSheet" onclick="openConfigModal()" class="inline-flex items-center space-x-2 bg-sercotec-lightgray hover:bg-gray-200 text-sercotec-gray px-3 py-2 rounded-lg text-xs font-semibold border border-gray-300 transition">
+          <i data-lucide="link" class="w-4 h-4 text-sercotec-blue"></i>
+          <span>Conectar Google Sheet</span>
+        </button>
+        <button onclick="syncData()" class="inline-flex items-center space-x-2 bg-sercotec-blue hover:bg-sercotec-darkblue text-white px-3 py-2 rounded-lg text-xs font-semibold shadow transition">
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+          <span>Sincronizar en Vivo</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- BARRA KPI (ESTADÍSTICAS RÁPIDAS) -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
+        <div class="p-3 bg-blue-50 text-sercotec-blue rounded-lg">
+          <i data-lucide="building-2" class="w-6 h-6"></i>
         </div>
-        <div class="flex items-center gap-3 text-[11px] text-slate-400">
-            <span id="last-sync-time">Última sincro: Nunca</span>
-            <button onclick="toggleConfigModal()" class="text-indigo-400 hover:underline flex items-center gap-1">
-                <i class="fa-solid fa-gear"></i> Configurar Origen
+        <div>
+          <p class="text-xs text-gray-500 font-medium">Total Registros</p>
+          <p id="kpiTotal" class="text-xl font-bold text-gray-800">0</p>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
+        <div class="p-3 bg-amber-50 text-amber-600 rounded-lg">
+          <i data-lucide="compass" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <p class="text-xs text-gray-500 font-medium">Identidad Local</p>
+          <p id="kpiIdentidad" class="text-xl font-bold text-gray-800">0%</p>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
+        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
+          <i data-lucide="shield-check" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <p class="text-xs text-gray-500 font-medium">Permisos Sanidad OK</p>
+          <p id="kpiPermisos" class="text-xl font-bold text-gray-800">0</p>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
+        <div class="p-3 bg-green-50 text-green-600 rounded-lg">
+          <i data-lucide="leaf" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <p class="text-xs text-gray-500 font-medium">Sustentables</p>
+          <p id="kpiSustentables" class="text-xl font-bold text-gray-800">0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN DE FILTROS Y BÚSQUEDA -->
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+        
+        <!-- Búsqueda General -->
+        <div class="md:col-span-4 relative">
+          <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-3.5"></i>
+          <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca o Nombre..." class="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sercotec-blue focus:border-transparent outline-none">
+        </div>
+
+        <!-- Filtro Comuna -->
+        <div class="md:col-span-2">
+          <select id="filterComuna" onchange="applyFilters()" class="w-full py-2 px-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sercotec-blue outline-none text-gray-700">
+            <option value="">Todas las Comunas</option>
+            <option value="La Serena">La Serena</option>
+            <option value="Coquimbo">Coquimbo</option>
+            <option value="Vicuña">Vicuña</option>
+            <option value="Paihuano">Paihuano</option>
+            <option value="Andacollo">Andacollo</option>
+            <option value="Otra">Otra Comuna</option>
+          </select>
+        </div>
+
+        <!-- Filtro Categoría -->
+        <div class="md:col-span-2">
+          <select id="filterCategoria" onchange="applyFilters()" class="w-full py-2 px-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sercotec-blue outline-none text-gray-700">
+            <option value="">Todas las Categorías</option>
+            <option value="Producto con Identidad Local">Con Identidad Local</option>
+            <option value="Producto General">Producto General</option>
+          </select>
+        </div>
+
+        <!-- Filtro Rubro -->
+        <div class="md:col-span-2">
+          <select id="filterRubro" onchange="applyFilters()" class="w-full py-2 px-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sercotec-blue outline-none text-gray-700">
+            <option value="">Todos los Rubros</option>
+            <option value="Agroalimentario y Bebidas">Agroalimentario y Bebidas</option>
+            <option value="Vinos, Piscos y Licores">Vinos, Piscos y Licores</option>
+            <option value="Artesanía y Oficios Tradicionales">Artesanía y Oficios</option>
+            <option value="Orfebrería y Joyería">Orfebrería y Joyería</option>
+            <option value="Cosméceutica y Bienestar">Cosmética y Bienestar</option>
+            <option value="Textil, Confección y Diseño">Textil y Diseños</option>
+            <option value="Diseños 3D, Papelería e Impresión">3D y Papelería</option>
+            <option value="Juguetería y Artículos Infantiles">Juguetería e Infantiles</option>
+          </select>
+        </div>
+
+        <!-- Filtro Sustentable -->
+        <div class="md:col-span-2">
+          <select id="filterSustentable" onchange="applyFilters()" class="w-full py-2 px-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sercotec-blue outline-none text-gray-700">
+            <option value="">Todos (Sustentabilidad)</option>
+            <option value="Sí">Solo Sustentables</option>
+            <option value="No">No Sustentables</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ÁREA PRINCIPAL: LISTA + FICHA DETALLADA -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- COLUMNA IZQUIERDA: LISTADO DE RESULTADOS (5 COLUMNAS) -->
+      <div class="lg:col-span-5 bg-white rounded-xl border border-gray-200 shadow-sm flex flex-col h-[650px]">
+        
+        <!-- Encabezado con Botones de Exportación -->
+        <div class="p-3 border-b border-gray-200 flex items-center justify-between bg-gray-50 rounded-t-xl">
+          <span class="text-xs font-bold text-gray-600 uppercase tracking-wider">Resultados (<span id="countResults">0</span>)</span>
+          
+          <!-- Botones de Exportar -->
+          <div class="flex items-center space-x-2">
+            <button onclick="exportToExcel()" title="Exportar resultado actual a Excel" class="inline-flex items-center space-x-1 text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded font-medium transition shadow-sm">
+              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+              <span>Excel</span>
             </button>
-        </div>
-    </div>
-
-    <!-- Main Content Container -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-
-        <!-- KPI Cards Grid -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <!-- Total Emprendimientos -->
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Registrados</p>
-                    <h2 class="text-2xl font-bold text-slate-900 mt-1" id="kpi-total">0</h2>
-                    <span class="text-xs text-emerald-600 font-medium flex items-center gap-1 mt-1">
-                        <i class="fa-solid fa-database"></i> Base conectada
-                    </span>
-                </div>
-                <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl">
-                    <i class="fa-solid fa-store"></i>
-                </div>
-            </div>
-
-            <!-- Identidad Local -->
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Identidad Territorial</p>
-                    <h2 class="text-2xl font-bold text-slate-900 mt-1" id="kpi-identidad">0%</h2>
-                    <span class="text-xs text-slate-500 mt-1 block" id="kpi-identidad-count">0 marcas</span>
-                </div>
-                <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl">
-                    <i class="fa-solid fa-location-dot"></i>
-                </div>
-            </div>
-
-            <!-- Permiso Sanitario / SAG -->
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Permisos Vigentes</p>
-                    <h2 class="text-2xl font-bold text-slate-900 mt-1" id="kpi-permisos">0%</h2>
-                    <span class="text-xs text-emerald-600 font-medium flex items-center gap-1 mt-1">
-                        <i class="fa-solid fa-circle-check"></i> Formalizados
-                    </span>
-                </div>
-                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl">
-                    <i class="fa-solid fa-file-contract"></i>
-                </div>
-            </div>
-
-            <!-- Sustentables -->
-            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Sustentables / Circulares</p>
-                    <h2 class="text-2xl font-bold text-slate-900 mt-1" id="kpi-sustentable">0</h2>
-                    <span class="text-xs text-teal-600 font-medium flex items-center gap-1 mt-1">
-                        <i class="fa-solid fa-leaf"></i> Aptos para Expo Eco
-                    </span>
-                </div>
-                <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center text-xl">
-                    <i class="fa-solid fa-[#00a884] fa-recycle"></i>
-                </div>
-            </div>
-        </section>
-
-        <!-- Search & Filter Controls -->
-        <section class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
-            <!-- Search Bar -->
-            <div class="relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
-                <input type="text" id="search-input" placeholder="Buscar por Nombre de Marca, ID Neoserra o Nombre de Contacto..." 
-                       class="w-full pl-11 pr-10 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition-all text-sm sm:text-base">
-                <button id="clear-search" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1">
-                    <i class="fa-solid fa-circle-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <!-- Dropdown Filters -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
-                <!-- Filter Categoría -->
-                <div>
-                    <label class="block text-xs font-medium text-slate-600 mb-1">Categoría</label>
-                    <select id="filter-categoria" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                        <option value="">Todas las Categorías</option>
-                        <option value="Producto con Identidad Local / Territorial">Con Identidad Local</option>
-                        <option value="Producto General / Sin Identidad Territorial">Producto General</option>
-                    </select>
-                </div>
-
-                <!-- Filter Rubro -->
-                <div>
-                    <label class="block text-xs font-medium text-slate-600 mb-1">Rubro Principal</label>
-                    <select id="filter-rubro" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                        <option value="">Todos los Rubros</option>
-                        <!-- Dynamic options loaded via JS -->
-                    </select>
-                </div>
-
-                <!-- Filter Permiso Sanitario -->
-                <div>
-                    <label class="block text-xs font-medium text-slate-600 mb-1">Permisos (Res. Sanitaria / SAG)</label>
-                    <select id="filter-permisos" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                        <option value="">Todos los Estados</option>
-                        <option value="Sí, cuenta con resolución/permiso vigente">Vigente / Sí</option>
-                        <option value="En trámite">En trámite</option>
-                        <option value="No cuenta con permisos">Sin permisos</option>
-                        <option value="No requiere">No requiere</option>
-                    </select>
-                </div>
-
-                <!-- Filter Sustentabilidad -->
-                <div>
-                    <label class="block text-xs font-medium text-slate-600 mb-1">Criterio Sustentable</label>
-                    <select id="filter-sustentable" onchange="applyFilters()" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                        <option value="">Todos</option>
-                        <option value="Sí">Solo Sustentables (Sí)</option>
-                        <option value="No">No Sustentables (No)</option>
-                    </select>
-                </div>
-            </div>
-        </section>
-
-        <!-- Search Results Grid + Selected Card Detail View -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-
-            <!-- Left: List of Results (5 cols on desktop) -->
-            <div class="lg:col-span-5 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-[650px]">
-                <div class="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
-                    <span class="text-xs font-semibold text-slate-600 uppercase tracking-wider">Resultados</span>
-                    <span id="results-count" class="text-xs bg-indigo-100 text-indigo-700 px-2.5 py-0.5 rounded-full font-semibold">0 encontrados</span>
-                </div>
-
-                <div id="results-list" class="divide-y divide-slate-100 overflow-y-auto flex-grow">
-                    <!-- Cards populated via JS -->
-                </div>
-            </div>
-
-            <!-- Right: Detailed Client Profile File / Ficha (7 cols on desktop) -->
-            <div class="lg:col-span-7 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden min-h-[650px] flex flex-col justify-between" id="detail-card-container">
-                <!-- Default empty state -->
-                <div id="empty-detail-state" class="flex flex-col items-center justify-center h-full p-12 text-center my-auto">
-                    <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 text-3xl mb-4">
-                        <i class="fa-solid fa-id-card"></i>
-                    </div>
-                    <h3 class="text-base font-semibold text-slate-700">Selecciona un emprendimiento</h3>
-                    <p class="text-xs text-slate-400 max-w-sm mt-1">Haz clic en una de las tarjetas de la lista izquierda para consultar el expediente completo del cliente o marca.</p>
-                </div>
-
-                <!-- Active Ficha Detail (hidden by default) -->
-                <div id="active-detail" class="hidden flex-col h-full">
-                    <!-- Ficha Header -->
-                    <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 relative">
-                        <div class="flex items-start justify-between gap-4">
-                            <div>
-                                <span id="detail-id-badge" class="inline-block bg-indigo-500/30 text-indigo-200 border border-indigo-400/30 text-xs font-mono px-2.5 py-0.5 rounded-md mb-2">ID: NEOS-000</span>
-                                <h2 id="detail-nombre-marca" class="text-2xl font-bold leading-tight">Nombre de Marca</h2>
-                                <p id="detail-contacto" class="text-slate-300 text-sm mt-1 flex items-center gap-2">
-                                    <i class="fa-regular fa-user text-xs"></i> <span>Contacto</span>
-                                </p>
-                            </div>
-                            <div class="text-right flex flex-col items-end">
-                                <span id="detail-categoria-badge" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-amber-400/20 text-amber-200 border border-amber-400/30">
-                                    Identidad Local
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ficha Content Body -->
-                    <div class="p-6 space-y-6 flex-grow overflow-y-auto">
-                        <!-- Contact Info Grid -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-slate-50 border border-slate-200 rounded-xl">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center text-sm flex-shrink-0">
-                                    <i class="fa-solid fa-envelope"></i>
-                                </div>
-                                <div class="overflow-hidden">
-                                    <p class="text-xs text-slate-400 font-medium">Correo Electrónico</p>
-                                    <a id="detail-email" href="#" class="text-xs sm:text-sm font-semibold text-slate-800 hover:text-indigo-600 transition-colors truncate block">correo@ejemplo.com</a>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm flex-shrink-0">
-                                    <i class="fa-solid fa-phone"></i>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-400 font-medium">Teléfono de Contacto</p>
-                                    <a id="detail-telefono" href="#" class="text-xs sm:text-sm font-semibold text-slate-800 hover:text-emerald-600 transition-colors block">+56 9 0000 0000</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Categorización y Rubro -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Rubro de la Empresa</h4>
-                                <p id="detail-rubro" class="text-sm font-semibold text-slate-800 bg-slate-100 px-3 py-2 rounded-lg border border-slate-200">Rubro General</p>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Fecha de Registro</h4>
-                                <p id="detail-fecha" class="text-sm font-medium text-slate-700 bg-slate-100 px-3 py-2 rounded-lg border border-slate-200">--/--/----</p>
-                            </div>
-                        </div>
-
-                        <!-- Productos Principales -->
-                        <div>
-                            <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Descripción de Productos Principales</h4>
-                            <div id="detail-productos" class="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-700 leading-relaxed min-h-[80px]">
-                                Descripción corta de la oferta de productos.
-                            </div>
-                        </div>
-
-                        <!-- Badges de Cumplimiento / Requisitos -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                            <!-- Estado Permiso Sanitario -->
-                            <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-xs">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-xs font-medium text-slate-500">Permisos Sectoriales</span>
-                                    <i class="fa-solid fa-shield-halved text-slate-400"></i>
-                                </div>
-                                <div id="detail-permisos-badge" class="font-semibold text-xs sm:text-sm flex items-center gap-2">
-                                    <!-- Badge status JS -->
-                                </div>
-                                <p class="text-[11px] text-slate-400 mt-1">Resolución Sanitaria / Registro SAG</p>
-                            </div>
-
-                            <!-- Estado Sustentabilidad -->
-                            <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-xs">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-xs font-medium text-slate-500">Criterio Sustentable</span>
-                                    <i class="fa-solid fa-leaf text-teal-500"></i>
-                                </div>
-                                <div id="detail-sustentable-badge" class="font-semibold text-xs sm:text-sm flex items-center gap-2">
-                                    <!-- Badge status JS -->
-                                </div>
-                                <p class="text-[11px] text-slate-400 mt-1">Economía circular / Residuos / Eco-insumos</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ficha Footer Actions -->
-                    <div class="p-4 bg-slate-50 border-t border-slate-200 flex flex-wrap gap-2 justify-between items-center">
-                        <button onclick="copyClientDetails()" class="text-xs text-slate-600 hover:text-slate-900 bg-white border border-slate-300 px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 font-medium">
-                            <i class="fa-regular fa-copy"></i> Copiar Ficha en Texto
-                        </button>
-                        <div class="flex gap-2">
-                            <a id="btn-email-action" href="#" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 font-medium">
-                                <i class="fa-solid fa-paper-plane"></i> Enviar Correo
-                            </a>
-                            <a id="btn-wsp-action" href="#" target="_blank" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg transition-colors flex items-center gap-1.5 font-medium">
-                                <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <button onclick="exportToPDF()" title="Exportar resultado actual a PDF" class="inline-flex items-center space-x-1 text-xs bg-sercotec-red hover:bg-red-700 text-white px-2.5 py-1.5 rounded font-medium transition shadow-sm">
+              <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+              <span>PDF</span>
+            </button>
+          </div>
         </div>
 
-    </main>
-
-    <!-- Modal: Import CSV / Load Custom Data -->
-    <div id="import-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 class="font-bold text-lg text-slate-800 flex items-center gap-2">
-                    <i class="fa-brands fa-google-drive text-emerald-600"></i> Conectar Google Sheets en Vivo
-                </h3>
-                <button onclick="toggleConfigModal()" class="text-slate-400 hover:text-slate-600 p-1">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
-            </div>
-
-            <div class="space-y-3">
-                <p class="text-xs text-slate-600 leading-relaxed">
-                    Para leer los datos en vivo de tu formulario, tu Google Sheet debe tener el <span class="font-semibold text-slate-800">acceso de lectura público</span> (Cualquier persona con el enlace puede ver) o estar publicado en la web.
-                </p>
-
-                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs space-y-2">
-                    <label class="block font-semibold text-slate-700">ID de tu Hoja de Google Sheets o Enlace Completo:</label>
-                    <input type="text" id="sheet-id-input" placeholder="Ej: 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms" 
-                           class="w-full p-2.5 bg-white border border-slate-300 rounded-lg font-mono text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                    <p class="text-[11px] text-slate-400">Puedes copiar el ID directamente de la URL de tu hoja (el texto largo entre <code class="bg-slate-200 px-1 py-0.5 rounded">/d/</code> y <code class="bg-slate-200 px-1 py-0.5 rounded">/edit</code>).</p>
-                </div>
-
-                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs space-y-2">
-                    <label class="block font-semibold text-slate-700">Nombre de la Pestaña:</label>
-                    <input type="text" id="sheet-name-input" value="Respuestas de formulario 1" placeholder="Ej: Respuestas de formulario 1" 
-                           class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                </div>
-            </div>
-
-            <div class="flex justify-between items-center pt-3 border-t border-slate-100">
-                <button onclick="loadSampleData(); toggleConfigModal();" class="text-xs text-slate-500 hover:text-slate-800 font-medium">
-                    Volver a Datos Demo
-                </button>
-                <div class="flex gap-2">
-                    <button onclick="toggleConfigModal()" class="px-4 py-2 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg hover:bg-slate-200">Cancelar</button>
-                    <button onclick="saveAndSyncGoogleSheet()" class="px-4 py-2 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-700 shadow-sm flex items-center gap-1.5">
-                        <i class="fa-solid fa-cloud-arrow-down"></i> Guardar y Conectar
-                    </button>
-                </div>
-            </div>
+        <!-- Lista scrolleable -->
+        <div id="listContainer" class="flex-1 overflow-y-auto divide-y divide-gray-100 custom-scrollbar">
+          <!-- Tarjetas cargadas vía JavaScript -->
         </div>
+      </div>
+
+      <!-- COLUMNA DERECHA: FICHA COMPLETA DEL EMPRENDEDOR (7 COLUMNAS) -->
+      <div class="lg:col-span-7 bg-white rounded-xl border border-gray-200 shadow-sm flex flex-col h-[650px] overflow-hidden">
+        <div id="detailContainer" class="flex-1 overflow-y-auto p-6 custom-scrollbar">
+          <!-- Ficha cargada vía JavaScript -->
+        </div>
+      </div>
     </div>
+  </main>
 
-    <!-- Notification Toast -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl text-xs sm:text-sm transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-2 z-50">
-        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
-        <span id="toast-message">Notificación</span>
+  <!-- MODAL DE CONFIGURACIÓN DE CONEXIÓN A GOOGLE SHEETS -->
+  <div id="configModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b pb-3">
+        <h3 class="text-lg font-bold text-gray-800 flex items-center space-x-2">
+          <i data-lucide="link" class="w-5 h-5 text-sercotec-blue"></i>
+          <span>Conectar con Google Sheets</span>
+        </h3>
+        <button onclick="closeConfigModal()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <p class="text-xs text-gray-600 leading-relaxed">
+        Pega el enlace público o el ID de la hoja de cálculo de Google que recibe las respuestas de tu Formulario. La pestaña debe ser pública para lectura.
+      </p>
+
+      <div class="space-y-2">
+        <label class="text-xs font-semibold text-gray-700">URL o ID de Google Sheets:</label>
+        <input type="text" id="sheetUrlInput" placeholder="https://docs.google.com/spreadsheets/d/1ABC123.../edit" class="w-full p-2.5 text-xs border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-sercotec-blue">
+      </div>
+
+      <div class="bg-amber-50 p-3 rounded-lg border border-amber-200 text-[11px] text-amber-800 space-y-1">
+        <p class="font-bold">Pasos para activar permisos:</p>
+        <p>1. En tu hoja de cálculo, haz clic en <strong>Compartir</strong>.</p>
+        <p>2. Cambia a <strong>"Cualquier persona con el enlace puede ver"</strong>.</p>
+      </div>
+
+      <div class="flex justify-end space-x-2 pt-2">
+        <button onclick="closeConfigModal()" class="px-4 py-2 text-xs font-semibold text-gray-600 hover:bg-gray-100 rounded-lg">Cancelar</button>
+        <button onclick="saveSheetConfig()" class="px-4 py-2 text-xs font-semibold bg-sercotec-blue text-white rounded-lg hover:bg-sercotec-darkblue transition">Guardar y Conectar</button>
+      </div>
     </div>
+  </div>
 
-    <!-- JavaScript Logic -->
-    <script>
-        // Data Store
-        let emprendedores = [];
-        let filteredEmprendedores = [];
-        let selectedId = null;
+  <!-- SCRIPT LÓGICA Y DATOS -->
+  <script>
+    // DATOS DE PRUEBA INICIALES (Formato ID NEOSERRA-XXXX)
+    let rawData = [
+      {
+        id: "NEOSERRA-1001",
+        marca: "QULQI Orfebrería",
+        contacto: "Camila Fuenzalida",
+        comuna: "La Serena",
+        email: "contacto@qulqi.cl",
+        telefono: "+56987654321",
+        instagram: "qulqi_orfebreria",
+        categoria: "Producto con Identidad Local",
+        rubro: "Orfebrería y Joyería",
+        productos: "Joyas en plata 950 talladas a mano inspiradas en la flora nativa del Valle del Elqui y Lapislázuli.",
+        permisos: "No requiere",
+        sustentable: "Sí",
+        sustentableDetalle: "Utilizamos plata recabada de desuso y empaques compostables de maicena."
+      },
+      {
+        id: "NEOSERRA-1002",
+        marca: "Elqui Kombucha",
+        contacto: "Matías Zepeda",
+        comuna: "Vicuña",
+        email: "ventas@elquikombucha.cl",
+        telefono: "+56912345678",
+        instagram: "elquikombucha",
+        categoria: "Producto con Identidad Local",
+        rubro: "Agroalimentario y Bebidas",
+        productos: "Bebida fermentada natural elaborada con frutas de la zona (papaya, copao, rica rica).",
+        permisos: "Sí, cuenta con resolución/permiso vigente",
+        sustentable: "Sí",
+        sustentableDetalle: "Botellas de vidrio retornables y compostaje del 100% de la materia orgánica."
+      },
+      {
+        id: "NEOSERRA-1003",
+        marca: "Cosmética Papaya Care",
+        contacto: "Loreto Morales",
+        comuna: "Coquimbo",
+        email: "l.morales@papayacare.cl",
+        telefono: "+56955544332",
+        instagram: "papayacare_elqui",
+        categoria: "Producto General",
+        rubro: "Cosméceutica y Bienestar",
+        productos: "Crema hidratante facial y sérum de aceite de semilla de papaya y aloe vera.",
+        permisos: "En trámite",
+        sustentable: "No",
+        sustentableDetalle: "Empaque plástico reciclable estándar."
+      },
+      {
+        id: "NEOSERRA-1004",
+        marca: "Pisco Artisanal Diaguitas",
+        contacto: "Hernán Valenzuela",
+        comuna: "Paihuano",
+        email: "h.valenzuela@piscodiaguitas.cl",
+        telefono: "+56944332211",
+        instagram: "piscodiaguitas",
+        categoria: "Producto con Identidad Local",
+        rubro: "Vinos, Piscos y Licores",
+        productos: "Pisco transparente de 45° destilado en alambique de cobre tradicional.",
+        permisos: "Sí, cuenta con resolución/permiso vigente",
+        sustentable: "Sí",
+        sustentableDetalle: "Energía solar fotovoltaica para el proceso de destilación."
+      }
+    ];
 
-        // Config Google Sheets
-        let sheetConfig = {
-            id: localStorage.getItem('gs_sheet_id') || '',
-            name: localStorage.getItem('gs_sheet_name') || 'Respuestas de formulario 1'
+    let filteredData = [...rawData];
+    let selectedItem = rawData[0];
+    let sheetConfigId = localStorage.getItem('sercotec_sheet_id') || '';
+
+    // INICIALIZACIÓN
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      if (sheetConfigId) {
+        document.getElementById('sheetUrlInput').value = sheetConfigId;
+        syncData();
+      } else {
+        renderAll();
+      }
+    });
+
+    // RENDERS GENERATION
+    function renderAll() {
+      calculateKPIs();
+      renderList();
+      renderDetail(selectedItem);
+      document.getElementById('countResults').innerText = filteredData.length;
+    }
+
+    function calculateKPIs() {
+      document.getElementById('kpiTotal').innerText = rawData.length;
+      
+      const identidadCount = rawData.filter(d => d.categoria.includes("Identidad Local")).length;
+      const pctIdentidad = rawData.length ? Math.round((identidadCount / rawData.length) * 100) : 0;
+      document.getElementById('kpiIdentidad').innerText = pctIdentidad + '%';
+
+      const okPermisos = rawData.filter(d => d.permisos.startsWith("Sí")).length;
+      document.getElementById('kpiPermisos').innerText = okPermisos;
+
+      const sustCount = rawData.filter(d => d.sustentable === "Sí").length;
+      document.getElementById('kpiSustentables').innerText = sustCount;
+    }
+
+    function renderList() {
+      const container = document.getElementById('listContainer');
+      container.innerHTML = '';
+
+      if (filteredData.length === 0) {
+        container.innerHTML = `
+          <div class="p-8 text-center text-gray-400 space-y-2">
+            <i data-lucide="search-x" class="w-8 h-8 mx-auto stroke-1"></i>
+            <p class="text-xs">No se encontraron emprendeores que coincidan con los filtros.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      filteredData.forEach(item => {
+        const isSelected = selectedItem && selectedItem.id === item.id;
+        const card = document.createElement('div');
+        card.className = `p-4 cursor-pointer transition border-l-4 ${
+          isSelected 
+            ? 'bg-blue-50/70 border-sercotec-blue' 
+            : 'hover:bg-gray-50 border-transparent'
+        }`;
+        card.onclick = () => {
+          selectedItem = item;
+          renderList();
+          renderDetail(item);
         };
 
-        // Sample Seed Data (Fallback)
-        const sampleData = [
-            {
-                id: "NEO-1001",
-                timestamp: "02/11/2026 10:14",
-                marca: "Mermeladas El Elqui",
-                contacto: "María Carmen Rodríguez",
-                email: "contacto@mermeladaselqui.cl",
-                telefono: "+56 9 8765 4321",
-                categoria: "Producto con Identidad Local / Territorial",
-                rubro: "Agroalimentario y Bebidas",
-                productos: "Mermeladas artesanas de papaya, higo y damasco elaboradas con frutos de la provincia del Elqui.",
-                permisos: "Sí, cuenta con resolución/permiso vigente",
-                sustentables: "Sí"
-            },
-            {
-                id: "NEO-1002",
-                timestamp: "03/11/2026 11:30",
-                marca: "Küyen Orfebrería",
-                contacto: "Gonzalo Tapia",
-                email: "gtapia.kuyen@gmail.com",
-                telefono: "+56 9 5544 3322",
-                categoria: "Producto con Identidad Local / Territorial",
-                rubro: "Orfebrería y Joyería",
-                productos: "Joyas en plata 925 cinceladas a mano incorporando piedra combarbalita e imaginería diaguita.",
-                permisos: "No requiere",
-                sustentables: "Sí"
-            },
-            {
-                id: "NEO-1003",
-                timestamp: "04/11/2026 09:20",
-                marca: "Nativa Cosmética botánica",
-                contacto: "Camila Fuentes",
-                email: "hola@nativacosmetica.cl",
-                telefono: "+56 9 9988 7766",
-                categoria: "Producto General / Sin Identidad Territorial",
-                rubro: "Cosmeceútica y Bienestar",
-                productos: "Jabones vegetales sólidos, sérum facial con aceites esenciales orgánicos y shampoo en barra.",
-                permisos: "En trámite",
-                sustentables: "Sí"
-            }
-        ];
+        card.innerHTML = `
+          <div class="flex items-start justify-between">
+            <span class="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded bg-gray-100 text-sercotec-blue border border-gray-200">${item.id}</span>
+            <span class="text-[11px] text-gray-500 font-medium">${item.comuna}</span>
+          </div>
+          <h4 class="text-sm font-bold text-gray-800 mt-1">${item.marca}</h4>
+          <p class="text-xs text-gray-500 font-medium">${item.contacto}</p>
+          
+          <div class="mt-2 flex flex-wrap gap-1">
+            <span class="text-[10px] px-2 py-0.5 rounded-full ${item.categoria.includes('Identidad') ? 'bg-amber-100 text-amber-800' : 'bg-gray-100 text-gray-700'}">
+              ${item.categoria.includes('Identidad') ? 'Identidad Local' : 'General'}
+            </span>
+            ${item.sustentable === 'Sí' ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold">Sustentable</span>' : ''}
+          </div>
+        `;
+        container.appendChild(card);
+      });
 
-        // Initialize App
-        window.addEventListener('DOMContentLoaded', () => {
-            setupSearchInput();
+      lucide.createIcons();
+    }
 
-            if (sheetConfig.id) {
-                document.getElementById('sheet-id-input').value = sheetConfig.id;
-                document.getElementById('sheet-name-input').value = sheetConfig.name;
-                syncLiveData();
-            } else {
-                loadSampleData();
-            }
+    function renderDetail(item) {
+      const container = document.getElementById('detailContainer');
+      
+      if (!item) {
+        container.innerHTML = `<div class="h-full flex items-center justify-center text-gray-400 text-xs">Selecciona un emprendimiento del listado</div>`;
+        return;
+      }
+
+      const cleanPhone = item.telefono.replace(/[^\d]/g, '');
+      const instaClean = item.instagram ? item.instagram.replace('@', '').trim() : '';
+
+      container.innerHTML = `
+        <div class="space-y-6">
+          
+          <!-- Encabezado de la Ficha -->
+          <div class="flex items-start justify-between border-b pb-4">
+            <div>
+              <span class="text-xs font-bold text-sercotec-blue bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-md">${item.id}</span>
+              <h2 class="text-xl font-bold text-gray-900 mt-2">${item.marca}</h2>
+              <p class="text-xs text-gray-500 mt-0.5 flex items-center space-x-1">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sercotec-red"></i>
+                <span>Comuna: <strong>${item.comuna}</strong></span>
+              </p>
+            </div>
+            
+            <div class="flex space-x-2">
+              <a href="https://wa.me/${cleanPhone}" target="_blank" class="p-2.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg transition" title="Contactar por WhatsApp">
+                <i data-lucide="message-circle" class="w-5 h-5"></i>
+              </a>
+              <a href="mailto:${item.email}" class="p-2.5 bg-blue-50 text-sercotec-blue hover:bg-blue-100 rounded-lg transition" title="Enviar Correo">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Contacto & Redes -->
+          <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
+            <div>
+              <span class="text-gray-400 block font-medium mb-1">Encargado/a</span>
+              <p class="font-bold text-gray-800">${item.contacto}</p>
+            </div>
+            <div>
+              <span class="text-gray-400 block font-medium mb-1">Teléfono Directo</span>
+              <p class="font-bold text-gray-800">${item.telefono}</p>
+            </div>
+            <div>
+              <span class="text-gray-400 block font-medium mb-1">Correo Electrónico</span>
+              <p class="font-bold text-gray-800 truncate">${item.email}</p>
+            </div>
+            <div>
+              <span class="text-gray-400 block font-medium mb-1">Instagram</span>
+              ${instaClean ? 
+                `<a href="https://instagram.com/${instaClean}" target="_blank" class="font-bold text-sercotec-blue hover:underline flex items-center space-x-1">
+                  <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+                  <span>@${instaClean}</span>
+                </a>` 
+                : '<p class="text-gray-400 italic">No registrado</p>'
+              }
+            </div>
+          </div>
+
+          <!-- Clasificación Técnica -->
+          <div class="grid grid-cols-2 gap-4 text-xs">
+            <div class="p-3 rounded-lg border border-gray-200">
+              <span class="text-gray-400 block mb-1">Categoría de Producto</span>
+              <span class="font-semibold px-2 py-0.5 rounded ${item.categoria.includes('Identidad') ? 'bg-amber-100 text-amber-900' : 'bg-gray-100 text-gray-800'}">
+                ${item.categoria}
+              </span>
+            </div>
+            <div class="p-3 rounded-lg border border-gray-200">
+              <span class="text-gray-400 block mb-1">Rubro Principal</span>
+              <span class="font-semibold text-gray-800">${item.rubro}</span>
+            </div>
+          </div>
+
+          <!-- Productos Principales -->
+          <div class="space-y-1">
+            <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Productos Principales</h4>
+            <div class="p-3 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-700 leading-relaxed">
+              ${item.productos}
+            </div>
+          </div>
+
+          <!-- Permisos & Sustentabilidad -->
+          <div class="grid grid-cols-2 gap-4 text-xs">
+            <div class="p-3 rounded-lg border border-gray-200">
+              <span class="text-gray-400 block mb-1">Permisos Sectoriales (Sanidad/SAG)</span>
+              <span class="font-semibold ${item.permisos.startsWith('Sí') ? 'text-emerald-700' : 'text-amber-700'}">
+                ${item.permisos}
+              </span>
+            </div>
+            <div class="p-3 rounded-lg border border-gray-200">
+              <span class="text-gray-400 block mb-1">¿Sustentable / Circular?</span>
+              <span class="font-bold ${item.sustentable === 'Sí' ? 'text-emerald-600' : 'text-gray-500'}">
+                ${item.sustentable === 'Sí' ? '✓ Sí' : 'No'}
+              </span>
+            </div>
+          </div>
+
+          ${item.sustentableDetalle ? `
+            <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-lg text-xs text-emerald-900">
+              <span class="font-bold block mb-0.5">Detalle Sustentable:</span>
+              <p>${item.sustentableDetalle}</p>
+            </div>
+          ` : ''}
+
+        </div>
+      `;
+
+      lucide.createIcons();
+    }
+
+    // APLICACIÓN DE FILTROS DINÁMICOS
+    function applyFilters() {
+      const q = document.getElementById('searchQuery').value.toLowerCase();
+      const comuna = document.getElementById('filterComuna').value;
+      const cat = document.getElementById('filterCategoria').value;
+      const rubro = document.getElementById('filterRubro').value;
+      const sust = document.getElementById('filterSustentable').value;
+
+      filteredData = rawData.filter(item => {
+        const matchesQ = !q || item.id.toLowerCase().includes(q) || item.marca.toLowerCase().includes(q) || item.contacto.toLowerCase().includes(q);
+        const matchesComuna = !comuna || item.comuna === comuna;
+        const matchesCat = !cat || item.categoria === cat;
+        const matchesRubro = !rubro || item.rubro === rubro;
+        const matchesSust = !sust || item.sustentable === sust;
+
+        return matchesQ && matchesComuna && matchesCat && matchesRubro && matchesSust;
+      });
+
+      selectedItem = filteredData[0] || null;
+      renderAll();
+    }
+
+    // EXPORTACIÓN A EXCEL
+    function exportToExcel() {
+      if (!filteredData.length) {
+        alert("No hay registros para exportar.");
+        return;
+      }
+
+      const excelData = filteredData.map(item => ({
+        "ID NEOSERRA": item.id,
+        "Nombre Marca": item.marca,
+        "Encargado/a": item.contacto,
+        "Comuna": item.comuna,
+        "Email": item.email,
+        "Teléfono": item.telefono,
+        "Instagram": item.instagram,
+        "Categoría": item.categoria,
+        "Rubro": item.rubro,
+        "Productos Principales": item.productos,
+        "Permisos Sectoriales": item.permisos,
+        "Sustentable": item.sustentable,
+        "Detalle Sustentabilidad": item.sustentableDetalle || ''
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(excelData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Emprendimientos");
+      XLSX.writeFile(workbook, `Vitrina_Elqui_Export_${new Date().toISOString().slice(0,10)}.xlsx`);
+    }
+
+    // EXPORTACIÓN A PDF
+    function exportToPDF() {
+      if (!filteredData.length) {
+        alert("No hay registros para exportar.");
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('landscape');
+
+      doc.setFontSize(14);
+      doc.setTextColor(0, 102, 179);
+      doc.text("Directorio Vitrina Elqui - CDN La Serena", 14, 15);
+      
+      doc.setFontSize(9);
+      doc.setTextColor(100);
+      doc.text(`Listado filtrado para eventos - Fecha: ${new Date().toLocaleDateString('es-CL')}`, 14, 21);
+
+      const tableBody = filteredData.map(item => [
+        item.id,
+        item.marca,
+        item.contacto,
+        item.comuna,
+        item.telefono,
+        item.categoria.includes('Identidad') ? 'Identidad Local' : 'General',
+        item.rubro,
+        item.permisos.startsWith('Sí') ? 'Sí' : 'No/Trámite',
+        item.sustentable
+      ]);
+
+      doc.autoTable({
+        startY: 25,
+        head: [['ID', 'Marca', 'Contacto', 'Comuna', 'Teléfono', 'Categoría', 'Rubro', 'Permisos', 'Sust.']],
+        body: tableBody,
+        styles: { fontSize: 8, cellPadding: 2 },
+        headStyles: { fillStyle: 'f', fillColor: [0, 102, 179], textColor: [255, 255, 255] }
+      });
+
+      doc.save(`Vitrina_Elqui_Reporte_${new Date().toISOString().slice(0,10)}.pdf`);
+    }
+
+    // MODAL Y SINCRONIZACIÓN GOOGLE SHEETS
+    function openConfigModal() {
+      document.getElementById('configModal').classList.remove('hidden');
+    }
+
+    function closeConfigModal() {
+      document.getElementById('configModal').classList.add('hidden');
+    }
+
+    function saveSheetConfig() {
+      const val = document.getElementById('sheetUrlInput').value.trim();
+      let sheetId = val;
+      const match = val.match(/\/d\/([a-zA-Z0-9-_]+)/);
+      if (match) sheetId = match[1];
+
+      localStorage.setItem('sercotec_sheet_id', sheetId);
+      sheetConfigId = sheetId;
+      closeConfigModal();
+      syncData();
+    }
+
+    function syncData() {
+      if (!sheetConfigId) {
+        openConfigModal();
+        return;
+      }
+
+      const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetConfigId}/gviz/tq?tqx=out:csv`;
+
+      fetch(csvUrl)
+        .then(res => res.text())
+        .then(csvText => {
+          parseCSV(csvText);
+          alert("¡Sincronización exitosa con Google Sheets!");
+        })
+        .catch(err => {
+          alert("Error al sincronizar. Revisa que el Sheet esté compartido públicamente.");
+          console.error(err);
         });
+    }
 
-        function loadSampleData() {
-            emprendedores = [...sampleData];
-            updateConnectionStatus(false, "Modo Demo / Datos de prueba locales");
-            populateRubroFilterOptions();
-            applyFilters();
-        }
+    function parseCSV(text) {
+      const lines = text.split('\n').filter(l => l.trim().length > 0);
+      if (lines.length < 2) return;
 
-        // Fetch Data from Google Sheets API via public GViz CSV Endpoint
-        async function syncLiveData() {
-            if (!sheetConfig.id) {
-                toggleConfigModal();
-                showToast("Por favor ingresa el ID de tu Google Sheet primero", "error");
-                return;
-            }
+      const parsed = [];
+      for (let i = 1; i < lines.length; i++) {
+        const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(cell => cell.replace(/^"|"$/g, '').trim());
+        
+        parsed.push({
+          id: row[1] || `NEOSERRA-${1000 + i}`,
+          marca: row[2] || "Sin Marca",
+          contacto: row[3] || "Sin Contacto",
+          comuna: row[4] || "La Serena",
+          email: row[5] || "",
+          telefono: row[6] || "",
+          instagram: row[7] || "",
+          categoria: row[8] || "Producto General",
+          rubro: row[9] || "Otros",
+          productos: row[10] || "",
+          permisos: row[11] || "No",
+          sustentable: row[12] || "No",
+          sustentableDetalle: row[13] || ""
+        });
+      }
 
-            // Extract pure ID if full URL pasted
-            let cleanId = sheetConfig.id;
-            if (cleanId.includes('/d/')) {
-                cleanId = cleanId.split('/d/')[1].split('/')[0];
-                sheetConfig.id = cleanId;
-                localStorage.setItem('gs_sheet_id', cleanId);
-            }
-
-            const encodedName = encodeURIComponent(sheetConfig.name);
-            const csvUrl = `https://docs.google.com/spreadsheets/d/${cleanId}/gviz/tq?tqx=out:csv&sheet=${encodedName}`;
-
-            updateConnectionStatus(true, "Conectando y descargando datos en vivo...");
-
-            try {
-                const response = await fetch(csvUrl);
-                if (!response.ok) throw new Error("No se pudo acceder a la hoja. Revisa los permisos.");
-                
-                const csvText = await response.text();
-                const parsedData = parseCSV(csvText);
-
-                if (parsedData.length > 0) {
-                    emprendedores = parsedData;
-                    populateRubroFilterOptions();
-                    applyFilters();
-                    
-                    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    updateConnectionStatus(true, `Conectado en Vivo a Google Sheets (${parsedData.length} registros)`, timeStr);
-                    showToast(`Sincronizados ${parsedData.length} emprendimientos en vivo`, "success");
-                } else {
-                    throw new Error("No se encontraron registros en la pestaña indicada.");
-                }
-            } catch (err) {
-                console.error(err);
-                updateConnectionStatus(false, `Error de conexión: Asegúrate de que la hoja sea pública`);
-                showToast(err.message || "Error al conectar con Google Sheets", "error");
-            }
-        }
-
-        // CSV Parser for Google Sheets Export
-        function parseCSV(text) {
-            const lines = [];
-            let row = [];
-            let inQuotes = false;
-            let currentToken = '';
-
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i];
-                const nextChar = text[i+1];
-
-                if (char === '"' && inQuotes && nextChar === '"') {
-                    currentToken += '"';
-                    i++;
-                } else if (char === '"') {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    row.push(currentToken.trim());
-                    currentToken = '';
-                } else if ((char === '\r' || char === '\n') && !inQuotes) {
-                    if (char === '\r' && nextChar === '\n') i++;
-                    row.push(currentToken.trim());
-                    if (row.some(field => field !== '')) lines.push(row);
-                    row = [];
-                    currentToken = '';
-                } else {
-                    currentToken += char;
-                }
-            }
-            if (currentToken || row.length > 0) {
-                row.push(currentToken.trim());
-                if (row.some(field => field !== '')) lines.push(row);
-            }
-
-            if (lines.length < 2) return [];
-
-            // Ignore header (line 0) and map data
-            return lines.slice(1).map((cols, idx) => {
-                return {
-                    id: cols[1] || `NEO-${1000 + idx}`,
-                    timestamp: cols[0] || "Fecha N/A",
-                    marca: cols[2] || `Emprendimiento ${idx + 1}`,
-                    contacto: cols[3] || "Contacto N/A",
-                    email: cols[4] || "",
-                    telefono: cols[5] || "",
-                    categoria: cols[6] || "Producto General / Sin Identidad Territorial",
-                    rubro: cols[7] || "Diversos",
-                    productos: cols[8] || "Sin descripción",
-                    permisos: cols[9] || "No cuenta con permisos",
-                    sustentables: cols[10] || "No"
-                };
-            });
-        }
-
-        function saveAndSyncGoogleSheet() {
-            const inputId = document.getElementById('sheet-id-input').value.trim();
-            const inputName = document.getElementById('sheet-name-input').value.trim();
-
-            if (!inputId) {
-                showToast("Debes ingresar un ID de hoja válido", "error");
-                return;
-            }
-
-            sheetConfig.id = inputId;
-            sheetConfig.name = inputName || 'Respuestas de formulario 1';
-
-            localStorage.setItem('gs_sheet_id', sheetConfig.id);
-            localStorage.setItem('gs_sheet_name', sheetConfig.name);
-
-            toggleConfigModal();
-            syncLiveData();
-        }
-
-        function updateConnectionStatus(isLive, message, syncTime = null) {
-            const dot = document.getElementById('connection-status-dot');
-            const text = document.getElementById('connection-status-text');
-            const time = document.getElementById('last-sync-time');
-
-            text.textContent = message;
-            if (isLive) {
-                dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block shadow-sm";
-            } else {
-                dot.className = "w-2.5 h-2.5 rounded-full bg-amber-400 inline-block animate-pulse";
-            }
-
-            if (syncTime) {
-                time.textContent = `Última sincro: ${syncTime}`;
-            }
-        }
-
-        function toggleConfigModal() {
-            const modal = document.getElementById('import-modal');
-            modal.classList.toggle('hidden');
-            modal.classList.toggle('flex');
-        }
-
-        // Setup realtime search input
-        function setupSearchInput() {
-            const searchInput = document.getElementById('search-input');
-            const clearBtn = document.getElementById('clear-search');
-
-            searchInput.addEventListener('input', (e) => {
-                if (e.target.value.trim() !== "") {
-                    clearBtn.classList.remove('hidden');
-                } else {
-                    clearBtn.classList.add('hidden');
-                }
-                applyFilters();
-            });
-        }
-
-        function clearSearch() {
-            const searchInput = document.getElementById('search-input');
-            searchInput.value = '';
-            document.getElementById('clear-search').classList.add('hidden');
-            applyFilters();
-        }
-
-        // Populate Rubro Filter Dropdown dynamically
-        function populateRubroFilterOptions() {
-            const rubroSelect = document.getElementById('filter-rubro');
-            const rubros = [...new Set(emprendedores.map(item => item.rubro))].filter(Boolean).sort();
-            
-            rubroSelect.innerHTML = '<option value="">Todos los Rubros</option>';
-            rubros.forEach(rubro => {
-                const opt = document.createElement('option');
-                opt.value = rubro;
-                opt.textContent = rubro;
-                rubroSelect.appendChild(opt);
-            });
-        }
-
-        // Apply Search & Filters logic
-        function applyFilters() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
-            const filterCat = document.getElementById('filter-categoria').value;
-            const filterRubro = document.getElementById('filter-rubro').value;
-            const filterPermisos = document.getElementById('filter-permisos').value;
-            const filterSust = document.getElementById('filter-sustentable').value;
-
-            filteredEmprendedores = emprendedores.filter(item => {
-                // Search matching (ID, Marca or Contacto)
-                const matchesSearch = 
-                    item.marca.toLowerCase().includes(searchTerm) ||
-                    item.id.toLowerCase().includes(searchTerm) ||
-                    item.contacto.toLowerCase().includes(searchTerm);
-
-                // Filter matching
-                const matchesCat = !filterCat || item.categoria === filterCat;
-                const matchesRubro = !filterRubro || item.rubro === filterRubro;
-                const matchesPermisos = !filterPermisos || item.permisos === filterPermisos;
-                const matchesSust = !filterSust || item.sustentables === filterSust;
-
-                return matchesSearch && matchesCat && matchesRubro && matchesPermisos && matchesSust;
-            });
-
-            updateKPIs();
-            renderResultsList();
-        }
-
-        // Calculate and Render KPIs
-        function updateKPIs() {
-            const total = emprendedores.length;
-            document.getElementById('kpi-total').textContent = total;
-
-            if (total === 0) {
-                document.getElementById('kpi-identidad').textContent = "0%";
-                document.getElementById('kpi-identidad-count').textContent = "0 marcas";
-                document.getElementById('kpi-permisos').textContent = "0%";
-                document.getElementById('kpi-sustentable').textContent = "0";
-                return;
-            }
-
-            // Identidad Local %
-            const countIdentidad = emprendedores.filter(e => e.categoria.includes("Identidad Local")).length;
-            const pctIdentidad = Math.round((countIdentidad / total) * 100);
-            document.getElementById('kpi-identidad').textContent = `${pctIdentidad}%`;
-            document.getElementById('kpi-identidad-count').textContent = `${countIdentidad} de ${total} marcas`;
-
-            // Permisos Vigentes %
-            const countPermisos = emprendedores.filter(e => e.permisos.includes("vigente") || e.permisos.includes("No requiere")).length;
-            const pctPermisos = Math.round((countPermisos / total) * 100);
-            document.getElementById('kpi-permisos').textContent = `${pctPermisos}%`;
-
-            // Sustentables
-            const countSustentable = emprendedores.filter(e => e.sustentables === "Sí").length;
-            document.getElementById('kpi-sustentable').textContent = countSustentable;
-        }
-
-        // Render Cards List on Left Column
-        function renderResultsList() {
-            const container = document.getElementById('results-list');
-            const countBadge = document.getElementById('results-count');
-            
-            countBadge.textContent = `${filteredEmprendedores.length} encontrados`;
-            container.innerHTML = '';
-
-            if (filteredEmprendedores.length === 0) {
-                container.innerHTML = `
-                    <div class="p-8 text-center text-slate-400">
-                        <i class="fa-solid fa-folder-open text-3xl mb-2"></i>
-                        <p class="text-xs">No se encontraron emprendimientos con los filtros aplicados.</p>
-                    </div>
-                `;
-                showEmptyDetailState();
-                return;
-            }
-
-            filteredEmprendedores.forEach(item => {
-                const isSelected = item.id === selectedId;
-                const card = document.createElement('div');
-                card.className = `p-4 hover:bg-indigo-50/50 cursor-pointer transition-colors ${isSelected ? 'bg-indigo-50/90 border-l-4 border-indigo-600' : ''}`;
-                card.onclick = () => selectEmprendimiento(item.id);
-
-                const isIdentidad = item.categoria.includes("Identidad Local");
-                const isPermisoVigente = item.permisos.includes("vigente");
-
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-1">
-                        <span class="text-[11px] font-mono text-slate-400 font-semibold">${item.id}</span>
-                        <div class="flex gap-1">
-                            ${isIdentidad ? '<span class="px-1.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-semibold rounded" title="Identidad Local"><i class="fa-solid fa-location-dot"></i></span>' : ''}
-                            ${item.sustentables === 'Sí' ? '<span class="px-1.5 py-0.5 bg-teal-100 text-teal-800 text-[10px] font-semibold rounded" title="Sustentable"><i class="fa-solid fa-leaf"></i></span>' : ''}
-                        </div>
-                    </div>
-                    <h3 class="font-bold text-slate-900 text-sm leading-snug">${item.marca}</h3>
-                    <p class="text-xs text-slate-500 mt-0.5 flex items-center gap-1">
-                        <i class="fa-regular fa-user text-[10px]"></i> ${item.contacto}
-                    </p>
-                    <div class="mt-2 flex items-center justify-between text-[11px]">
-                        <span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium truncate max-w-[170px]">${item.rubro}</span>
-                        <span class="${isPermisoVigente ? 'text-emerald-600 font-medium' : 'text-slate-400'}">
-                            <i class="${isPermisoVigente ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle'}"></i> Permiso
-                        </span>
-                    </div>
-                `;
-
-                container.appendChild(card);
-            });
-
-            // Maintain current selection or select first
-            if (selectedId && filteredEmprendedores.some(e => e.id === selectedId)) {
-                selectEmprendimiento(selectedId);
-            } else if (filteredEmprendedores.length > 0) {
-                selectEmprendimiento(filteredEmprendedores[0].id);
-            }
-        }
-
-        // Select and Populate Detail Card View
-        function selectEmprendimiento(id) {
-            selectedId = id;
-            const item = emprendedores.find(e => e.id === id);
-            if (!item) return;
-
-            document.querySelectorAll('#results-list > div').forEach(el => {
-                if (el.innerHTML.includes(id)) {
-                    el.className = 'p-4 bg-indigo-50/90 border-l-4 border-indigo-600 cursor-pointer transition-colors';
-                } else {
-                    el.className = 'p-4 hover:bg-indigo-50/50 cursor-pointer transition-colors';
-                }
-            });
-
-            document.getElementById('empty-detail-state').classList.add('hidden');
-            document.getElementById('active-detail').classList.remove('hidden');
-            document.getElementById('active-detail').classList.add('flex');
-
-            document.getElementById('detail-id-badge').textContent = `ID: ${item.id}`;
-            document.getElementById('detail-nombre-marca').textContent = item.marca;
-            document.getElementById('detail-contacto').querySelector('span').textContent = item.contacto;
-            
-            const catBadge = document.getElementById('detail-categoria-badge');
-            if (item.categoria.includes("Identidad Local")) {
-                catBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-400/20 text-amber-200 border border-amber-400/30";
-                catBadge.innerHTML = `<i class="fa-solid fa-location-dot"></i> Identidad Territorial`;
-            } else {
-                catBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-700 text-slate-300 border border-slate-600";
-                catBadge.innerHTML = `<i class="fa-solid fa-box"></i> Producto General`;
-            }
-
-            document.getElementById('detail-email').textContent = item.email || "No registrado";
-            document.getElementById('detail-email').href = item.email ? `mailto:${item.email}` : '#';
-            document.getElementById('detail-telefono').textContent = item.telefono || "No registrado";
-            document.getElementById('detail-telefono').href = item.telefono ? `tel:${item.telefono.replace(/\s+/g, '')}` : '#';
-
-            document.getElementById('btn-email-action').href = item.email ? `mailto:${item.email}?subject=Catastro%20Emprendimientos` : '#';
-            const cleanPhone = item.telefono ? item.telefono.replace(/[^0-9]/g, '') : '';
-            document.getElementById('btn-wsp-action').href = cleanPhone ? `https://wa.me/${cleanPhone}` : '#';
-
-            document.getElementById('detail-rubro').textContent = item.rubro;
-            document.getElementById('detail-fecha').textContent = item.timestamp || "Reciente";
-            document.getElementById('detail-productos').textContent = item.productos || "Sin descripción de productos registrada.";
-
-            const permisoBadge = document.getElementById('detail-permisos-badge');
-            if (item.permisos.includes("vigente")) {
-                permisoBadge.className = "font-semibold text-xs sm:text-sm text-emerald-700 flex items-center gap-2";
-                permisoBadge.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 text-base"></i> Resolución / Permiso Vigente`;
-            } else if (item.permisos.includes("trámite")) {
-                permisoBadge.className = "font-semibold text-xs sm:text-sm text-amber-700 flex items-center gap-2";
-                permisoBadge.innerHTML = `<i class="fa-solid fa-clock text-amber-500 text-base"></i> En trámite de obtención`;
-            } else if (item.permisos.includes("No requiere")) {
-                permisoBadge.className = "font-semibold text-xs sm:text-sm text-slate-600 flex items-center gap-2";
-                permisoBadge.innerHTML = `<i class="fa-solid fa-ban text-slate-400 text-base"></i> No requiere permisos`;
-            } else {
-                permisoBadge.className = "font-semibold text-xs sm:text-sm text-rose-700 flex items-center gap-2";
-                permisoBadge.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500 text-base"></i> Sin permisos formalizados`;
-            }
-
-            const sustBadge = document.getElementById('detail-sustentable-badge');
-            if (item.sustentables === "Sí") {
-                sustBadge.className = "font-semibold text-xs sm:text-sm text-teal-700 flex items-center gap-2";
-                sustBadge.innerHTML = `<i class="fa-solid fa-seedling text-teal-500 text-base"></i> Sí - Criterios Sustentables Cumplidos`;
-            } else {
-                sustBadge.className = "font-semibold text-xs sm:text-sm text-slate-500 flex items-center gap-2";
-                sustBadge.innerHTML = `<i class="fa-solid fa-minus text-slate-400 text-base"></i> No / No aplica sustentabilidad`;
-            }
-        }
-
-        function showEmptyDetailState() {
-            document.getElementById('empty-detail-state').classList.remove('hidden');
-            document.getElementById('empty-detail-state').classList.add('flex');
-            document.getElementById('active-detail').classList.add('hidden');
-            document.getElementById('active-detail').classList.remove('flex');
-        }
-
-        function copyClientDetails() {
-            const item = emprendedores.find(e => e.id === selectedId);
-            if (!item) return;
-
-            const textToCopy = `FICHA DE EMPRENDIMIENTO (${item.id})
------------------------------------------
-Marca: ${item.marca}
-Contacto: ${item.contacto}
-Email: ${item.email}
-Teléfono: ${item.telefono}
-Categoría: ${item.categoria}
-Rubro: ${item.rubro}
-Productos: ${item.productos}
-Permisos Sectoriales: ${item.permisos}
-Sustentable: ${item.sustentables}`;
-
-            const dummy = document.createElement("textarea");
-            document.body.appendChild(dummy);
-            dummy.value = textToCopy;
-            dummy.select();
-            document.execCommand("copy");
-            document.body.removeChild(dummy);
-
-            showToast("Ficha copiada al portapapeles", "success");
-        }
-
-        function showToast(msg, type = "success") {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-message');
-            const toastIcon = document.getElementById('toast-icon');
-
-            toastMsg.textContent = msg;
-            if (type === "success") {
-                toastIcon.className = "fa-solid fa-circle-check text-emerald-400 text-lg";
-            } else {
-                toastIcon.className = "fa-solid fa-triangle-exclamation text-rose-400 text-lg";
-            }
-
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-    </script>
+      rawData = parsed;
+      applyFilters();
+    }
+  </script>
 </body>
 </html>
