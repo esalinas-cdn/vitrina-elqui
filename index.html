@@ -55,7 +55,7 @@
 </head>
 <body class="bg-monday-bg font-sans text-monday-text antialiased min-h-screen flex flex-col">
 
-  <!-- ENCABEZADO COLOR #ECF1F9 -->
+  <!-- ENCABEZADO COLOR #ECF1F9 CON BOTÓN NUEVO REGISTRO -->
   <header class="bg-monday-headerBg border-b border-monday-border sticky top-0 z-30 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4">
       
@@ -73,13 +73,17 @@
         </div>
       </div>
 
-      <!-- Acciones de Conexión -->
+      <!-- Acciones de Conexión + NUEVO REGISTRO -->
       <div class="flex items-center space-x-2">
-        <button onclick="openConfigModal()" class="inline-flex items-center space-x-2 bg-white hover:bg-gray-50 text-monday-text px-3 py-1.5 rounded-lg text-xs font-semibold border border-monday-border transition shadow-xs">
+        <a href="https://forms.gle/Xj2mxR83ADoqLBJM9" target="_blank" class="inline-flex items-center space-x-1.5 bg-sercotec-red hover:bg-red-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-xs transition">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+          <span>Nuevo Registro</span>
+        </a>
+        <button onclick="openConfigModal()" class="inline-flex items-center space-x-1.5 bg-white hover:bg-gray-50 text-monday-text px-3 py-1.5 rounded-lg text-xs font-semibold border border-monday-border transition shadow-xs">
           <i data-lucide="link" class="w-3.5 h-3.5 text-monday-blue"></i>
-          <span>Conectar Google Sheet</span>
+          <span>Conectar Sheet</span>
         </button>
-        <button onclick="syncData()" class="inline-flex items-center space-x-2 bg-monday-blue hover:bg-monday-hoverblue text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold shadow-xs transition">
+        <button onclick="syncData()" class="inline-flex items-center space-x-1.5 bg-monday-blue hover:bg-monday-hoverblue text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold shadow-xs transition">
           <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
           <span>Sincronizar en Vivo</span>
         </button>
@@ -163,13 +167,13 @@
       </div>
     </div>
 
-    <!-- FILTROS AJUSTADOS (TITULOS COMPLETOS) -->
+    <!-- FILTROS (BÚSQUEDA POR ID, MARCA, NOMBRE O PALABRAS CLAVE EN PRODUCTOS) -->
     <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs">
       <div class="flex flex-wrap gap-2.5 items-center">
         
-        <div class="flex-1 min-w-[200px] relative">
+        <div class="flex-1 min-w-[220px] relative">
           <i data-lucide="search" class="w-3.5 h-3.5 text-monday-subtext absolute left-3 top-2.5"></i>
-          <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca o Nombre..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none focus:bg-white focus:ring-2 focus:ring-monday-blue">
+          <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca, Nombre o Producto (ej. Lapislázuli)..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none focus:bg-white focus:ring-2 focus:ring-monday-blue">
         </div>
 
         <div class="w-auto">
@@ -517,7 +521,6 @@
               <span class="text-monday-subtext block font-medium">Correo Electrónico</span>
               <p class="font-bold text-monday-text truncate">${item.email}</p>
             </div>
-            <!-- ALINEACIÓN PERFECTA INSTAGRAM -->
             <div>
               <span class="text-monday-subtext block font-medium mb-0.5">Instagram</span>
               ${instaClean ? 
@@ -712,6 +715,7 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
       }).catch(err => alert("Error al copiar texto: " + err));
     }
 
+    // APLICACIÓN DE FILTROS EXTENDIDO A PALABRAS CLAVE EN PRODUCTOS
     function applyFilters() {
       const q = document.getElementById('searchQuery').value.toLowerCase();
       const comuna = document.getElementById('filterComuna').value;
@@ -721,7 +725,13 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
       const sust = document.getElementById('filterSustentable').value;
 
       filteredData = rawData.filter(item => {
-        const matchesQ = !q || item.id.toLowerCase().includes(q) || item.marca.toLowerCase().includes(q) || item.contacto.toLowerCase().includes(q);
+        // Búsqueda extendida: ID, Marca, Contacto o Productos principales
+        const matchesQ = !q || 
+          item.id.toLowerCase().includes(q) || 
+          item.marca.toLowerCase().includes(q) || 
+          item.contacto.toLowerCase().includes(q) ||
+          (item.productos && item.productos.toLowerCase().includes(q));
+
         const matchesComuna = !comuna || item.comuna === comuna;
         const matchesCat = !cat || item.categoria === cat;
         const matchesRubro = !rubro || item.rubro === rubro;
