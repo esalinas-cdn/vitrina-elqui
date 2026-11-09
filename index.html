@@ -55,11 +55,11 @@
 </head>
 <body class="bg-monday-bg font-sans text-monday-text antialiased min-h-screen flex flex-col">
 
-  <!-- ENCABEZADO COLOR #ECF1F9 CON BOTÓN NUEVO REGISTRO -->
+  <!-- ENCABEZADO SUPERIOR -->
   <header class="bg-monday-headerBg border-b border-monday-border sticky top-0 z-30 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4">
       
-      <!-- Ícono de Compras + Títulos -->
+      <!-- Título & Subtítulo -->
       <div class="flex items-center space-x-3.5">
         <div class="h-11 w-11 bg-white border border-monday-border p-2 rounded-xl shadow-xs flex items-center justify-center flex-shrink-0 text-monday-blue">
           <i data-lucide="shopping-bag" class="w-6 h-6"></i>
@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <!-- Acciones de Conexión + NUEVO REGISTRO -->
+      <!-- Acciones de Encabezado -->
       <div class="flex items-center space-x-2">
         <a href="https://forms.gle/Xj2mxR83ADoqLBJM9" target="_blank" class="inline-flex items-center space-x-1.5 bg-sercotec-red hover:bg-red-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-xs transition">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
@@ -93,7 +93,7 @@
 
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
 
-    <!-- KPI STATS -->
+    <!-- KPI METRICS -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
         <div class="p-2.5 bg-monday-softblue text-monday-blue rounded-lg"><i data-lucide="building-2" class="w-5 h-5"></i></div>
@@ -167,13 +167,24 @@
       </div>
     </div>
 
-    <!-- FILTROS (BÚSQUEDA POR ID, MARCA, NOMBRE O PALABRAS CLAVE EN PRODUCTOS) -->
+    <!-- BARRA DE FILTROS (INCLUYE ASESOR) -->
     <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs">
       <div class="flex flex-wrap gap-2.5 items-center">
         
-        <div class="flex-1 min-w-[220px] relative">
+        <div class="flex-1 min-w-[200px] relative">
           <i data-lucide="search" class="w-3.5 h-3.5 text-monday-subtext absolute left-3 top-2.5"></i>
-          <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca, Nombre o Producto (ej. Lapislázuli)..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none focus:bg-white focus:ring-2 focus:ring-monday-blue">
+          <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca, Nombre o Producto..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none focus:bg-white focus:ring-2 focus:ring-monday-blue">
+        </div>
+
+        <div class="w-auto">
+          <select id="filterAsesor" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+            <option value="">Todos los Asesores</option>
+            <option value="Carolina Riquelme">Carolina Riquelme</option>
+            <option value="Edgar Salinas">Edgar Salinas</option>
+            <option value="Josip Sekul">Josip Sekul</option>
+            <option value="Karol Urrutia">Karol Urrutia</option>
+            <option value="Víctor Morales">Víctor Morales</option>
+          </select>
         </div>
 
         <div class="w-auto">
@@ -230,7 +241,7 @@
       </div>
     </div>
 
-    <!-- MAIN RESULTADOS & FICHA -->
+    <!-- RESULTADOS Y FICHA -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
       
       <!-- LISTADO IZQUIERDA -->
@@ -258,7 +269,7 @@
     </div>
   </main>
 
-  <!-- MODAL CONFIGURACIÓN -->
+  <!-- MODAL CONFIGURACIÓN SHEETS -->
   <div id="configModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-xl space-y-4 border border-monday-border">
       <div class="flex items-center justify-between border-b border-monday-border pb-3">
@@ -273,6 +284,40 @@
       <div class="flex justify-end space-x-2 pt-2">
         <button onclick="closeConfigModal()" class="px-3.5 py-1.5 text-xs font-semibold text-monday-subtext hover:bg-gray-100 rounded-lg">Cancelar</button>
         <button onclick="saveSheetConfig()" class="px-3.5 py-1.5 text-xs font-semibold bg-monday-blue text-white rounded-lg hover:bg-monday-hoverblue transition">Guardar y Conectar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL VALIDACIÓN DE ASESOR -->
+  <div id="validateModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl space-y-4 border border-monday-border text-center">
+      <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto">
+        <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-monday-text">Validar Información</h3>
+        <p class="text-xs text-monday-subtext mt-1">¿Confirmas que la información de este emprendimiento ha sido verificada correctamente por el asesor a cargo?</p>
+      </div>
+      <div class="flex justify-center space-x-3 pt-2">
+        <button onclick="closeValidateModal()" class="px-4 py-2 text-xs font-semibold text-monday-subtext hover:bg-gray-100 rounded-lg">No</button>
+        <button onclick="confirmValidation()" class="px-4 py-2 text-xs font-bold bg-monday-blue text-white rounded-lg hover:bg-monday-hoverblue transition">Sí, Validar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ADVERTENCIA DE ELIMINACIÓN -->
+  <div id="deleteModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl space-y-4 border border-monday-border text-center">
+      <div class="w-12 h-12 bg-red-100 text-sercotec-red rounded-full flex items-center justify-center mx-auto">
+        <i data-lucide="trash-2" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-monday-text">¿Eliminar registro definitivo?</h3>
+        <p class="text-xs text-monday-subtext mt-1">Esta acción eliminará por completo la ficha de la base de datos activa. Esta operación no se puede deshacer.</p>
+      </div>
+      <div class="flex justify-center space-x-3 pt-2">
+        <button onclick="closeDeleteModal()" class="px-4 py-2 text-xs font-semibold text-monday-subtext hover:bg-gray-100 rounded-lg">Cancelar</button>
+        <button onclick="confirmDelete()" class="px-4 py-2 text-xs font-bold bg-sercotec-red text-white rounded-lg hover:bg-red-700 transition">Eliminar Definitivamente</button>
       </div>
     </div>
   </div>
@@ -295,7 +340,8 @@
         productos: "Joyas en plata 950 talladas a mano inspiradas en la flora nativa del Valle del Elqui y Lapislázuli.",
         permisos: "No requiere",
         sustentable: "Sí",
-        sustentableDetalle: "Utilizamos plata recabada de desuso y empaques compostables de maicena."
+        sustentableDetalle: "Utilizamos plata recabada de desuso y empaques compostables de maicena.",
+        validado: true
       },
       {
         id: "NEOSERRA-1002",
@@ -313,7 +359,8 @@
         productos: "Bebida fermentada natural elaborada con frutas de la zona (papaya, copao, rica rica).",
         permisos: "Sí, cuenta con resolución/permiso vigente",
         sustentable: "Sí",
-        sustentableDetalle: "Botellas de vidrio retornables y compostaje del 100% de la materia orgánica."
+        sustentableDetalle: "Botellas de vidrio retornables y compostaje del 100% de la materia orgánica.",
+        validado: false
       },
       {
         id: "NEOSERRA-1003",
@@ -331,7 +378,8 @@
         productos: "Crema hidratante facial y sérum de aceite de semilla de papaya y aloe vera.",
         permisos: "En trámite",
         sustentable: "No",
-        sustentableDetalle: "Empaque plástico reciclable estándar."
+        sustentableDetalle: "Empaque plástico reciclable estándar.",
+        validado: false
       },
       {
         id: "NEOSERRA-1004",
@@ -349,12 +397,14 @@
         productos: "Pisco transparente de 45° destilado en alambique de cobre tradicional.",
         permisos: "Sí, cuenta con resolución/permiso vigente",
         sustentable: "Sí",
-        sustentableDetalle: "Energía solar fotovoltaica para el proceso de destilación."
+        sustentableDetalle: "Energía solar fotovoltaica para el proceso de destilación.",
+        validado: true
       }
     ];
 
     let filteredData = [...rawData];
     let selectedItem = rawData[0];
+    let isEditing = false;
     let sheetConfigId = localStorage.getItem('sercotec_sheet_id') || '';
     let rubroChartInstance = null;
     let comunaChartInstance = null;
@@ -455,11 +505,17 @@
 
         const card = document.createElement('div');
         card.className = `p-3.5 cursor-pointer transition border-l-4 ${isSelected ? 'bg-monday-softblue border-monday-blue font-semibold' : 'hover:bg-gray-50 border-transparent'}`;
-        card.onclick = () => { selectedItem = item; renderList(); renderDetail(item); };
+        card.onclick = () => { selectedItem = item; isEditing = false; renderList(); renderDetail(item); };
 
         card.innerHTML = `
           <div class="flex items-start justify-between">
-            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-gray-100 text-monday-subtext border border-monday-border">${item.id}</span>
+            <div class="flex items-center space-x-1.5">
+              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-gray-100 text-monday-subtext border border-monday-border">${item.id}</span>
+              ${item.validado ? 
+                '<span title="Ficha Validada"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-monday-blue"></i></span>' : 
+                '<span title="Pendiente de Validación"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-500"></i></span>'
+              }
+            </div>
             <div class="text-right">
               <span class="text-[10px] text-monday-subtext font-medium block">${item.comuna}</span>
               <div class="flex items-center justify-end space-x-1 mt-1">
@@ -488,6 +544,91 @@
       const instaClean = item.instagram ? item.instagram.replace('@', '').trim() : '';
       const asesorPhone = item.asesorTel ? item.asesorTel.replace(/[^\d]/g, '') : '';
 
+      // MODO EDICIÓN
+      if (isEditing) {
+        container.innerHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-monday-border pb-3">
+              <span class="text-xs font-bold text-monday-blue">MODO EDICIÓN MANUALE DE FICHA</span>
+              <div class="flex space-x-2">
+                <button onclick="cancelEdit()" class="px-3 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg hover:bg-gray-300">Deshacer</button>
+                <button onclick="saveEdit()" class="px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-lg hover:bg-emerald-700">Guardar Cambios</button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <label class="block text-monday-subtext font-medium mb-1">Nombre Marca / Empresa</label>
+                <input type="text" id="editMarca" value="${item.marca}" class="w-full p-2 border border-monday-border rounded-lg">
+              </div>
+              <div>
+                <label class="block text-monday-subtext font-medium mb-1">Comuna</label>
+                <input type="text" id="editComuna" value="${item.comuna}" class="w-full p-2 border border-monday-border rounded-lg">
+              </div>
+              <div>
+                <label class="block text-monday-subtext font-medium mb-1">Encargado/a</label>
+                <input type="text" id="editContacto" value="${item.contacto}" class="w-full p-2 border border-monday-border rounded-lg">
+              </div>
+              <div>
+                <label class="block text-monday-subtext font-medium mb-1">Teléfono Directo</label>
+                <input type="text" id="editTelefono" value="${item.telefono}" class="w-full p-2 border border-monday-border rounded-lg">
+              </div>
+              <div>
+                <label class="block text-monday-subtext font-medium mb-1">Correo Electrónico</label>
+                <input type="text" id="editEmail" value="${item.email}" class="w-full p-2 border border-monday-border rounded-lg">
+              </div>
+              <div>
+                <label class="block text-monday-subtext font-medium mb-1">Instagram (@usuario)</label>
+                <input type="text" id="editInstagram" value="${item.instagram}" class="w-full p-2 border border-monday-border rounded-lg">
+              </div>
+              <div>
+                <label class="block text-monday-subtext font-medium mb-1">Asesor CDN</label>
+                <select id="editAsesor" class="w-full p-2 border border-monday-border rounded-lg">
+                  <option value="Carolina Riquelme" ${item.asesor === 'Carolina Riquelme' ? 'selected' : ''}>Carolina Riquelme</option>
+                  <option value="Edgar Salinas" ${item.asesor === 'Edgar Salinas' ? 'selected' : ''}>Edgar Salinas</option>
+                  <option value="Josip Sekul" ${item.asesor === 'Josip Sekul' ? 'selected' : ''}>Josip Sekul</option>
+                  <option value="Karol Urrutia" ${item.asesor === 'Karol Urrutia' ? 'selected' : ''}>Karol Urrutia</option>
+                  <option value="Víctor Morales" ${item.asesor === 'Víctor Morales' ? 'selected' : ''}>Víctor Morales</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-monday-subtext font-medium mb-1">Categoría</label>
+                <select id="editCategoria" class="w-full p-2 border border-monday-border rounded-lg">
+                  <option value="Producto con Identidad Local" ${item.categoria.includes('Identidad') ? 'selected' : ''}>Producto con Identidad Local</option>
+                  <option value="Producto General" ${!item.categoria.includes('Identidad') ? 'selected' : ''}>Producto General</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-monday-subtext text-xs font-medium mb-1">Productos Principales</label>
+              <textarea id="editProductos" class="w-full p-2 text-xs border border-monday-border rounded-lg" rows="3">${item.productos}</textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <label class="block text-monday-subtext font-medium mb-1">Permisos Sectoriales</label>
+                <input type="text" id="editPermisos" value="${item.permisos}" class="w-full p-2 border border-monday-border rounded-lg">
+              </div>
+              <div>
+                <label class="block text-monday-subtext font-medium mb-1">¿Sustentable?</label>
+                <select id="editSustentable" class="w-full p-2 border border-monday-border rounded-lg">
+                  <option value="Sí" ${item.sustentable === 'Sí' ? 'selected' : ''}>Sí</option>
+                  <option value="No" ${item.sustentable === 'No' ? 'selected' : ''}>No</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-monday-subtext text-xs font-medium mb-1">Detalle Sustentable</label>
+              <input type="text" id="editSustentableDetalle" value="${item.sustentableDetalle || ''}" class="w-full p-2 text-xs border border-monday-border rounded-lg">
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // MODO LECTURA NORMAL
       container.innerHTML = `
         <div class="space-y-4">
           
@@ -501,10 +642,30 @@
               </p>
             </div>
             
-            <button onclick="downloadSinglePDF()" class="inline-flex items-center space-x-1 bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-3 py-1.5 rounded-lg text-xs font-semibold shadow-xs transition">
-              <i data-lucide="file-down" class="w-3.5 h-3.5 text-sercotec-red"></i>
-              <span>Ficha PDF</span>
-            </button>
+            <div class="flex flex-col items-end space-y-2">
+              <button onclick="downloadSinglePDF()" class="inline-flex items-center space-x-1 bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-3 py-1.5 rounded-lg text-xs font-semibold shadow-xs transition">
+                <i data-lucide="file-down" class="w-3.5 h-3.5 text-sercotec-red"></i>
+                <span>Ficha PDF</span>
+              </button>
+
+              <!-- TRES ÍCONOS DE GESTIÓN: LÁPIZ, ELIMINAR X Y VALIDACIÓN ASESOR -->
+              <div class="flex items-center space-x-1.5 bg-gray-50 p-1 rounded-lg border border-monday-border">
+                <!-- 1. Ícono Lápiz (Editar) -->
+                <button onclick="toggleEdit()" title="Editar Ficha" class="p-1 text-monday-subtext hover:text-monday-blue hover:bg-white rounded transition">
+                  <i data-lucide="pencil" class="w-4 h-4"></i>
+                </button>
+
+                <!-- 2. Ícono X (Eliminar) -->
+                <button onclick="openDeleteModal()" title="Eliminar Registro" class="p-1 text-monday-subtext hover:text-sercotec-red hover:bg-white rounded transition">
+                  <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+
+                <!-- 3. Ícono Validación (Advertencia / Check Azul) -->
+                <button onclick="openValidateModal()" title="${item.validado ? 'Información Validada por Asesor' : 'Pendiente de Validación'}" class="p-1 rounded transition ${item.validado ? 'text-monday-blue hover:bg-white' : 'text-amber-500 hover:bg-amber-50 animate-pulse'}">
+                  <i data-lucide="${item.validado ? 'shield-check' : 'alert-triangle'}" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
           </div>
 
           <!-- Contacto & Instagram Alineado -->
@@ -612,6 +773,55 @@
       lucide.createIcons();
     }
 
+    // LÓGICA DE EDICIÓN
+    function toggleEdit() {
+      isEditing = !isEditing;
+      renderDetail(selectedItem);
+    }
+    function cancelEdit() {
+      isEditing = false;
+      renderDetail(selectedItem);
+    }
+    function saveEdit() {
+      if (!selectedItem) return;
+      selectedItem.marca = document.getElementById('editMarca').value;
+      selectedItem.comuna = document.getElementById('editComuna').value;
+      selectedItem.contacto = document.getElementById('editContacto').value;
+      selectedItem.telefono = document.getElementById('editTelefono').value;
+      selectedItem.email = document.getElementById('editEmail').value;
+      selectedItem.instagram = document.getElementById('editInstagram').value;
+      selectedItem.asesor = document.getElementById('editAsesor').value;
+      selectedItem.asesorEmail = `${selectedItem.asesor.toLowerCase().replace(' ', '.')}@centrossercotec.cl`;
+      selectedItem.categoria = document.getElementById('editCategoria').value;
+      selectedItem.productos = document.getElementById('editProductos').value;
+      selectedItem.permisos = document.getElementById('editPermisos').value;
+      selectedItem.sustentable = document.getElementById('editSustentable').value;
+      selectedItem.sustentableDetalle = document.getElementById('editSustentableDetalle').value;
+
+      isEditing = false;
+      renderAll();
+    }
+
+    // MODAL DE ELIMINACIÓN
+    function openDeleteModal() { document.getElementById('deleteModal').classList.remove('hidden'); }
+    function closeDeleteModal() { document.getElementById('deleteModal').classList.add('hidden'); }
+    function confirmDelete() {
+      if (!selectedItem) return;
+      rawData = rawData.filter(d => d.id !== selectedItem.id);
+      applyFilters();
+      closeDeleteModal();
+    }
+
+    // MODAL DE VALIDACIÓN DE ASESOR
+    function openValidateModal() { document.getElementById('validateModal').classList.remove('hidden'); }
+    function closeValidateModal() { document.getElementById('validateModal').classList.add('hidden'); }
+    function confirmValidation() {
+      if (!selectedItem) return;
+      selectedItem.validado = true;
+      closeValidateModal();
+      renderAll();
+    }
+
     function downloadSinglePDF() {
       if (!selectedItem) return;
       const item = selectedItem;
@@ -715,9 +925,10 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
       }).catch(err => alert("Error al copiar texto: " + err));
     }
 
-    // APLICACIÓN DE FILTROS EXTENDIDO A PALABRAS CLAVE EN PRODUCTOS
+    // APLICACIÓN DE FILTROS EXTENDIDOS CON ASESOR
     function applyFilters() {
       const q = document.getElementById('searchQuery').value.toLowerCase();
+      const asesor = document.getElementById('filterAsesor').value;
       const comuna = document.getElementById('filterComuna').value;
       const cat = document.getElementById('filterCategoria').value;
       const rubro = document.getElementById('filterRubro').value;
@@ -725,20 +936,20 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
       const sust = document.getElementById('filterSustentable').value;
 
       filteredData = rawData.filter(item => {
-        // Búsqueda extendida: ID, Marca, Contacto o Productos principales
         const matchesQ = !q || 
           item.id.toLowerCase().includes(q) || 
           item.marca.toLowerCase().includes(q) || 
           item.contacto.toLowerCase().includes(q) ||
           (item.productos && item.productos.toLowerCase().includes(q));
 
+        const matchesAsesor = !asesor || item.asesor === asesor;
         const matchesComuna = !comuna || item.comuna === comuna;
         const matchesCat = !cat || item.categoria === cat;
         const matchesRubro = !rubro || item.rubro === rubro;
         const matchesPerm = !perm || item.permisos.includes(perm);
         const matchesSust = !sust || item.sustentable === sust;
 
-        return matchesQ && matchesComuna && matchesCat && matchesRubro && matchesPerm && matchesSust;
+        return matchesQ && matchesAsesor && matchesComuna && matchesCat && matchesRubro && matchesPerm && matchesSust;
       });
 
       selectedItem = filteredData[0] || null;
@@ -807,7 +1018,8 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
           productos: row[11] || "",
           permisos: row[12] || "No",
           sustentable: row[13] || "No",
-          sustentableDetalle: row[14] || ""
+          sustentableDetalle: row[14] || "",
+          validado: false
         });
       }
       rawData = parsed;
