@@ -9,6 +9,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js (para gráficos interactivos) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- SheetJS (para exportar a Excel) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <!-- jsPDF & autoTable (para exportar a PDF) -->
@@ -23,9 +25,10 @@
             sercotec: {
               blue: '#0066B3',
               darkblue: '#004A83',
+              navy: '#002E54',
               red: '#E30613',
               gray: '#4A4F54',
-              lightgray: '#F4F6F8'
+              lightgray: '#F0F4F8'
             }
           }
         }
@@ -34,45 +37,37 @@
   </script>
   <style>
     .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #e2e8f0; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #0066B3; border-radius: 4px; }
   </style>
 </head>
-<body class="bg-gray-100 font-sans text-gray-800 antialiased min-h-screen flex flex-col">
+<body class="bg-gray-200 font-sans text-gray-800 antialiased min-h-screen flex flex-col">
 
-  <!-- ENCABEZADO PRINCIPAL / NAVBAR -->
-  <header class="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+  <!-- ENCABEZADO CON CONTRASTE AZUL CORPORATIVO -->
+  <header class="bg-sercotec-navy text-white sticky top-0 z-30 shadow-lg border-b-4 border-sercotec-red">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
       
-      <!-- Marca & Logo CDN La Serena -->
+      <!-- Logo Isotipo CDN + Título -->
       <div class="flex items-center space-x-4">
-        <div class="h-14 w-auto flex-shrink-0 flex items-center">
-          <!-- Logo SVG del CDN La Serena -->
-          <svg class="h-12 w-auto" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M427 150C274 150 150 274 150 427C150 500 180 567 228 615C228 615 100 660 100 800C220 800 320 750 380 700C400 703 410 704 427 704C580 704 704 580 704 427C704 274 580 150 427 150Z" fill="#0066B3"/>
-            <path d="M427 240C323 240 240 323 240 427C240 531 323 614 427 614C455 614 500 600 500 600C450 550 427 500 427 427C427 340 470 280 520 245C490 241 455 240 427 240Z" fill="#E30613"/>
-            <text x="450" y="320" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="95" fill="#4A4F54">CENTRO</text>
-            <text x="450" y="440" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="85" fill="#4A4F54">DE NEGOCIOS</text>
-            <text x="450" y="570" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="105" fill="#4A4F54">SERCOTEC</text>
-            <rect x="450" y="615" width="220" height="20" fill="#0066B3"/>
-            <rect x="670" y="615" width="220" height="20" fill="#E30613"/>
-            <text x="580" y="740" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="95" fill="#4A4F54">LA SERENA</text>
+        <div class="h-12 w-12 bg-white p-1 rounded-xl shadow-md flex items-center justify-center flex-shrink-0">
+          <svg viewBox="0 0 500 500" class="w-full h-full">
+            <path d="M 370 90 C 230 90 110 200 110 340 C 110 405 135 450 175 480 C 175 480 70 500 50 400 C 50 250 170 110 320 90 Z" fill="#0066B3"/>
+            <path d="M 400 140 C 270 140 180 230 180 350 C 180 430 250 480 340 480 C 420 480 480 410 480 330 C 480 220 410 140 400 140 Z" fill="#E30613"/>
           </svg>
         </div>
-        <div class="border-l border-gray-300 pl-4">
-          <h1 class="text-xl font-bold text-sercotec-blue leading-tight">Directorio Vitrina Elqui</h1>
-          <p class="text-xs text-sercotec-gray font-medium">Base de datos de clientes CDN La Serena para Eventos</p>
+        <div>
+          <h1 class="text-xl font-extrabold tracking-tight text-white leading-tight">Directorio Vitrina Elqui</h1>
+          <p class="text-xs text-blue-200 font-medium">Base de datos de clientes CDN La Serena para Eventos</p>
         </div>
       </div>
 
-      <!-- Conexión a Google Sheets y Sincronización -->
+      <!-- Acciones de Conexión -->
       <div class="flex items-center space-x-2">
-        <button id="btnConnectSheet" onclick="openConfigModal()" class="inline-flex items-center space-x-2 bg-sercotec-lightgray hover:bg-gray-200 text-sercotec-gray px-3 py-2 rounded-lg text-xs font-semibold border border-gray-300 transition">
-          <i data-lucide="link" class="w-4 h-4 text-sercotec-blue"></i>
+        <button onclick="openConfigModal()" class="inline-flex items-center space-x-2 bg-sercotec-darkblue hover:bg-sercotec-blue text-white px-3 py-2 rounded-lg text-xs font-semibold border border-blue-400/30 transition shadow-sm">
+          <i data-lucide="link" class="w-4 h-4 text-blue-300"></i>
           <span>Conectar Google Sheet</span>
         </button>
-        <button onclick="syncData()" class="inline-flex items-center space-x-2 bg-sercotec-blue hover:bg-sercotec-darkblue text-white px-3 py-2 rounded-lg text-xs font-semibold shadow transition">
+        <button onclick="syncData()" class="inline-flex items-center space-x-2 bg-sercotec-red hover:bg-red-700 text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow-md transition">
           <i data-lucide="refresh-cw" class="w-4 h-4"></i>
           <span>Sincronizar en Vivo</span>
         </button>
@@ -80,65 +75,108 @@
     </div>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-    <!-- BARRA KPI (ESTADÍSTICAS RÁPIDAS) -->
+    <!-- TARJETAS DE RESUMEN KPI -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
-        <div class="p-3 bg-blue-50 text-sercotec-blue rounded-lg">
+      <div class="bg-white p-4 rounded-xl border-l-4 border-sercotec-blue shadow-md flex items-center space-x-3">
+        <div class="p-3 bg-blue-100 text-sercotec-blue rounded-lg">
           <i data-lucide="building-2" class="w-6 h-6"></i>
         </div>
         <div>
           <p class="text-xs text-gray-500 font-medium">Total Registros</p>
-          <p id="kpiTotal" class="text-xl font-bold text-gray-800">0</p>
+          <p id="kpiTotal" class="text-xl font-bold text-gray-900">0</p>
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
-        <div class="p-3 bg-amber-50 text-amber-600 rounded-lg">
+      <div class="bg-white p-4 rounded-xl border-l-4 border-amber-500 shadow-md flex items-center space-x-3">
+        <div class="p-3 bg-amber-100 text-amber-700 rounded-lg">
           <i data-lucide="compass" class="w-6 h-6"></i>
         </div>
         <div>
           <p class="text-xs text-gray-500 font-medium">Identidad Local</p>
-          <p id="kpiIdentidad" class="text-xl font-bold text-gray-800">0%</p>
+          <p id="kpiIdentidad" class="text-xl font-bold text-gray-900">0%</p>
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
-        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
+      <div class="bg-white p-4 rounded-xl border-l-4 border-emerald-500 shadow-md flex items-center space-x-3">
+        <div class="p-3 bg-emerald-100 text-emerald-700 rounded-lg">
           <i data-lucide="shield-check" class="w-6 h-6"></i>
         </div>
         <div>
           <p class="text-xs text-gray-500 font-medium">Permisos Sanidad OK</p>
-          <p id="kpiPermisos" class="text-xl font-bold text-gray-800">0</p>
+          <p id="kpiPermisos" class="text-xl font-bold text-gray-900">0</p>
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
-        <div class="p-3 bg-green-50 text-green-600 rounded-lg">
+      <div class="bg-white p-4 rounded-xl border-l-4 border-green-600 shadow-md flex items-center space-x-3">
+        <div class="p-3 bg-green-100 text-green-700 rounded-lg">
           <i data-lucide="leaf" class="w-6 h-6"></i>
         </div>
         <div>
           <p class="text-xs text-gray-500 font-medium">Sustentables</p>
-          <p id="kpiSustentables" class="text-xl font-bold text-gray-800">0</p>
+          <p id="kpiSustentables" class="text-xl font-bold text-gray-900">0</p>
         </div>
       </div>
     </div>
 
-    <!-- SECCIÓN DE FILTROS Y BÚSQUEDA -->
-    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 space-y-4">
+    <!-- SECCIÓN DE GRÁFICOS Y ANÁLISIS DINÁMICO DE MERCADO -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      <!-- Panel Gráfico Rubro -->
+      <div class="bg-white p-5 rounded-xl border border-gray-300 shadow-md flex flex-col justify-between">
+        <div class="flex items-center justify-between border-b pb-3 mb-3">
+          <h3 class="text-sm font-bold text-sercotec-navy flex items-center space-x-2">
+            <i data-lucide="pie-chart" class="w-4 h-4 text-sercotec-blue"></i>
+            <span>Distribución por Rubro Principal</span>
+          </h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+          <div class="md:col-span-7 h-48 relative">
+            <canvas id="rubroChart"></canvas>
+          </div>
+          <div class="md:col-span-5 bg-blue-50 border border-blue-200 p-4 rounded-xl text-center space-y-1">
+            <span class="text-[11px] font-bold text-sercotec-blue uppercase">Rubro Mayoritario</span>
+            <p id="topRubroName" class="text-sm font-extrabold text-gray-900 leading-tight">---</p>
+            <p id="topRubroPct" class="text-2xl font-black text-sercotec-blue">0%</p>
+            <p class="text-[10px] text-gray-500">del total del catastro</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel Gráfico Comuna -->
+      <div class="bg-white p-5 rounded-xl border border-gray-300 shadow-md flex flex-col justify-between">
+        <div class="flex items-center justify-between border-b pb-3 mb-3">
+          <h3 class="text-sm font-bold text-sercotec-navy flex items-center space-x-2">
+            <i data-lucide="bar-chart-3" class="w-4 h-4 text-sercotec-red"></i>
+            <span>Distribución por Comuna</span>
+          </h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+          <div class="md:col-span-7 h-48 relative">
+            <canvas id="comunaChart"></canvas>
+          </div>
+          <div class="md:col-span-5 bg-red-50 border border-red-200 p-4 rounded-xl text-center space-y-1">
+            <span class="text-[11px] font-bold text-sercotec-red uppercase">Comuna Líder</span>
+            <p id="topComunaName" class="text-sm font-extrabold text-gray-900 leading-tight">---</p>
+            <p id="topComunaPct" class="text-2xl font-black text-sercotec-red">0%</p>
+            <p class="text-[10px] text-gray-500">de concentración territorial</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FILTROS DE BÚSQUEDA -->
+    <div class="bg-sercotec-blue p-4 rounded-xl shadow-md space-y-3">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
-        
-        <!-- Búsqueda General -->
         <div class="md:col-span-4 relative">
-          <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-3.5"></i>
-          <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca o Nombre..." class="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sercotec-blue focus:border-transparent outline-none">
+          <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-3"></i>
+          <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca o Nombre..." class="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-white">
         </div>
 
-        <!-- Filtro Comuna -->
         <div class="md:col-span-2">
-          <select id="filterComuna" onchange="applyFilters()" class="w-full py-2 px-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sercotec-blue outline-none text-gray-700">
+          <select id="filterComuna" onchange="applyFilters()" class="w-full py-2 px-3 text-xs border border-gray-300 rounded-lg outline-none font-medium">
             <option value="">Todas las Comunas</option>
             <option value="La Serena">La Serena</option>
             <option value="Coquimbo">Coquimbo</option>
@@ -149,18 +187,16 @@
           </select>
         </div>
 
-        <!-- Filtro Categoría -->
         <div class="md:col-span-2">
-          <select id="filterCategoria" onchange="applyFilters()" class="w-full py-2 px-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sercotec-blue outline-none text-gray-700">
+          <select id="filterCategoria" onchange="applyFilters()" class="w-full py-2 px-3 text-xs border border-gray-300 rounded-lg outline-none font-medium">
             <option value="">Todas las Categorías</option>
             <option value="Producto con Identidad Local">Con Identidad Local</option>
             <option value="Producto General">Producto General</option>
           </select>
         </div>
 
-        <!-- Filtro Rubro -->
         <div class="md:col-span-2">
-          <select id="filterRubro" onchange="applyFilters()" class="w-full py-2 px-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sercotec-blue outline-none text-gray-700">
+          <select id="filterRubro" onchange="applyFilters()" class="w-full py-2 px-3 text-xs border border-gray-300 rounded-lg outline-none font-medium">
             <option value="">Todos los Rubros</option>
             <option value="Agroalimentario y Bebidas">Agroalimentario y Bebidas</option>
             <option value="Vinos, Piscos y Licores">Vinos, Piscos y Licores</option>
@@ -169,14 +205,12 @@
             <option value="Cosméceutica y Bienestar">Cosmética y Bienestar</option>
             <option value="Textil, Confección y Diseño">Textil y Diseños</option>
             <option value="Diseños 3D, Papelería e Impresión">3D y Papelería</option>
-            <option value="Juguetería y Artículos Infantiles">Juguetería e Infantiles</option>
           </select>
         </div>
 
-        <!-- Filtro Sustentable -->
         <div class="md:col-span-2">
-          <select id="filterSustentable" onchange="applyFilters()" class="w-full py-2 px-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sercotec-blue outline-none text-gray-700">
-            <option value="">Todos (Sustentabilidad)</option>
+          <select id="filterSustentable" onchange="applyFilters()" class="w-full py-2 px-3 text-xs border border-gray-300 rounded-lg outline-none font-medium">
+            <option value="">Todos (Sustentables)</option>
             <option value="Sí">Solo Sustentables</option>
             <option value="No">No Sustentables</option>
           </select>
@@ -184,80 +218,55 @@
       </div>
     </div>
 
-    <!-- ÁREA PRINCIPAL: LISTA + FICHA DETALLADA -->
+    <!-- LISTADO Y FICHA TÉCNICA -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       
-      <!-- COLUMNA IZQUIERDA: LISTADO DE RESULTADOS (5 COLUMNAS) -->
-      <div class="lg:col-span-5 bg-white rounded-xl border border-gray-200 shadow-sm flex flex-col h-[650px]">
-        
-        <!-- Encabezado con Botones de Exportación -->
-        <div class="p-3 border-b border-gray-200 flex items-center justify-between bg-gray-50 rounded-t-xl">
-          <span class="text-xs font-bold text-gray-600 uppercase tracking-wider">Resultados (<span id="countResults">0</span>)</span>
-          
-          <!-- Botones de Exportar -->
+      <!-- Listado Izquierda -->
+      <div class="lg:col-span-5 bg-white rounded-xl border border-gray-300 shadow-md flex flex-col h-[680px]">
+        <div class="p-3 border-b border-gray-200 flex items-center justify-between bg-gray-100 rounded-t-xl">
+          <span class="text-xs font-bold text-sercotec-navy uppercase tracking-wider">Resultados (<span id="countResults">0</span>)</span>
           <div class="flex items-center space-x-2">
-            <button onclick="exportToExcel()" title="Exportar resultado actual a Excel" class="inline-flex items-center space-x-1 text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded font-medium transition shadow-sm">
+            <button onclick="exportToExcel()" class="inline-flex items-center space-x-1 text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded font-semibold transition shadow-sm">
               <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
               <span>Excel</span>
             </button>
-            <button onclick="exportToPDF()" title="Exportar resultado actual a PDF" class="inline-flex items-center space-x-1 text-xs bg-sercotec-red hover:bg-red-700 text-white px-2.5 py-1.5 rounded font-medium transition shadow-sm">
+            <button onclick="exportToPDF()" class="inline-flex items-center space-x-1 text-xs bg-sercotec-red hover:bg-red-700 text-white px-2.5 py-1.5 rounded font-semibold transition shadow-sm">
               <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
               <span>PDF</span>
             </button>
           </div>
         </div>
-
-        <!-- Lista scrolleable -->
-        <div id="listContainer" class="flex-1 overflow-y-auto divide-y divide-gray-100 custom-scrollbar">
-          <!-- Tarjetas cargadas vía JavaScript -->
-        </div>
+        <div id="listContainer" class="flex-1 overflow-y-auto divide-y divide-gray-200 custom-scrollbar"></div>
       </div>
 
-      <!-- COLUMNA DERECHA: FICHA COMPLETA DEL EMPRENDEDOR (7 COLUMNAS) -->
-      <div class="lg:col-span-7 bg-white rounded-xl border border-gray-200 shadow-sm flex flex-col h-[650px] overflow-hidden">
-        <div id="detailContainer" class="flex-1 overflow-y-auto p-6 custom-scrollbar">
-          <!-- Ficha cargada vía JavaScript -->
-        </div>
+      <!-- Ficha Individual Derecha -->
+      <div class="lg:col-span-7 bg-white rounded-xl border border-gray-300 shadow-md flex flex-col h-[680px] overflow-hidden">
+        <div id="detailContainer" class="flex-1 overflow-y-auto p-6 custom-scrollbar"></div>
       </div>
     </div>
   </main>
 
-  <!-- MODAL DE CONFIGURACIÓN DE CONEXIÓN A GOOGLE SHEETS -->
-  <div id="configModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+  <!-- MODAL GOOGLE SHEETS -->
+  <div id="configModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b pb-3">
-        <h3 class="text-lg font-bold text-gray-800 flex items-center space-x-2">
+        <h3 class="text-base font-bold text-sercotec-navy flex items-center space-x-2">
           <i data-lucide="link" class="w-5 h-5 text-sercotec-blue"></i>
-          <span>Conectar con Google Sheets</span>
+          <span>Conectar Google Sheets</span>
         </h3>
         <button onclick="closeConfigModal()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-
-      <p class="text-xs text-gray-600 leading-relaxed">
-        Pega el enlace público o el ID de la hoja de cálculo de Google que recibe las respuestas de tu Formulario. La pestaña debe ser pública para lectura.
-      </p>
-
-      <div class="space-y-2">
-        <label class="text-xs font-semibold text-gray-700">URL o ID de Google Sheets:</label>
-        <input type="text" id="sheetUrlInput" placeholder="https://docs.google.com/spreadsheets/d/1ABC123.../edit" class="w-full p-2.5 text-xs border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-sercotec-blue">
-      </div>
-
-      <div class="bg-amber-50 p-3 rounded-lg border border-amber-200 text-[11px] text-amber-800 space-y-1">
-        <p class="font-bold">Pasos para activar permisos:</p>
-        <p>1. En tu hoja de cálculo, haz clic en <strong>Compartir</strong>.</p>
-        <p>2. Cambia a <strong>"Cualquier persona con el enlace puede ver"</strong>.</p>
-      </div>
-
+      <p class="text-xs text-gray-600 leading-relaxed">Pega la URL o ID de tu Google Sheet público para sincronizar en tiempo real las respuestas de tu Formulario.</p>
+      <input type="text" id="sheetUrlInput" placeholder="ID o enlace del Google Sheet" class="w-full p-2.5 text-xs border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-sercotec-blue">
       <div class="flex justify-end space-x-2 pt-2">
         <button onclick="closeConfigModal()" class="px-4 py-2 text-xs font-semibold text-gray-600 hover:bg-gray-100 rounded-lg">Cancelar</button>
-        <button onclick="saveSheetConfig()" class="px-4 py-2 text-xs font-semibold bg-sercotec-blue text-white rounded-lg hover:bg-sercotec-darkblue transition">Guardar y Conectar</button>
+        <button onclick="saveSheetConfig()" class="px-4 py-2 text-xs font-bold bg-sercotec-blue text-white rounded-lg hover:bg-sercotec-darkblue transition">Guardar y Conectar</button>
       </div>
     </div>
   </div>
 
-  <!-- SCRIPT LÓGICA Y DATOS -->
   <script>
-    // DATOS DE PRUEBA INICIALES (Formato ID NEOSERRA-XXXX)
+    // DATOS CON ASESORES CDN Y CAMPOS COMPLETOS
     let rawData = [
       {
         id: "NEOSERRA-1001",
@@ -267,6 +276,9 @@
         email: "contacto@qulqi.cl",
         telefono: "+56987654321",
         instagram: "qulqi_orfebreria",
+        asesor: "Carolina Riquelme",
+        asesorTel: "+56911112222",
+        asesorEmail: "carolina.riquelme@centrossercotec.cl",
         categoria: "Producto con Identidad Local",
         rubro: "Orfebrería y Joyería",
         productos: "Joyas en plata 950 talladas a mano inspiradas en la flora nativa del Valle del Elqui y Lapislázuli.",
@@ -282,6 +294,9 @@
         email: "ventas@elquikombucha.cl",
         telefono: "+56912345678",
         instagram: "elquikombucha",
+        asesor: "Edgar Salinas",
+        asesorTel: "+56933334444",
+        asesorEmail: "edgar.salinas@centrossercotec.cl",
         categoria: "Producto con Identidad Local",
         rubro: "Agroalimentario y Bebidas",
         productos: "Bebida fermentada natural elaborada con frutas de la zona (papaya, copao, rica rica).",
@@ -297,6 +312,9 @@
         email: "l.morales@papayacare.cl",
         telefono: "+56955544332",
         instagram: "papayacare_elqui",
+        asesor: "Josip Sekul",
+        asesorTel: "+56955556666",
+        asesorEmail: "josip.sekul@centrossercotec.cl",
         categoria: "Producto General",
         rubro: "Cosméceutica y Bienestar",
         productos: "Crema hidratante facial y sérum de aceite de semilla de papaya y aloe vera.",
@@ -312,6 +330,9 @@
         email: "h.valenzuela@piscodiaguitas.cl",
         telefono: "+56944332211",
         instagram: "piscodiaguitas",
+        asesor: "Karol Urrutia",
+        asesorTel: "+56977778888",
+        asesorEmail: "karol.urrutia@centrossercotec.cl",
         categoria: "Producto con Identidad Local",
         rubro: "Vinos, Piscos y Licores",
         productos: "Pisco transparente de 45° destilado en alambique de cobre tradicional.",
@@ -324,8 +345,9 @@
     let filteredData = [...rawData];
     let selectedItem = rawData[0];
     let sheetConfigId = localStorage.getItem('sercotec_sheet_id') || '';
+    let rubroChartInstance = null;
+    let comunaChartInstance = null;
 
-    // INICIALIZACIÓN
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
       if (sheetConfigId) {
@@ -336,9 +358,9 @@
       }
     });
 
-    // RENDERS GENERATION
     function renderAll() {
       calculateKPIs();
+      renderCharts();
       renderList();
       renderDetail(selectedItem);
       document.getElementById('countResults').innerText = filteredData.length;
@@ -346,173 +368,208 @@
 
     function calculateKPIs() {
       document.getElementById('kpiTotal').innerText = rawData.length;
-      
       const identidadCount = rawData.filter(d => d.categoria.includes("Identidad Local")).length;
-      const pctIdentidad = rawData.length ? Math.round((identidadCount / rawData.length) * 100) : 0;
-      document.getElementById('kpiIdentidad').innerText = pctIdentidad + '%';
+      document.getElementById('kpiIdentidad').innerText = rawData.length ? Math.round((identidadCount / rawData.length) * 100) + '%' : '0%';
+      document.getElementById('kpiPermisos').innerText = rawData.filter(d => d.permisos.startsWith("Sí")).length;
+      document.getElementById('kpiSustentables').innerText = rawData.filter(d => d.sustentable === "Sí").length;
+    }
 
-      const okPermisos = rawData.filter(d => d.permisos.startsWith("Sí")).length;
-      document.getElementById('kpiPermisos').innerText = okPermisos;
+    function renderCharts() {
+      // Cálculo Rubros
+      const rubroCounts = {};
+      rawData.forEach(d => rubroCounts[d.rubro] = (rubroCounts[d.rubro] || 0) + 1);
+      
+      let topRubro = "N/A", maxRubroCount = 0;
+      Object.keys(rubroCounts).forEach(r => {
+        if (rubroCounts[r] > maxRubroCount) {
+          maxRubroCount = rubroCounts[r];
+          topRubro = r;
+        }
+      });
+      const topRubroPct = rawData.length ? Math.round((maxRubroCount / rawData.length) * 100) : 0;
+      document.getElementById('topRubroName').innerText = topRubro;
+      document.getElementById('topRubroPct').innerText = topRubroPct + '%';
 
-      const sustCount = rawData.filter(d => d.sustentable === "Sí").length;
-      document.getElementById('kpiSustentables').innerText = sustCount;
+      // Gráfico Rubro
+      const ctxRubro = document.getElementById('rubroChart').getContext('2d');
+      if (rubroChartInstance) rubroChartInstance.destroy();
+      rubroChartInstance = new Chart(ctxRubro, {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(rubroCounts),
+          datasets: [{
+            data: Object.values(rubroCounts),
+            backgroundColor: ['#0066B3', '#E30613', '#f59e0b', '#10b981', '#6366f1', '#8b5cf6']
+          }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+      });
+
+      // Cálculo Comunas
+      const comunaCounts = {};
+      rawData.forEach(d => comunaCounts[d.comuna] = (comunaCounts[d.comuna] || 0) + 1);
+
+      let topComuna = "N/A", maxComunaCount = 0;
+      Object.keys(comunaCounts).forEach(c => {
+        if (comunaCounts[c] > maxComunaCount) {
+          maxComunaCount = comunaCounts[c];
+          topComuna = c;
+        }
+      });
+      const topComunaPct = rawData.length ? Math.round((maxComunaCount / rawData.length) * 100) : 0;
+      document.getElementById('topComunaName').innerText = topComuna;
+      document.getElementById('topComunaPct').innerText = topComunaPct + '%';
+
+      // Gráfico Comuna
+      const ctxComuna = document.getElementById('comunaChart').getContext('2d');
+      if (comunaChartInstance) comunaChartInstance.destroy();
+      comunaChartInstance = new Chart(ctxComuna, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(comunaCounts),
+          datasets: [{
+            data: Object.values(comunaCounts),
+            backgroundColor: '#E30613'
+          }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+      });
     }
 
     function renderList() {
       const container = document.getElementById('listContainer');
       container.innerHTML = '';
-
-      if (filteredData.length === 0) {
-        container.innerHTML = `
-          <div class="p-8 text-center text-gray-400 space-y-2">
-            <i data-lucide="search-x" class="w-8 h-8 mx-auto stroke-1"></i>
-            <p class="text-xs">No se encontraron emprendeores que coincidan con los filtros.</p>
-          </div>
-        `;
-        lucide.createIcons();
+      if (!filteredData.length) {
+        container.innerHTML = `<div class="p-8 text-center text-gray-400 text-xs">No hay coincidencias.</div>`;
         return;
       }
 
       filteredData.forEach(item => {
         const isSelected = selectedItem && selectedItem.id === item.id;
         const card = document.createElement('div');
-        card.className = `p-4 cursor-pointer transition border-l-4 ${
-          isSelected 
-            ? 'bg-blue-50/70 border-sercotec-blue' 
-            : 'hover:bg-gray-50 border-transparent'
-        }`;
-        card.onclick = () => {
-          selectedItem = item;
-          renderList();
-          renderDetail(item);
-        };
+        card.className = `p-3.5 cursor-pointer transition border-l-4 ${isSelected ? 'bg-blue-50 border-sercotec-blue font-semibold' : 'hover:bg-gray-50 border-transparent'}`;
+        card.onclick = () => { selectedItem = item; renderList(); renderDetail(item); };
 
         card.innerHTML = `
-          <div class="flex items-start justify-between">
-            <span class="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded bg-gray-100 text-sercotec-blue border border-gray-200">${item.id}</span>
-            <span class="text-[11px] text-gray-500 font-medium">${item.comuna}</span>
+          <div class="flex items-center justify-between">
+            <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-blue-100 text-sercotec-blue border border-blue-200">${item.id}</span>
+            <span class="text-[10px] text-gray-500 font-medium">${item.comuna}</span>
           </div>
-          <h4 class="text-sm font-bold text-gray-800 mt-1">${item.marca}</h4>
-          <p class="text-xs text-gray-500 font-medium">${item.contacto}</p>
-          
-          <div class="mt-2 flex flex-wrap gap-1">
-            <span class="text-[10px] px-2 py-0.5 rounded-full ${item.categoria.includes('Identidad') ? 'bg-amber-100 text-amber-800' : 'bg-gray-100 text-gray-700'}">
-              ${item.categoria.includes('Identidad') ? 'Identidad Local' : 'General'}
-            </span>
-            ${item.sustentable === 'Sí' ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold">Sustentable</span>' : ''}
-          </div>
+          <h4 class="text-xs font-bold text-gray-900 mt-1">${item.marca}</h4>
+          <p class="text-[11px] text-gray-500">${item.contacto}</p>
         `;
         container.appendChild(card);
       });
-
-      lucide.createIcons();
     }
 
     function renderDetail(item) {
       const container = document.getElementById('detailContainer');
-      
       if (!item) {
-        container.innerHTML = `<div class="h-full flex items-center justify-center text-gray-400 text-xs">Selecciona un emprendimiento del listado</div>`;
+        container.innerHTML = `<div class="h-full flex items-center justify-center text-gray-400 text-xs">Selecciona una empresa</div>`;
         return;
       }
 
       const cleanPhone = item.telefono.replace(/[^\d]/g, '');
       const instaClean = item.instagram ? item.instagram.replace('@', '').trim() : '';
+      const asesorPhone = item.asesorTel ? item.asesorTel.replace(/[^\d]/g, '') : '';
 
       container.innerHTML = `
-        <div class="space-y-6">
-          
-          <!-- Encabezado de la Ficha -->
-          <div class="flex items-start justify-between border-b pb-4">
+        <div class="space-y-5">
+          <!-- ID Pequeño y Encabezado -->
+          <div class="flex items-start justify-between border-b pb-3">
             <div>
-              <span class="text-xs font-bold text-sercotec-blue bg-blue-50 border border-blue-200 px-2.5 py-1 rounded-md">${item.id}</span>
-              <h2 class="text-xl font-bold text-gray-900 mt-2">${item.marca}</h2>
-              <p class="text-xs text-gray-500 mt-0.5 flex items-center space-x-1">
+              <span class="text-[10px] font-bold text-sercotec-blue bg-blue-100 px-2 py-0.5 rounded border border-blue-200">${item.id}</span>
+              <h2 class="text-lg font-bold text-gray-900 mt-1">${item.marca}</h2>
+              <p class="text-xs text-gray-500 flex items-center space-x-1 mt-0.5">
                 <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sercotec-red"></i>
                 <span>Comuna: <strong>${item.comuna}</strong></span>
               </p>
             </div>
-            
-            <div class="flex space-x-2">
-              <a href="https://wa.me/${cleanPhone}" target="_blank" class="p-2.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg transition" title="Contactar por WhatsApp">
-                <i data-lucide="message-circle" class="w-5 h-5"></i>
-              </a>
-              <a href="mailto:${item.email}" class="p-2.5 bg-blue-50 text-sercotec-blue hover:bg-blue-100 rounded-lg transition" title="Enviar Correo">
-                <i data-lucide="mail" class="w-5 h-5"></i>
-              </a>
-            </div>
           </div>
 
-          <!-- Contacto & Redes -->
+          <!-- Contacto & Alineación Perfecta de Instagram -->
           <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
             <div>
-              <span class="text-gray-400 block font-medium mb-1">Encargado/a</span>
+              <span class="text-gray-400 block font-medium">Encargado/a</span>
               <p class="font-bold text-gray-800">${item.contacto}</p>
             </div>
             <div>
-              <span class="text-gray-400 block font-medium mb-1">Teléfono Directo</span>
+              <span class="text-gray-400 block font-medium">Teléfono Directo</span>
               <p class="font-bold text-gray-800">${item.telefono}</p>
             </div>
             <div>
-              <span class="text-gray-400 block font-medium mb-1">Correo Electrónico</span>
+              <span class="text-gray-400 block font-medium">Correo Electrónico</span>
               <p class="font-bold text-gray-800 truncate">${item.email}</p>
             </div>
+            <!-- Corrección alineación Instagram -->
             <div>
-              <span class="text-gray-400 block font-medium mb-1">Instagram</span>
+              <span class="text-gray-400 block font-medium">Instagram</span>
               ${instaClean ? 
-                `<a href="https://instagram.com/${instaClean}" target="_blank" class="font-bold text-sercotec-blue hover:underline flex items-center space-x-1">
+                `<a href="https://instagram.com/${instaClean}" target="_blank" class="font-bold text-sercotec-blue hover:underline inline-flex items-center space-x-1 mt-0.5">
                   <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
                   <span>@${instaClean}</span>
-                </a>` 
-                : '<p class="text-gray-400 italic">No registrado</p>'
+                </a>` : '<p class="text-gray-400 italic">No registrado</p>'
               }
             </div>
           </div>
 
-          <!-- Clasificación Técnica -->
-          <div class="grid grid-cols-2 gap-4 text-xs">
-            <div class="p-3 rounded-lg border border-gray-200">
-              <span class="text-gray-400 block mb-1">Categoría de Producto</span>
-              <span class="font-semibold px-2 py-0.5 rounded ${item.categoria.includes('Identidad') ? 'bg-amber-100 text-amber-900' : 'bg-gray-100 text-gray-800'}">
-                ${item.categoria}
-              </span>
+          <!-- ASESOR CDN CON BOTONES DE ACCIÓN DIRECTA -->
+          <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl flex items-center justify-between">
+            <div>
+              <span class="text-[10px] font-bold text-sercotec-blue uppercase tracking-wider block">Asesor CDN a Cargo</span>
+              <h4 class="text-sm font-extrabold text-sercotec-navy">${item.asesor || 'No Asignado'}</h4>
             </div>
-            <div class="p-3 rounded-lg border border-gray-200">
-              <span class="text-gray-400 block mb-1">Rubro Principal</span>
-              <span class="font-semibold text-gray-800">${item.rubro}</span>
+            <div class="flex items-center space-x-2">
+              <a href="https://wa.me/${asesorPhone}" target="_blank" class="inline-flex items-center space-x-1 bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-lg text-xs font-bold transition shadow-sm">
+                <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                <span>WhatsApp Asesor</span>
+              </a>
+              <a href="mailto:${item.asesorEmail}" class="inline-flex items-center space-x-1 bg-sercotec-blue hover:bg-sercotec-darkblue text-white px-2.5 py-1.5 rounded-lg text-xs font-bold transition shadow-sm">
+                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                <span>Correo Asesor</span>
+              </a>
             </div>
           </div>
 
-          <!-- Productos Principales -->
+          <!-- Detalles de Clasificación y Permisos -->
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="p-3 border rounded-lg bg-white">
+              <span class="text-gray-400 block mb-1">Categoría</span>
+              <span class="font-bold text-gray-800">${item.categoria}</span>
+            </div>
+            <div class="p-3 border rounded-lg bg-white">
+              <span class="text-gray-400 block mb-1">Rubro</span>
+              <span class="font-bold text-gray-800">${item.rubro}</span>
+            </div>
+          </div>
+
           <div class="space-y-1">
-            <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Productos Principales</h4>
-            <div class="p-3 bg-gray-50 border border-gray-200 rounded-lg text-xs text-gray-700 leading-relaxed">
-              ${item.productos}
+            <h4 class="text-xs font-bold text-gray-700 uppercase">Productos Principales</h4>
+            <p class="p-3 bg-gray-50 border rounded-lg text-xs text-gray-700">${item.productos}</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="p-3 border rounded-lg">
+              <span class="text-gray-400 block mb-1">Permisos Sectoriales</span>
+              <span class="font-bold ${item.permisos.startsWith('Sí') ? 'text-emerald-700' : 'text-amber-700'}">${item.permisos}</span>
+            </div>
+            <div class="p-3 border rounded-lg">
+              <span class="text-gray-400 block mb-1">Sustentable</span>
+              <span class="font-bold ${item.sustentable === 'Sí' ? 'text-emerald-600' : 'text-gray-500'}">${item.sustentable}</span>
             </div>
           </div>
 
-          <!-- Permisos & Sustentabilidad -->
-          <div class="grid grid-cols-2 gap-4 text-xs">
-            <div class="p-3 rounded-lg border border-gray-200">
-              <span class="text-gray-400 block mb-1">Permisos Sectoriales (Sanidad/SAG)</span>
-              <span class="font-semibold ${item.permisos.startsWith('Sí') ? 'text-emerald-700' : 'text-amber-700'}">
-                ${item.permisos}
-              </span>
-            </div>
-            <div class="p-3 rounded-lg border border-gray-200">
-              <span class="text-gray-400 block mb-1">¿Sustentable / Circular?</span>
-              <span class="font-bold ${item.sustentable === 'Sí' ? 'text-emerald-600' : 'text-gray-500'}">
-                ${item.sustentable === 'Sí' ? '✓ Sí' : 'No'}
-              </span>
-            </div>
+          <!-- BOTONES DE LLAMADO A LA ACCIÓN AL FINAL DE LA FICHA -->
+          <div class="pt-4 border-t flex items-center space-x-3">
+            <a href="https://wa.me/${cleanPhone}" target="_blank" class="flex-1 inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>Contactar Empresa (WhatsApp)</span>
+            </a>
+            <a href="mailto:${item.email}" class="flex-1 inline-flex items-center justify-center space-x-2 bg-sercotec-blue hover:bg-sercotec-darkblue text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition">
+              <i data-lucide="mail" class="w-4 h-4"></i>
+              <span>Enviar Correo a Empresa</span>
+            </a>
           </div>
-
-          ${item.sustentableDetalle ? `
-            <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-lg text-xs text-emerald-900">
-              <span class="font-bold block mb-0.5">Detalle Sustentable:</span>
-              <p>${item.sustentableDetalle}</p>
-            </div>
-          ` : ''}
 
         </div>
       `;
@@ -520,7 +577,6 @@
       lucide.createIcons();
     }
 
-    // APLICACIÓN DE FILTROS DINÁMICOS
     function applyFilters() {
       const q = document.getElementById('searchQuery').value.toLowerCase();
       const comuna = document.getElementById('filterComuna').value;
@@ -534,7 +590,6 @@
         const matchesCat = !cat || item.categoria === cat;
         const matchesRubro = !rubro || item.rubro === rubro;
         const matchesSust = !sust || item.sustentable === sust;
-
         return matchesQ && matchesComuna && matchesCat && matchesRubro && matchesSust;
       });
 
@@ -542,91 +597,30 @@
       renderAll();
     }
 
-    // EXPORTACIÓN A EXCEL
     function exportToExcel() {
-      if (!filteredData.length) {
-        alert("No hay registros para exportar.");
-        return;
-      }
-
-      const excelData = filteredData.map(item => ({
-        "ID NEOSERRA": item.id,
-        "Nombre Marca": item.marca,
-        "Encargado/a": item.contacto,
-        "Comuna": item.comuna,
-        "Email": item.email,
-        "Teléfono": item.telefono,
-        "Instagram": item.instagram,
-        "Categoría": item.categoria,
-        "Rubro": item.rubro,
-        "Productos Principales": item.productos,
-        "Permisos Sectoriales": item.permisos,
-        "Sustentable": item.sustentable,
-        "Detalle Sustentabilidad": item.sustentableDetalle || ''
-      }));
-
-      const worksheet = XLSX.utils.json_to_sheet(excelData);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Emprendimientos");
-      XLSX.writeFile(workbook, `Vitrina_Elqui_Export_${new Date().toISOString().slice(0,10)}.xlsx`);
+      const ws = XLSX.utils.json_to_sheet(filteredData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Vitrina_Elqui");
+      XLSX.writeFile(wb, "Vitrina_Elqui_Directorio.xlsx");
     }
 
-    // EXPORTACIÓN A PDF
     function exportToPDF() {
-      if (!filteredData.length) {
-        alert("No hay registros para exportar.");
-        return;
-      }
-
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF('landscape');
-
-      doc.setFontSize(14);
-      doc.setTextColor(0, 102, 179);
       doc.text("Directorio Vitrina Elqui - CDN La Serena", 14, 15);
-      
-      doc.setFontSize(9);
-      doc.setTextColor(100);
-      doc.text(`Listado filtrado para eventos - Fecha: ${new Date().toLocaleDateString('es-CL')}`, 14, 21);
-
-      const tableBody = filteredData.map(item => [
-        item.id,
-        item.marca,
-        item.contacto,
-        item.comuna,
-        item.telefono,
-        item.categoria.includes('Identidad') ? 'Identidad Local' : 'General',
-        item.rubro,
-        item.permisos.startsWith('Sí') ? 'Sí' : 'No/Trámite',
-        item.sustentable
-      ]);
-
       doc.autoTable({
-        startY: 25,
-        head: [['ID', 'Marca', 'Contacto', 'Comuna', 'Teléfono', 'Categoría', 'Rubro', 'Permisos', 'Sust.']],
-        body: tableBody,
-        styles: { fontSize: 8, cellPadding: 2 },
-        headStyles: { fillStyle: 'f', fillColor: [0, 102, 179], textColor: [255, 255, 255] }
+        startY: 20,
+        head: [['ID', 'Marca', 'Contacto', 'Comuna', 'Teléfono', 'Asesor']],
+        body: filteredData.map(d => [d.id, d.marca, d.contacto, d.comuna, d.telefono, d.asesor])
       });
-
-      doc.save(`Vitrina_Elqui_Reporte_${new Date().toISOString().slice(0,10)}.pdf`);
+      doc.save("Vitrina_Elqui_Directorio.pdf");
     }
 
-    // MODAL Y SINCRONIZACIÓN GOOGLE SHEETS
-    function openConfigModal() {
-      document.getElementById('configModal').classList.remove('hidden');
-    }
-
-    function closeConfigModal() {
-      document.getElementById('configModal').classList.add('hidden');
-    }
-
+    function openConfigModal() { document.getElementById('configModal').classList.remove('hidden'); }
+    function closeConfigModal() { document.getElementById('configModal').classList.add('hidden'); }
     function saveSheetConfig() {
       const val = document.getElementById('sheetUrlInput').value.trim();
-      let sheetId = val;
-      const match = val.match(/\/d\/([a-zA-Z0-9-_]+)/);
-      if (match) sheetId = match[1];
-
+      let sheetId = val.match(/\/d\/([a-zA-Z0-9-_]+)/)?.[1] || val;
       localStorage.setItem('sercotec_sheet_id', sheetId);
       sheetConfigId = sheetId;
       closeConfigModal();
@@ -634,50 +628,40 @@
     }
 
     function syncData() {
-      if (!sheetConfigId) {
-        openConfigModal();
-        return;
-      }
-
-      const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetConfigId}/gviz/tq?tqx=out:csv`;
-
-      fetch(csvUrl)
-        .then(res => res.text())
-        .then(csvText => {
-          parseCSV(csvText);
-          alert("¡Sincronización exitosa con Google Sheets!");
-        })
-        .catch(err => {
-          alert("Error al sincronizar. Revisa que el Sheet esté compartido públicamente.");
-          console.error(err);
-        });
+      if (!sheetConfigId) { openConfigModal(); return; }
+      fetch(`https://docs.google.com/spreadsheets/d/${sheetConfigId}/gviz/tq?tqx=out:csv`)
+        .then(r => r.text())
+        .then(csv => { parseCSV(csv); alert("Sincronización completa"); })
+        .catch(() => alert("Error al conectar con la planilla"));
     }
 
     function parseCSV(text) {
       const lines = text.split('\n').filter(l => l.trim().length > 0);
       if (lines.length < 2) return;
-
       const parsed = [];
+      const asesores = ["Carolina Riquelme", "Edgar Salinas", "Josip Sekul", "Karol Urrutia", "Víctor Morales"];
+      
       for (let i = 1; i < lines.length; i++) {
-        const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(cell => cell.replace(/^"|"$/g, '').trim());
-        
+        const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
         parsed.push({
           id: row[1] || `NEOSERRA-${1000 + i}`,
-          marca: row[2] || "Sin Marca",
-          contacto: row[3] || "Sin Contacto",
+          marca: row[2] || "Empresa",
+          contacto: row[3] || "Contacto",
           comuna: row[4] || "La Serena",
           email: row[5] || "",
           telefono: row[6] || "",
           instagram: row[7] || "",
-          categoria: row[8] || "Producto General",
-          rubro: row[9] || "Otros",
-          productos: row[10] || "",
-          permisos: row[11] || "No",
-          sustentable: row[12] || "No",
-          sustentableDetalle: row[13] || ""
+          asesor: row[8] || asesores[i % asesores.length],
+          asesorTel: "+56911112222",
+          asesorEmail: `${(row[8] || asesores[i % asesores.length]).toLowerCase().replace(' ', '.')}@centrossercotec.cl`,
+          categoria: row[9] || "Producto General",
+          rubro: row[10] || "Otros",
+          productos: row[11] || "",
+          permisos: row[12] || "No",
+          sustentable: row[13] || "No",
+          sustentableDetalle: row[14] || ""
         });
       }
-
       rawData = parsed;
       applyFilters();
     }
