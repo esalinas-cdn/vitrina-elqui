@@ -23,6 +23,7 @@
         extend: {
           colors: {
             monday: {
+              headerBg: '#ECF1F9',
               bg: '#F6F7FB',
               card: '#FFFFFF',
               border: '#E6E9F0',
@@ -34,7 +35,6 @@
               green: '#00C875',
               orange: '#FDAB3D',
               red: '#E2445C',
-              yellow: '#FFCC00',
               softblue: '#E5F0FF'
             },
             sercotec: {
@@ -55,28 +55,25 @@
 </head>
 <body class="bg-monday-bg font-sans text-monday-text antialiased min-h-screen flex flex-col">
 
-  <!-- ENCABEZADO ESTILO MONDAY.COM -->
-  <header class="bg-white border-b border-monday-border sticky top-0 z-30 shadow-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
+  <!-- ENCABEZADO COLOR #ECF1F9 -->
+  <header class="bg-monday-headerBg border-b border-monday-border sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4">
       
-      <!-- Isologo CDN & Títulos -->
+      <!-- Ícono de Compras + Títulos -->
       <div class="flex items-center space-x-3.5">
-        <div class="h-11 w-11 bg-white border border-monday-border p-1 rounded-xl shadow-xs flex items-center justify-center flex-shrink-0">
-          <svg viewBox="0 0 512 512" class="w-full h-full object-contain" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 380 90 C 230 90 110 200 110 340 C 110 405 135 450 175 480 C 175 480 70 500 50 400 C 50 250 170 110 320 90 Z" fill="#0066B3"/>
-            <path d="M 400 140 C 270 140 180 230 180 350 C 180 430 250 480 340 480 C 420 480 480 410 480 330 C 480 220 410 140 400 140 Z" fill="#E30613"/>
-          </svg>
+        <div class="h-11 w-11 bg-white border border-monday-border p-2 rounded-xl shadow-xs flex items-center justify-center flex-shrink-0 text-monday-blue">
+          <i data-lucide="shopping-bag" class="w-6 h-6"></i>
         </div>
         <div>
           <div class="flex items-center space-x-2">
             <h1 class="text-lg font-bold text-monday-text leading-tight tracking-tight">Directorio Vitrina Elqui</h1>
-            <span class="text-[10px] font-bold bg-monday-softblue text-monday-blue px-2 py-0.5 rounded-full">Pro</span>
+            <span class="text-[10px] font-bold bg-white text-monday-blue px-2 py-0.5 rounded-full border border-blue-200">CDN La Serena</span>
           </div>
-          <p class="text-xs text-monday-subtext font-normal">Base de datos de clientes CDN La Serena para Eventos</p>
+          <p class="text-xs text-monday-subtext font-normal">Base de datos de clientes para Eventos</p>
         </div>
       </div>
 
-      <!-- Acciones de Sincronización Estilo Monday -->
+      <!-- Acciones de Conexión -->
       <div class="flex items-center space-x-2">
         <button onclick="openConfigModal()" class="inline-flex items-center space-x-2 bg-white hover:bg-gray-50 text-monday-text px-3 py-1.5 rounded-lg text-xs font-semibold border border-monday-border transition shadow-xs">
           <i data-lucide="link" class="w-3.5 h-3.5 text-monday-blue"></i>
@@ -92,7 +89,7 @@
 
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
 
-    <!-- TARJETAS DE RESUMEN KPI -->
+    <!-- KPI STATS -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
         <div class="p-2.5 bg-monday-softblue text-monday-blue rounded-lg"><i data-lucide="building-2" class="w-5 h-5"></i></div>
@@ -166,17 +163,17 @@
       </div>
     </div>
 
-    <!-- BARRA DE FILTROS -->
+    <!-- FILTROS AJUSTADOS (TITULOS COMPLETOS) -->
     <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-2.5">
+      <div class="flex flex-wrap gap-2.5 items-center">
         
-        <div class="md:col-span-3 relative">
+        <div class="flex-1 min-w-[200px] relative">
           <i data-lucide="search" class="w-3.5 h-3.5 text-monday-subtext absolute left-3 top-2.5"></i>
           <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca o Nombre..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none focus:bg-white focus:ring-2 focus:ring-monday-blue">
         </div>
 
-        <div class="md:col-span-2">
-          <select id="filterComuna" onchange="applyFilters()" class="w-full py-1.5 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+        <div class="w-auto">
+          <select id="filterComuna" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
             <option value="">Todas las Comunas</option>
             <option value="La Serena">La Serena</option>
             <option value="Coquimbo">Coquimbo</option>
@@ -187,16 +184,16 @@
           </select>
         </div>
 
-        <div class="md:col-span-2">
-          <select id="filterCategoria" onchange="applyFilters()" class="w-full py-1.5 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+        <div class="w-auto">
+          <select id="filterCategoria" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
             <option value="">Todas las Categorías</option>
             <option value="Producto con Identidad Local">Con Identidad Local</option>
             <option value="Producto General">Producto General</option>
           </select>
         </div>
 
-        <div class="md:col-span-2">
-          <select id="filterRubro" onchange="applyFilters()" class="w-full py-1.5 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+        <div class="w-auto">
+          <select id="filterRubro" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
             <option value="">Todos los Rubros</option>
             <option value="Agroalimentario y Bebidas">Agroalimentario y Bebidas</option>
             <option value="Vinos, Piscos y Licores">Vinos, Piscos y Licores</option>
@@ -208,9 +205,9 @@
           </select>
         </div>
 
-        <div class="md:col-span-2">
-          <select id="filterPermisos" onchange="applyFilters()" class="w-full py-1.5 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
-            <option value="">Todos los Permisos</option>
+        <div class="w-auto">
+          <select id="filterPermisos" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+            <option value="">Permisos Sectoriales</option>
             <option value="Sí">Con Permiso Vigente</option>
             <option value="En trámite">En trámite</option>
             <option value="No requiere">No requiere</option>
@@ -218,9 +215,9 @@
           </select>
         </div>
 
-        <div class="md:col-span-1">
-          <select id="filterSustentable" onchange="applyFilters()" class="w-full py-1.5 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
-            <option value="">Sust.</option>
+        <div class="w-auto">
+          <select id="filterSustentable" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+            <option value="">Sustentabilidad</option>
             <option value="Sí">Sí</option>
             <option value="No">No</option>
           </select>
@@ -232,8 +229,8 @@
     <!-- MAIN RESULTADOS & FICHA -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
       
-      <!-- RESULTADOS LISTADO IZQUIERDA -->
-      <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[660px]">
+      <!-- LISTADO IZQUIERDA -->
+      <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[680px]">
         <div class="p-3 border-b border-monday-border flex items-center justify-between bg-white rounded-t-xl">
           <span class="text-xs font-bold text-monday-text uppercase tracking-wider">Resultados (<span id="countResults">0</span>)</span>
           <div class="flex items-center space-x-1.5">
@@ -251,7 +248,7 @@
       </div>
 
       <!-- FICHA INDIVIDUAL DERECHA -->
-      <div class="lg:col-span-7 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[660px] overflow-hidden">
+      <div class="lg:col-span-7 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[680px] overflow-hidden">
         <div id="detailContainer" class="flex-1 overflow-y-auto p-5 custom-scrollbar"></div>
       </div>
     </div>
@@ -506,7 +503,7 @@
             </button>
           </div>
 
-          <!-- Contacto & Instagram -->
+          <!-- Contacto & Instagram Alineado -->
           <div class="grid grid-cols-2 gap-3 bg-monday-bg p-3.5 rounded-xl border border-monday-border text-xs">
             <div>
               <span class="text-monday-subtext block font-medium">Encargado/a</span>
@@ -520,32 +517,17 @@
               <span class="text-monday-subtext block font-medium">Correo Electrónico</span>
               <p class="font-bold text-monday-text truncate">${item.email}</p>
             </div>
+            <!-- ALINEACIÓN PERFECTA INSTAGRAM -->
             <div>
-              <span class="text-monday-subtext block font-medium">Instagram</span>
+              <span class="text-monday-subtext block font-medium mb-0.5">Instagram</span>
               ${instaClean ? 
-                `<a href="https://instagram.com/${instaClean}" target="_blank" class="font-bold text-monday-blue hover:underline inline-flex items-center space-x-1 mt-0.5">
-                  <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
-                  <span>@${instaClean}</span>
-                </a>` : '<p class="text-monday-subtext italic">No registrado</p>'
+                `<div class="flex items-center space-x-1">
+                  <i data-lucide="instagram" class="w-3.5 h-3.5 text-monday-blue flex-shrink-0"></i>
+                  <a href="https://instagram.com/${instaClean}" target="_blank" class="font-bold text-monday-blue hover:underline truncate">
+                    @${instaClean}
+                  </a>
+                </div>` : '<p class="text-monday-subtext italic">No registrado</p>'
               }
-            </div>
-          </div>
-
-          <!-- ASESOR CDN -->
-          <div class="bg-monday-softblue/60 border border-blue-200 p-3.5 rounded-xl flex items-center justify-between">
-            <div>
-              <span class="text-[10px] font-bold text-monday-blue uppercase tracking-wider block">Asesor CDN a Cargo</span>
-              <h4 class="text-xs font-bold text-monday-text">${item.asesor || 'No Asignado'}</h4>
-            </div>
-            <div class="flex items-center space-x-1.5">
-              <a href="https://wa.me/${asesorPhone}" target="_blank" class="inline-flex items-center space-x-1 bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-semibold transition shadow-xs">
-                <i data-lucide="message-circle" class="w-3 h-3"></i>
-                <span>WhatsApp</span>
-              </a>
-              <a href="mailto:${item.asesorEmail}" class="inline-flex items-center space-x-1 bg-monday-blue hover:bg-monday-hoverblue text-white px-2.5 py-1 rounded-lg text-[11px] font-semibold transition shadow-xs">
-                <i data-lucide="mail" class="w-3 h-3"></i>
-                <span>Correo</span>
-              </a>
             </div>
           </div>
 
@@ -587,7 +569,7 @@
             </div>
           ` : ''}
 
-          <!-- BOTONES FINALIZACIÓN -->
+          <!-- BOTONES LLAMADO A LA ACCIÓN EMPRENDEDOR -->
           <div class="pt-3 border-t border-monday-border grid grid-cols-1 md:grid-cols-3 gap-2">
             <a href="https://wa.me/${cleanPhone}" target="_blank" class="inline-flex items-center justify-center space-x-1.5 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl text-xs font-semibold shadow-xs transition">
               <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
@@ -601,6 +583,24 @@
               <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               <span>Copiar Info Ficha</span>
             </button>
+          </div>
+
+          <!-- ASESOR CDN REUBICADO AL FINAL DEL TODO -->
+          <div class="bg-monday-softblue/60 border border-blue-200 p-3.5 rounded-xl flex items-center justify-between mt-2">
+            <div>
+              <span class="text-[10px] font-bold text-monday-blue uppercase tracking-wider block">Asesor CDN a Cargo</span>
+              <h4 class="text-xs font-bold text-monday-text">${item.asesor || 'No Asignado'}</h4>
+            </div>
+            <div class="flex items-center space-x-1.5">
+              <a href="https://wa.me/${asesorPhone}" target="_blank" class="inline-flex items-center space-x-1 bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-semibold transition shadow-xs">
+                <i data-lucide="message-circle" class="w-3 h-3"></i>
+                <span>WhatsApp</span>
+              </a>
+              <a href="mailto:${item.asesorEmail}" class="inline-flex items-center space-x-1 bg-monday-blue hover:bg-monday-hoverblue text-white px-2.5 py-1 rounded-lg text-[11px] font-semibold transition shadow-xs">
+                <i data-lucide="mail" class="w-3 h-3"></i>
+                <span>Correo</span>
+              </a>
+            </div>
           </div>
 
         </div>
