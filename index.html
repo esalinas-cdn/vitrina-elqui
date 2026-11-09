@@ -22,13 +22,24 @@
       theme: {
         extend: {
           colors: {
+            monday: {
+              bg: '#F6F7FB',
+              card: '#FFFFFF',
+              border: '#E6E9F0',
+              text: '#323338',
+              subtext: '#676879',
+              blue: '#0073EA',
+              hoverblue: '#0060C4',
+              purple: '#6164FF',
+              green: '#00C875',
+              orange: '#FDAB3D',
+              red: '#E2445C',
+              yellow: '#FFCC00',
+              softblue: '#E5F0FF'
+            },
             sercotec: {
               blue: '#0066B3',
-              darkblue: '#004A83',
-              navy: '#002E54',
-              red: '#E30613',
-              gray: '#4A4F54',
-              lightgray: '#F0F4F8'
+              red: '#E30613'
             }
           }
         }
@@ -37,133 +48,135 @@
   </script>
   <style>
     .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: #e2e8f0; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #0066B3; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #F6F7FB; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #C3C6D4; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #A0A3B5; }
   </style>
 </head>
-<body class="bg-gray-200 font-sans text-gray-800 antialiased min-h-screen flex flex-col">
+<body class="bg-monday-bg font-sans text-monday-text antialiased min-h-screen flex flex-col">
 
-  <!-- ENCABEZADO PRINCIPAL -->
-  <header class="bg-sercotec-navy text-white sticky top-0 z-30 shadow-lg border-b-4 border-sercotec-red">
+  <!-- ENCABEZADO ESTILO MONDAY.COM -->
+  <header class="bg-white border-b border-monday-border sticky top-0 z-30 shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
       
-      <!-- Isologo CDN La Serena & Títulos -->
-      <div class="flex items-center space-x-4">
-        <div class="h-12 w-12 bg-white p-1 rounded-xl shadow-md flex items-center justify-center flex-shrink-0">
+      <!-- Isologo CDN & Títulos -->
+      <div class="flex items-center space-x-3.5">
+        <div class="h-11 w-11 bg-white border border-monday-border p-1 rounded-xl shadow-xs flex items-center justify-center flex-shrink-0">
           <svg viewBox="0 0 512 512" class="w-full h-full object-contain" xmlns="http://www.w3.org/2000/svg">
             <path d="M 380 90 C 230 90 110 200 110 340 C 110 405 135 450 175 480 C 175 480 70 500 50 400 C 50 250 170 110 320 90 Z" fill="#0066B3"/>
             <path d="M 400 140 C 270 140 180 230 180 350 C 180 430 250 480 340 480 C 420 480 480 410 480 330 C 480 220 410 140 400 140 Z" fill="#E30613"/>
           </svg>
         </div>
         <div>
-          <h1 class="text-xl font-extrabold tracking-tight text-white leading-tight">Directorio Vitrina Elqui</h1>
-          <p class="text-xs text-blue-200 font-medium">Base de datos de clientes CDN La Serena para Eventos</p>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-lg font-bold text-monday-text leading-tight tracking-tight">Directorio Vitrina Elqui</h1>
+            <span class="text-[10px] font-bold bg-monday-softblue text-monday-blue px-2 py-0.5 rounded-full">Pro</span>
+          </div>
+          <p class="text-xs text-monday-subtext font-normal">Base de datos de clientes CDN La Serena para Eventos</p>
         </div>
       </div>
 
-      <!-- Acciones de Sincronización -->
+      <!-- Acciones de Sincronización Estilo Monday -->
       <div class="flex items-center space-x-2">
-        <button onclick="openConfigModal()" class="inline-flex items-center space-x-2 bg-sercotec-darkblue hover:bg-sercotec-blue text-white px-3 py-2 rounded-lg text-xs font-semibold border border-blue-400/30 transition shadow-sm">
-          <i data-lucide="link" class="w-4 h-4 text-blue-300"></i>
+        <button onclick="openConfigModal()" class="inline-flex items-center space-x-2 bg-white hover:bg-gray-50 text-monday-text px-3 py-1.5 rounded-lg text-xs font-semibold border border-monday-border transition shadow-xs">
+          <i data-lucide="link" class="w-3.5 h-3.5 text-monday-blue"></i>
           <span>Conectar Google Sheet</span>
         </button>
-        <button onclick="syncData()" class="inline-flex items-center space-x-2 bg-sercotec-red hover:bg-red-700 text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow-md transition">
-          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+        <button onclick="syncData()" class="inline-flex items-center space-x-2 bg-monday-blue hover:bg-monday-hoverblue text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold shadow-xs transition">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
           <span>Sincronizar en Vivo</span>
         </button>
       </div>
     </div>
   </header>
 
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
 
-    <!-- RESUMEN KPI -->
+    <!-- TARJETAS DE RESUMEN KPI -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="bg-white p-4 rounded-xl border-l-4 border-sercotec-blue shadow-md flex items-center space-x-3">
-        <div class="p-3 bg-blue-100 text-sercotec-blue rounded-lg"><i data-lucide="building-2" class="w-6 h-6"></i></div>
+      <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
+        <div class="p-2.5 bg-monday-softblue text-monday-blue rounded-lg"><i data-lucide="building-2" class="w-5 h-5"></i></div>
         <div>
-          <p class="text-xs text-gray-500 font-medium">Total Registros</p>
-          <p id="kpiTotal" class="text-xl font-bold text-gray-900">0</p>
+          <p class="text-xs text-monday-subtext font-medium">Total Registros</p>
+          <p id="kpiTotal" class="text-lg font-bold text-monday-text">0</p>
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-xl border-l-4 border-amber-500 shadow-md flex items-center space-x-3">
-        <div class="p-3 bg-amber-100 text-amber-700 rounded-lg"><i data-lucide="compass" class="w-6 h-6"></i></div>
+      <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
+        <div class="p-2.5 bg-amber-50 text-amber-600 rounded-lg"><i data-lucide="compass" class="w-5 h-5"></i></div>
         <div>
-          <p class="text-xs text-gray-500 font-medium">Identidad Local</p>
-          <p id="kpiIdentidad" class="text-xl font-bold text-gray-900">0%</p>
+          <p class="text-xs text-monday-subtext font-medium">Identidad Local</p>
+          <p id="kpiIdentidad" class="text-lg font-bold text-monday-text">0%</p>
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-xl border-l-4 border-emerald-500 shadow-md flex items-center space-x-3">
-        <div class="p-3 bg-emerald-100 text-emerald-700 rounded-lg"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
+      <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
+        <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
         <div>
-          <p class="text-xs text-gray-500 font-medium">Permisos Sanidad OK</p>
-          <p id="kpiPermisos" class="text-xl font-bold text-gray-900">0</p>
+          <p class="text-xs text-monday-subtext font-medium">Permisos Sanidad OK</p>
+          <p id="kpiPermisos" class="text-lg font-bold text-monday-text">0</p>
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-xl border-l-4 border-green-600 shadow-md flex items-center space-x-3">
-        <div class="p-3 bg-green-100 text-green-700 rounded-lg"><i data-lucide="leaf" class="w-6 h-6"></i></div>
+      <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
+        <div class="p-2.5 bg-green-50 text-green-600 rounded-lg"><i data-lucide="leaf" class="w-5 h-5"></i></div>
         <div>
-          <p class="text-xs text-gray-500 font-medium">Sustentables</p>
-          <p id="kpiSustentables" class="text-xl font-bold text-gray-900">0</p>
+          <p class="text-xs text-monday-subtext font-medium">Sustentables</p>
+          <p id="kpiSustentables" class="text-lg font-bold text-monday-text">0</p>
         </div>
       </div>
     </div>
 
     <!-- SECCIÓN DE GRÁFICOS -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div class="bg-white p-5 rounded-xl border border-gray-300 shadow-md flex flex-col justify-between">
-        <div class="flex items-center justify-between border-b pb-3 mb-3">
-          <h3 class="text-sm font-bold text-sercotec-navy flex items-center space-x-2">
-            <i data-lucide="pie-chart" class="w-4 h-4 text-sercotec-blue"></i>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div class="bg-white p-5 rounded-xl border border-monday-border shadow-xs flex flex-col justify-between">
+        <div class="flex items-center justify-between border-b border-monday-border pb-3 mb-3">
+          <h3 class="text-xs font-bold text-monday-text uppercase tracking-wider flex items-center space-x-2">
+            <i data-lucide="pie-chart" class="w-4 h-4 text-monday-blue"></i>
             <span>Distribución por Rubro Principal</span>
           </h3>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-          <div class="md:col-span-7 h-48 relative"><canvas id="rubroChart"></canvas></div>
-          <div class="md:col-span-5 bg-blue-50 border border-blue-200 p-4 rounded-xl text-center space-y-1">
-            <span class="text-[11px] font-bold text-sercotec-blue uppercase">Rubro Mayoritario</span>
-            <p id="topRubroName" class="text-sm font-extrabold text-gray-900 leading-tight">---</p>
-            <p id="topRubroPct" class="text-2xl font-black text-sercotec-blue">0%</p>
-            <p class="text-[10px] text-gray-500">del total del catastro</p>
+          <div class="md:col-span-7 h-44 relative"><canvas id="rubroChart"></canvas></div>
+          <div class="md:col-span-5 bg-monday-bg border border-monday-border p-3.5 rounded-xl text-center space-y-1">
+            <span class="text-[10px] font-bold text-monday-subtext uppercase">Rubro Mayoritario</span>
+            <p id="topRubroName" class="text-xs font-bold text-monday-text leading-tight">---</p>
+            <p id="topRubroPct" class="text-xl font-extrabold text-monday-blue">0%</p>
+            <p class="text-[10px] text-monday-subtext">del total del catastro</p>
           </div>
         </div>
       </div>
 
-      <div class="bg-white p-5 rounded-xl border border-gray-300 shadow-md flex flex-col justify-between">
-        <div class="flex items-center justify-between border-b pb-3 mb-3">
-          <h3 class="text-sm font-bold text-sercotec-navy flex items-center space-x-2">
+      <div class="bg-white p-5 rounded-xl border border-monday-border shadow-xs flex flex-col justify-between">
+        <div class="flex items-center justify-between border-b border-monday-border pb-3 mb-3">
+          <h3 class="text-xs font-bold text-monday-text uppercase tracking-wider flex items-center space-x-2">
             <i data-lucide="bar-chart-3" class="w-4 h-4 text-sercotec-red"></i>
             <span>Distribución por Comuna</span>
           </h3>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-          <div class="md:col-span-7 h-48 relative"><canvas id="comunaChart"></canvas></div>
-          <div class="md:col-span-5 bg-red-50 border border-red-200 p-4 rounded-xl text-center space-y-1">
-            <span class="text-[11px] font-bold text-sercotec-red uppercase">Comuna Líder</span>
-            <p id="topComunaName" class="text-sm font-extrabold text-gray-900 leading-tight">---</p>
-            <p id="topComunaPct" class="text-2xl font-black text-sercotec-red">0%</p>
-            <p class="text-[10px] text-gray-500">de concentración territorial</p>
+          <div class="md:col-span-7 h-44 relative"><canvas id="comunaChart"></canvas></div>
+          <div class="md:col-span-5 bg-monday-bg border border-monday-border p-3.5 rounded-xl text-center space-y-1">
+            <span class="text-[10px] font-bold text-monday-subtext uppercase">Comuna Líder</span>
+            <p id="topComunaName" class="text-xs font-bold text-monday-text leading-tight">---</p>
+            <p id="topComunaPct" class="text-xl font-extrabold text-sercotec-red">0%</p>
+            <p class="text-[10px] text-monday-subtext">de concentración territorial</p>
           </div>
         </div>
       </div>
     </div>
 
     <!-- BARRA DE FILTROS -->
-    <div class="bg-sercotec-blue p-4 rounded-xl shadow-md space-y-3">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+    <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-2.5">
         
-        <!-- Buscar Búsqueda General -->
         <div class="md:col-span-3 relative">
-          <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-3"></i>
-          <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca o Nombre..." class="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-white">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-monday-subtext absolute left-3 top-2.5"></i>
+          <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca o Nombre..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none focus:bg-white focus:ring-2 focus:ring-monday-blue">
         </div>
 
-        <!-- Filtro Comuna -->
         <div class="md:col-span-2">
-          <select id="filterComuna" onchange="applyFilters()" class="w-full py-2 px-2 text-xs border border-gray-300 rounded-lg outline-none font-medium">
+          <select id="filterComuna" onchange="applyFilters()" class="w-full py-1.5 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
             <option value="">Todas las Comunas</option>
             <option value="La Serena">La Serena</option>
             <option value="Coquimbo">Coquimbo</option>
@@ -174,18 +187,16 @@
           </select>
         </div>
 
-        <!-- Filtro Categoría -->
         <div class="md:col-span-2">
-          <select id="filterCategoria" onchange="applyFilters()" class="w-full py-2 px-2 text-xs border border-gray-300 rounded-lg outline-none font-medium">
+          <select id="filterCategoria" onchange="applyFilters()" class="w-full py-1.5 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
             <option value="">Todas las Categorías</option>
             <option value="Producto con Identidad Local">Con Identidad Local</option>
             <option value="Producto General">Producto General</option>
           </select>
         </div>
 
-        <!-- Filtro Rubro -->
         <div class="md:col-span-2">
-          <select id="filterRubro" onchange="applyFilters()" class="w-full py-2 px-2 text-xs border border-gray-300 rounded-lg outline-none font-medium">
+          <select id="filterRubro" onchange="applyFilters()" class="w-full py-1.5 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
             <option value="">Todos los Rubros</option>
             <option value="Agroalimentario y Bebidas">Agroalimentario y Bebidas</option>
             <option value="Vinos, Piscos y Licores">Vinos, Piscos y Licores</option>
@@ -197,9 +208,8 @@
           </select>
         </div>
 
-        <!-- Filtro Permisos Sectoriales -->
         <div class="md:col-span-2">
-          <select id="filterPermisos" onchange="applyFilters()" class="w-full py-2 px-2 text-xs border border-gray-300 rounded-lg outline-none font-medium">
+          <select id="filterPermisos" onchange="applyFilters()" class="w-full py-1.5 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
             <option value="">Todos los Permisos</option>
             <option value="Sí">Con Permiso Vigente</option>
             <option value="En trámite">En trámite</option>
@@ -208,10 +218,9 @@
           </select>
         </div>
 
-        <!-- Filtro Sustentable -->
         <div class="md:col-span-1">
-          <select id="filterSustentable" onchange="applyFilters()" class="w-full py-2 px-2 text-xs border border-gray-300 rounded-lg outline-none font-medium">
-            <option value="">Sustentable</option>
+          <select id="filterSustentable" onchange="applyFilters()" class="w-full py-1.5 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+            <option value="">Sust.</option>
             <option value="Sí">Sí</option>
             <option value="No">No</option>
           </select>
@@ -221,48 +230,48 @@
     </div>
 
     <!-- MAIN RESULTADOS & FICHA -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
       
       <!-- RESULTADOS LISTADO IZQUIERDA -->
-      <div class="lg:col-span-5 bg-white rounded-xl border border-gray-300 shadow-md flex flex-col h-[680px]">
-        <div class="p-3 border-b border-gray-200 flex items-center justify-between bg-gray-100 rounded-t-xl">
-          <span class="text-xs font-bold text-sercotec-navy uppercase tracking-wider">Resultados (<span id="countResults">0</span>)</span>
-          <div class="flex items-center space-x-2">
-            <button onclick="exportToExcel()" class="inline-flex items-center space-x-1 text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded font-semibold transition shadow-sm">
-              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+      <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[660px]">
+        <div class="p-3 border-b border-monday-border flex items-center justify-between bg-white rounded-t-xl">
+          <span class="text-xs font-bold text-monday-text uppercase tracking-wider">Resultados (<span id="countResults">0</span>)</span>
+          <div class="flex items-center space-x-1.5">
+            <button onclick="exportToExcel()" class="inline-flex items-center space-x-1 text-[11px] bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-2.5 py-1 rounded font-semibold transition">
+              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
               <span>Excel</span>
             </button>
-            <button onclick="exportToPDF()" class="inline-flex items-center space-x-1 text-xs bg-sercotec-red hover:bg-red-700 text-white px-2.5 py-1.5 rounded font-semibold transition shadow-sm">
-              <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+            <button onclick="exportToPDF()" class="inline-flex items-center space-x-1 text-[11px] bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-2.5 py-1 rounded font-semibold transition">
+              <i data-lucide="file-text" class="w-3.5 h-3.5 text-sercotec-red"></i>
               <span>PDF</span>
             </button>
           </div>
         </div>
-        <div id="listContainer" class="flex-1 overflow-y-auto divide-y divide-gray-200 custom-scrollbar"></div>
+        <div id="listContainer" class="flex-1 overflow-y-auto divide-y divide-monday-border custom-scrollbar"></div>
       </div>
 
       <!-- FICHA INDIVIDUAL DERECHA -->
-      <div class="lg:col-span-7 bg-white rounded-xl border border-gray-300 shadow-md flex flex-col h-[680px] overflow-hidden">
-        <div id="detailContainer" class="flex-1 overflow-y-auto p-6 custom-scrollbar"></div>
+      <div class="lg:col-span-7 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[660px] overflow-hidden">
+        <div id="detailContainer" class="flex-1 overflow-y-auto p-5 custom-scrollbar"></div>
       </div>
     </div>
   </main>
 
   <!-- MODAL CONFIGURACIÓN -->
-  <div id="configModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between border-b pb-3">
-        <h3 class="text-base font-bold text-sercotec-navy flex items-center space-x-2">
-          <i data-lucide="link" class="w-5 h-5 text-sercotec-blue"></i>
+  <div id="configModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-xl space-y-4 border border-monday-border">
+      <div class="flex items-center justify-between border-b border-monday-border pb-3">
+        <h3 class="text-sm font-bold text-monday-text flex items-center space-x-2">
+          <i data-lucide="link" class="w-4 h-4 text-monday-blue"></i>
           <span>Conectar Google Sheets</span>
         </h3>
-        <button onclick="closeConfigModal()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <button onclick="closeConfigModal()" class="text-monday-subtext hover:text-monday-text"><i data-lucide="x" class="w-4 h-4"></i></button>
       </div>
-      <p class="text-xs text-gray-600 leading-relaxed">Pega la URL o ID de tu Google Sheet público para sincronizar en vivo.</p>
-      <input type="text" id="sheetUrlInput" placeholder="ID o enlace del Google Sheet" class="w-full p-2.5 text-xs border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-sercotec-blue">
+      <p class="text-xs text-monday-subtext leading-relaxed">Pega la URL o ID de tu Google Sheet público para sincronizar en vivo.</p>
+      <input type="text" id="sheetUrlInput" placeholder="ID o enlace del Google Sheet" class="w-full p-2 text-xs border border-monday-border rounded-lg outline-none focus:ring-2 focus:ring-monday-blue">
       <div class="flex justify-end space-x-2 pt-2">
-        <button onclick="closeConfigModal()" class="px-4 py-2 text-xs font-semibold text-gray-600 hover:bg-gray-100 rounded-lg">Cancelar</button>
-        <button onclick="saveSheetConfig()" class="px-4 py-2 text-xs font-bold bg-sercotec-blue text-white rounded-lg hover:bg-sercotec-darkblue transition">Guardar y Conectar</button>
+        <button onclick="closeConfigModal()" class="px-3.5 py-1.5 text-xs font-semibold text-monday-subtext hover:bg-gray-100 rounded-lg">Cancelar</button>
+        <button onclick="saveSheetConfig()" class="px-3.5 py-1.5 text-xs font-semibold bg-monday-blue text-white rounded-lg hover:bg-monday-hoverblue transition">Guardar y Conectar</button>
       </div>
     </div>
   </div>
@@ -398,7 +407,7 @@
           labels: Object.keys(rubroCounts),
           datasets: [{
             data: Object.values(rubroCounts),
-            backgroundColor: ['#0066B3', '#E30613', '#f59e0b', '#10b981', '#6366f1', '#8b5cf6']
+            backgroundColor: ['#0073EA', '#E2445C', '#FDAB3D', '#00C875', '#6164FF', '#A58DFF']
           }]
         },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
@@ -424,18 +433,17 @@
         type: 'bar',
         data: {
           labels: Object.keys(comunaCounts),
-          datasets: [{ data: Object.values(comunaCounts), backgroundColor: '#E30613' }]
+          datasets: [{ data: Object.values(comunaCounts), backgroundColor: '#E2445C', borderRadius: 6 }]
         },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
       });
     }
 
-    // LISTADO DE TARJETAS CON ÍCONOS HOJA Y BRÚJULA BAJO LA COMUNA
     function renderList() {
       const container = document.getElementById('listContainer');
       container.innerHTML = '';
       if (!filteredData.length) {
-        container.innerHTML = `<div class="p-8 text-center text-gray-400 text-xs">No hay coincidencias.</div>`;
+        container.innerHTML = `<div class="p-8 text-center text-monday-subtext text-xs">No hay coincidencias.</div>`;
         return;
       }
 
@@ -445,23 +453,22 @@
         const isSust = item.sustentable === "Sí";
 
         const card = document.createElement('div');
-        card.className = `p-3.5 cursor-pointer transition border-l-4 ${isSelected ? 'bg-blue-50 border-sercotec-blue font-semibold' : 'hover:bg-gray-50 border-transparent'}`;
+        card.className = `p-3.5 cursor-pointer transition border-l-4 ${isSelected ? 'bg-monday-softblue border-monday-blue font-semibold' : 'hover:bg-gray-50 border-transparent'}`;
         card.onclick = () => { selectedItem = item; renderList(); renderDetail(item); };
 
         card.innerHTML = `
           <div class="flex items-start justify-between">
-            <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-blue-100 text-sercotec-blue border border-blue-200">${item.id}</span>
+            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-gray-100 text-monday-subtext border border-monday-border">${item.id}</span>
             <div class="text-right">
-              <span class="text-[10px] text-gray-500 font-medium block">${item.comuna}</span>
-              <!-- ÍCONOS BAJO LA COMUNA -->
+              <span class="text-[10px] text-monday-subtext font-medium block">${item.comuna}</span>
               <div class="flex items-center justify-end space-x-1 mt-1">
                 ${isIdentidad ? '<span title="Con Identidad Local"><i data-lucide="compass" class="w-3.5 h-3.5 text-amber-500"></i></span>' : ''}
                 ${isSust ? '<span title="Sustentable"><i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i></span>' : ''}
               </div>
             </div>
           </div>
-          <h4 class="text-xs font-bold text-gray-900 mt-0.5">${item.marca}</h4>
-          <p class="text-[11px] text-gray-500">${item.contacto}</p>
+          <h4 class="text-xs font-bold text-monday-text mt-0.5">${item.marca}</h4>
+          <p class="text-[11px] text-monday-subtext">${item.contacto}</p>
         `;
         container.appendChild(card);
       });
@@ -469,11 +476,10 @@
       lucide.createIcons();
     }
 
-    // FICHA INDIVIDUAL CON DETALLE SUSTENTABLE Y DESCARGA PDF INDIVIDUAL
     function renderDetail(item) {
       const container = document.getElementById('detailContainer');
       if (!item) {
-        container.innerHTML = `<div class="h-full flex items-center justify-center text-gray-400 text-xs">Selecciona una empresa</div>`;
+        container.innerHTML = `<div class="h-full flex items-center justify-center text-monday-subtext text-xs">Selecciona una empresa</div>`;
         return;
       }
 
@@ -482,100 +488,97 @@
       const asesorPhone = item.asesorTel ? item.asesorTel.replace(/[^\d]/g, '') : '';
 
       container.innerHTML = `
-        <div class="space-y-5">
+        <div class="space-y-4">
           
-          <!-- Encabezado con Botón Descargar Ficha PDF -->
-          <div class="flex items-start justify-between border-b pb-3">
+          <div class="flex items-start justify-between border-b border-monday-border pb-3">
             <div>
-              <span class="text-[10px] font-bold text-sercotec-blue bg-blue-100 px-2 py-0.5 rounded border border-blue-200">${item.id}</span>
-              <h2 class="text-lg font-bold text-gray-900 mt-1">${item.marca}</h2>
-              <p class="text-xs text-gray-500 flex items-center space-x-1 mt-0.5">
+              <span class="text-[10px] font-bold text-monday-blue bg-monday-softblue px-2 py-0.5 rounded border border-blue-200">${item.id}</span>
+              <h2 class="text-lg font-bold text-monday-text mt-1">${item.marca}</h2>
+              <p class="text-xs text-monday-subtext flex items-center space-x-1 mt-0.5">
                 <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sercotec-red"></i>
                 <span>Comuna: <strong>${item.comuna}</strong></span>
               </p>
             </div>
             
-            <!-- BOTÓN DESCARGAR FICHA PDF -->
-            <button onclick="downloadSinglePDF()" class="inline-flex items-center space-x-1 bg-sercotec-red hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition">
-              <i data-lucide="file-down" class="w-4 h-4"></i>
+            <button onclick="downloadSinglePDF()" class="inline-flex items-center space-x-1 bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-3 py-1.5 rounded-lg text-xs font-semibold shadow-xs transition">
+              <i data-lucide="file-down" class="w-3.5 h-3.5 text-sercotec-red"></i>
               <span>Ficha PDF</span>
             </button>
           </div>
 
           <!-- Contacto & Instagram -->
-          <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
+          <div class="grid grid-cols-2 gap-3 bg-monday-bg p-3.5 rounded-xl border border-monday-border text-xs">
             <div>
-              <span class="text-gray-400 block font-medium">Encargado/a</span>
-              <p class="font-bold text-gray-800">${item.contacto}</p>
+              <span class="text-monday-subtext block font-medium">Encargado/a</span>
+              <p class="font-bold text-monday-text">${item.contacto}</p>
             </div>
             <div>
-              <span class="text-gray-400 block font-medium">Teléfono Directo</span>
-              <p class="font-bold text-gray-800">${item.telefono}</p>
+              <span class="text-monday-subtext block font-medium">Teléfono Directo</span>
+              <p class="font-bold text-monday-text">${item.telefono}</p>
             </div>
             <div>
-              <span class="text-gray-400 block font-medium">Correo Electrónico</span>
-              <p class="font-bold text-gray-800 truncate">${item.email}</p>
+              <span class="text-monday-subtext block font-medium">Correo Electrónico</span>
+              <p class="font-bold text-monday-text truncate">${item.email}</p>
             </div>
             <div>
-              <span class="text-gray-400 block font-medium">Instagram</span>
+              <span class="text-monday-subtext block font-medium">Instagram</span>
               ${instaClean ? 
-                `<a href="https://instagram.com/${instaClean}" target="_blank" class="font-bold text-sercotec-blue hover:underline inline-flex items-center space-x-1 mt-0.5">
+                `<a href="https://instagram.com/${instaClean}" target="_blank" class="font-bold text-monday-blue hover:underline inline-flex items-center space-x-1 mt-0.5">
                   <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
                   <span>@${instaClean}</span>
-                </a>` : '<p class="text-gray-400 italic">No registrado</p>'
+                </a>` : '<p class="text-monday-subtext italic">No registrado</p>'
               }
             </div>
           </div>
 
           <!-- ASESOR CDN -->
-          <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl flex items-center justify-between">
+          <div class="bg-monday-softblue/60 border border-blue-200 p-3.5 rounded-xl flex items-center justify-between">
             <div>
-              <span class="text-[10px] font-bold text-sercotec-blue uppercase tracking-wider block">Asesor CDN a Cargo</span>
-              <h4 class="text-sm font-extrabold text-sercotec-navy">${item.asesor || 'No Asignado'}</h4>
+              <span class="text-[10px] font-bold text-monday-blue uppercase tracking-wider block">Asesor CDN a Cargo</span>
+              <h4 class="text-xs font-bold text-monday-text">${item.asesor || 'No Asignado'}</h4>
             </div>
-            <div class="flex items-center space-x-2">
-              <a href="https://wa.me/${asesorPhone}" target="_blank" class="inline-flex items-center space-x-1 bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-lg text-xs font-bold transition shadow-sm">
-                <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
-                <span>WhatsApp Asesor</span>
+            <div class="flex items-center space-x-1.5">
+              <a href="https://wa.me/${asesorPhone}" target="_blank" class="inline-flex items-center space-x-1 bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-semibold transition shadow-xs">
+                <i data-lucide="message-circle" class="w-3 h-3"></i>
+                <span>WhatsApp</span>
               </a>
-              <a href="mailto:${item.asesorEmail}" class="inline-flex items-center space-x-1 bg-sercotec-blue hover:bg-sercotec-darkblue text-white px-2.5 py-1.5 rounded-lg text-xs font-bold transition shadow-sm">
-                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
-                <span>Correo Asesor</span>
+              <a href="mailto:${item.asesorEmail}" class="inline-flex items-center space-x-1 bg-monday-blue hover:bg-monday-hoverblue text-white px-2.5 py-1 rounded-lg text-[11px] font-semibold transition shadow-xs">
+                <i data-lucide="mail" class="w-3 h-3"></i>
+                <span>Correo</span>
               </a>
             </div>
           </div>
 
           <!-- Clasificación -->
           <div class="grid grid-cols-2 gap-3 text-xs">
-            <div class="p-3 border rounded-lg bg-white">
-              <span class="text-gray-400 block mb-1">Categoría</span>
-              <span class="font-bold text-gray-800">${item.categoria}</span>
+            <div class="p-3 border border-monday-border rounded-lg bg-white">
+              <span class="text-monday-subtext block mb-1">Categoría</span>
+              <span class="font-bold text-monday-text">${item.categoria}</span>
             </div>
-            <div class="p-3 border rounded-lg bg-white">
-              <span class="text-gray-400 block mb-1">Rubro</span>
-              <span class="font-bold text-gray-800">${item.rubro}</span>
+            <div class="p-3 border border-monday-border rounded-lg bg-white">
+              <span class="text-monday-subtext block mb-1">Rubro</span>
+              <span class="font-bold text-monday-text">${item.rubro}</span>
             </div>
           </div>
 
           <div class="space-y-1">
-            <h4 class="text-xs font-bold text-gray-700 uppercase">Productos Principales</h4>
-            <p class="p-3 bg-gray-50 border rounded-lg text-xs text-gray-700 leading-relaxed">${item.productos}</p>
+            <h4 class="text-xs font-bold text-monday-text uppercase">Productos Principales</h4>
+            <p class="p-3 bg-monday-bg border border-monday-border rounded-lg text-xs text-monday-text leading-relaxed">${item.productos}</p>
           </div>
 
           <div class="grid grid-cols-2 gap-3 text-xs">
-            <div class="p-3 border rounded-lg">
-              <span class="text-gray-400 block mb-1">Permisos Sectoriales</span>
-              <span class="font-bold ${item.permisos.startsWith('Sí') ? 'text-emerald-700' : 'text-amber-700'}">${item.permisos}</span>
+            <div class="p-3 border border-monday-border rounded-lg">
+              <span class="text-monday-subtext block mb-1">Permisos Sectoriales</span>
+              <span class="font-bold ${item.permisos.startsWith('Sí') ? 'text-emerald-600' : 'text-amber-600'}">${item.permisos}</span>
             </div>
-            <div class="p-3 border rounded-lg">
-              <span class="text-gray-400 block mb-1">Sustentable</span>
-              <span class="font-bold ${item.sustentable === 'Sí' ? 'text-emerald-600' : 'text-gray-500'}">${item.sustentable}</span>
+            <div class="p-3 border border-monday-border rounded-lg">
+              <span class="text-monday-subtext block mb-1">Sustentable</span>
+              <span class="font-bold ${item.sustentable === 'Sí' ? 'text-emerald-600' : 'text-monday-subtext'}">${item.sustentable}</span>
             </div>
           </div>
 
-          <!-- CAMPO DETALLE SUSTENTABLE -->
           ${item.sustentableDetalle ? `
-            <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 space-y-1">
+            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 space-y-1">
               <span class="font-bold flex items-center space-x-1 text-emerald-800">
                 <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i>
                 <span>Detalle Sustentable:</span>
@@ -584,18 +587,18 @@
             </div>
           ` : ''}
 
-          <!-- BOTONES ACTUALIZADOS: ENVIAR WHATSAPP, ENVIAR CORREO, COPIAR FICHA -->
-          <div class="pt-4 border-t grid grid-cols-1 md:grid-cols-3 gap-2">
-            <a href="https://wa.me/${cleanPhone}" target="_blank" class="inline-flex items-center justify-center space-x-1.5 bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition">
-              <i data-lucide="message-circle" class="w-4 h-4"></i>
+          <!-- BOTONES FINALIZACIÓN -->
+          <div class="pt-3 border-t border-monday-border grid grid-cols-1 md:grid-cols-3 gap-2">
+            <a href="https://wa.me/${cleanPhone}" target="_blank" class="inline-flex items-center justify-center space-x-1.5 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl text-xs font-semibold shadow-xs transition">
+              <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
               <span>Enviar WhatsApp</span>
             </a>
-            <a href="mailto:${item.email}" class="inline-flex items-center justify-center space-x-1.5 bg-sercotec-blue hover:bg-sercotec-darkblue text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition">
-              <i data-lucide="mail" class="w-4 h-4"></i>
+            <a href="mailto:${item.email}" class="inline-flex items-center justify-center space-x-1.5 bg-monday-blue hover:bg-monday-hoverblue text-white py-2 rounded-xl text-xs font-semibold shadow-xs transition">
+              <i data-lucide="mail" class="w-3.5 h-3.5"></i>
               <span>Enviar Correo</span>
             </a>
-            <button onclick="copyDetailText()" id="btnCopyText" class="inline-flex items-center justify-center space-x-1.5 bg-sercotec-navy hover:bg-gray-800 text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition">
-              <i data-lucide="copy" class="w-4 h-4"></i>
+            <button onclick="copyDetailText()" id="btnCopyText" class="inline-flex items-center justify-center space-x-1.5 bg-monday-text hover:bg-gray-800 text-white py-2 rounded-xl text-xs font-semibold shadow-xs transition">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               <span>Copiar Info Ficha</span>
             </button>
           </div>
@@ -606,14 +609,13 @@
       lucide.createIcons();
     }
 
-    // DESCARGAR PDF DE LA FICHA INDIVIDUAL SELECCIONADA
     function downloadSinglePDF() {
       if (!selectedItem) return;
       const item = selectedItem;
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 
-      doc.setFillColor(0, 102, 179);
+      doc.setFillColor(0, 115, 234);
       doc.rect(0, 0, 210, 25, 'F');
       
       doc.setFontSize(14);
@@ -621,11 +623,11 @@
       doc.text("FICHA DE EMPRENDIMIENTO - VITRINA ELQUI", 14, 16);
 
       doc.setFontSize(10);
-      doc.setTextColor(0, 102, 179);
+      doc.setTextColor(0, 115, 234);
       doc.text(`ID Neoserra: ${item.id}`, 14, 35);
       
       doc.setFontSize(16);
-      doc.setTextColor(30);
+      doc.setTextColor(50);
       doc.text(item.marca, 14, 43);
 
       doc.setFontSize(10);
@@ -643,7 +645,7 @@
           ['Asesor CDN a Cargo', item.asesor || 'No Asignado']
         ],
         theme: 'striped',
-        headStyles: { fillColor: [0, 102, 179] }
+        headStyles: { fillColor: [0, 115, 234] }
       });
 
       doc.autoTable({
@@ -658,7 +660,7 @@
           ['Detalle Sustentabilidad', item.sustentableDetalle || 'N/A']
         ],
         theme: 'striped',
-        headStyles: { fillColor: [227, 6, 19] }
+        headStyles: { fillColor: [226, 68, 92] }
       });
 
       doc.setFontSize(8);
@@ -670,7 +672,6 @@
 
     function copyDetailText() {
       if (!selectedItem) return;
-
       const item = selectedItem;
       const formattedText = `📌 FICHA EMPRENDIMIENTO - CDN LA SERENA
 ------------------------------------------------
@@ -702,8 +703,8 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
       navigator.clipboard.writeText(formattedText).then(() => {
         const btn = document.getElementById('btnCopyText');
         if (btn) {
-          btn.innerHTML = `<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i><span>¡Copiado!</span>`;
-          btn.classList.remove('bg-sercotec-navy');
+          btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i><span>¡Copiado!</span>`;
+          btn.classList.remove('bg-monday-text');
           btn.classList.add('bg-emerald-700');
           lucide.createIcons();
           setTimeout(() => { renderDetail(selectedItem); }, 2000);
