@@ -43,13 +43,15 @@
 </head>
 <body class="bg-gray-200 font-sans text-gray-800 antialiased min-h-screen flex flex-col">
 
-  <!-- ENCABEZADO -->
+  <!-- ENCABEZADO PRINCIPAL -->
   <header class="bg-sercotec-navy text-white sticky top-0 z-30 shadow-lg border-b-4 border-sercotec-red">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
+      
+      <!-- Isologo CDN La Serena & Títulos -->
       <div class="flex items-center space-x-4">
         <div class="h-12 w-12 bg-white p-1 rounded-xl shadow-md flex items-center justify-center flex-shrink-0">
-          <svg viewBox="0 0 500 500" class="w-full h-full">
-            <path d="M 370 90 C 230 90 110 200 110 340 C 110 405 135 450 175 480 C 175 480 70 500 50 400 C 50 250 170 110 320 90 Z" fill="#0066B3"/>
+          <svg viewBox="0 0 512 512" class="w-full h-full object-contain" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 380 90 C 230 90 110 200 110 340 C 110 405 135 450 175 480 C 175 480 70 500 50 400 C 50 250 170 110 320 90 Z" fill="#0066B3"/>
             <path d="M 400 140 C 270 140 180 230 180 350 C 180 430 250 480 340 480 C 420 480 480 410 480 330 C 480 220 410 140 400 140 Z" fill="#E30613"/>
           </svg>
         </div>
@@ -59,6 +61,7 @@
         </div>
       </div>
 
+      <!-- Acciones de Sincronización -->
       <div class="flex items-center space-x-2">
         <button onclick="openConfigModal()" class="inline-flex items-center space-x-2 bg-sercotec-darkblue hover:bg-sercotec-blue text-white px-3 py-2 rounded-lg text-xs font-semibold border border-blue-400/30 transition shadow-sm">
           <i data-lucide="link" class="w-4 h-4 text-blue-300"></i>
@@ -74,7 +77,7 @@
 
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-    <!-- KPI -->
+    <!-- RESUMEN KPI -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="bg-white p-4 rounded-xl border-l-4 border-sercotec-blue shadow-md flex items-center space-x-3">
         <div class="p-3 bg-blue-100 text-sercotec-blue rounded-lg"><i data-lucide="building-2" class="w-6 h-6"></i></div>
@@ -109,7 +112,7 @@
       </div>
     </div>
 
-    <!-- GRÁFICOS -->
+    <!-- SECCIÓN DE GRÁFICOS -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div class="bg-white p-5 rounded-xl border border-gray-300 shadow-md flex flex-col justify-between">
         <div class="flex items-center justify-between border-b pb-3 mb-3">
@@ -148,16 +151,19 @@
       </div>
     </div>
 
-    <!-- FILTROS -->
+    <!-- BARRA DE FILTROS -->
     <div class="bg-sercotec-blue p-4 rounded-xl shadow-md space-y-3">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
-        <div class="md:col-span-4 relative">
+        
+        <!-- Buscar Búsqueda General -->
+        <div class="md:col-span-3 relative">
           <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-3"></i>
           <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca o Nombre..." class="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-white">
         </div>
 
+        <!-- Filtro Comuna -->
         <div class="md:col-span-2">
-          <select id="filterComuna" onchange="applyFilters()" class="w-full py-2 px-3 text-xs border border-gray-300 rounded-lg outline-none font-medium">
+          <select id="filterComuna" onchange="applyFilters()" class="w-full py-2 px-2 text-xs border border-gray-300 rounded-lg outline-none font-medium">
             <option value="">Todas las Comunas</option>
             <option value="La Serena">La Serena</option>
             <option value="Coquimbo">Coquimbo</option>
@@ -168,16 +174,18 @@
           </select>
         </div>
 
+        <!-- Filtro Categoría -->
         <div class="md:col-span-2">
-          <select id="filterCategoria" onchange="applyFilters()" class="w-full py-2 px-3 text-xs border border-gray-300 rounded-lg outline-none font-medium">
+          <select id="filterCategoria" onchange="applyFilters()" class="w-full py-2 px-2 text-xs border border-gray-300 rounded-lg outline-none font-medium">
             <option value="">Todas las Categorías</option>
             <option value="Producto con Identidad Local">Con Identidad Local</option>
             <option value="Producto General">Producto General</option>
           </select>
         </div>
 
+        <!-- Filtro Rubro -->
         <div class="md:col-span-2">
-          <select id="filterRubro" onchange="applyFilters()" class="w-full py-2 px-3 text-xs border border-gray-300 rounded-lg outline-none font-medium">
+          <select id="filterRubro" onchange="applyFilters()" class="w-full py-2 px-2 text-xs border border-gray-300 rounded-lg outline-none font-medium">
             <option value="">Todos los Rubros</option>
             <option value="Agroalimentario y Bebidas">Agroalimentario y Bebidas</option>
             <option value="Vinos, Piscos y Licores">Vinos, Piscos y Licores</option>
@@ -189,20 +197,33 @@
           </select>
         </div>
 
+        <!-- Filtro Permisos Sectoriales -->
         <div class="md:col-span-2">
-          <select id="filterSustentable" onchange="applyFilters()" class="w-full py-2 px-3 text-xs border border-gray-300 rounded-lg outline-none font-medium">
-            <option value="">Todos (Sustentables)</option>
-            <option value="Sí">Solo Sustentables</option>
-            <option value="No">No Sustentables</option>
+          <select id="filterPermisos" onchange="applyFilters()" class="w-full py-2 px-2 text-xs border border-gray-300 rounded-lg outline-none font-medium">
+            <option value="">Todos los Permisos</option>
+            <option value="Sí">Con Permiso Vigente</option>
+            <option value="En trámite">En trámite</option>
+            <option value="No requiere">No requiere</option>
+            <option value="No cuenta con permisos">Sin permisos</option>
           </select>
         </div>
+
+        <!-- Filtro Sustentable -->
+        <div class="md:col-span-1">
+          <select id="filterSustentable" onchange="applyFilters()" class="w-full py-2 px-2 text-xs border border-gray-300 rounded-lg outline-none font-medium">
+            <option value="">Sustentable</option>
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
       </div>
     </div>
 
-    <!-- MAIN GRID -->
+    <!-- MAIN RESULTADOS & FICHA -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       
-      <!-- LISTADO IZQUIERDA -->
+      <!-- RESULTADOS LISTADO IZQUIERDA -->
       <div class="lg:col-span-5 bg-white rounded-xl border border-gray-300 shadow-md flex flex-col h-[680px]">
         <div class="p-3 border-b border-gray-200 flex items-center justify-between bg-gray-100 rounded-t-xl">
           <span class="text-xs font-bold text-sercotec-navy uppercase tracking-wider">Resultados (<span id="countResults">0</span>)</span>
@@ -220,14 +241,14 @@
         <div id="listContainer" class="flex-1 overflow-y-auto divide-y divide-gray-200 custom-scrollbar"></div>
       </div>
 
-      <!-- FICHA DERECHA -->
+      <!-- FICHA INDIVIDUAL DERECHA -->
       <div class="lg:col-span-7 bg-white rounded-xl border border-gray-300 shadow-md flex flex-col h-[680px] overflow-hidden">
         <div id="detailContainer" class="flex-1 overflow-y-auto p-6 custom-scrollbar"></div>
       </div>
     </div>
   </main>
 
-  <!-- MODAL CONFIG -->
+  <!-- MODAL CONFIGURACIÓN -->
   <div id="configModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b pb-3">
@@ -237,7 +258,7 @@
         </h3>
         <button onclick="closeConfigModal()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-      <p class="text-xs text-gray-600 leading-relaxed">Pega la URL o ID de tu Google Sheet público para sincronizar las respuestas.</p>
+      <p class="text-xs text-gray-600 leading-relaxed">Pega la URL o ID de tu Google Sheet público para sincronizar en vivo.</p>
       <input type="text" id="sheetUrlInput" placeholder="ID o enlace del Google Sheet" class="w-full p-2.5 text-xs border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-sercotec-blue">
       <div class="flex justify-end space-x-2 pt-2">
         <button onclick="closeConfigModal()" class="px-4 py-2 text-xs font-semibold text-gray-600 hover:bg-gray-100 rounded-lg">Cancelar</button>
@@ -409,6 +430,7 @@
       });
     }
 
+    // LISTADO DE TARJETAS CON ÍCONOS HOJA Y BRÚJULA BAJO LA COMUNA
     function renderList() {
       const container = document.getElementById('listContainer');
       container.innerHTML = '';
@@ -419,22 +441,35 @@
 
       filteredData.forEach(item => {
         const isSelected = selectedItem && selectedItem.id === item.id;
+        const isIdentidad = item.categoria && item.categoria.includes("Identidad");
+        const isSust = item.sustentable === "Sí";
+
         const card = document.createElement('div');
         card.className = `p-3.5 cursor-pointer transition border-l-4 ${isSelected ? 'bg-blue-50 border-sercotec-blue font-semibold' : 'hover:bg-gray-50 border-transparent'}`;
         card.onclick = () => { selectedItem = item; renderList(); renderDetail(item); };
 
         card.innerHTML = `
-          <div class="flex items-center justify-between">
+          <div class="flex items-start justify-between">
             <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-blue-100 text-sercotec-blue border border-blue-200">${item.id}</span>
-            <span class="text-[10px] text-gray-500 font-medium">${item.comuna}</span>
+            <div class="text-right">
+              <span class="text-[10px] text-gray-500 font-medium block">${item.comuna}</span>
+              <!-- ÍCONOS BAJO LA COMUNA -->
+              <div class="flex items-center justify-end space-x-1 mt-1">
+                ${isIdentidad ? '<span title="Con Identidad Local"><i data-lucide="compass" class="w-3.5 h-3.5 text-amber-500"></i></span>' : ''}
+                ${isSust ? '<span title="Sustentable"><i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i></span>' : ''}
+              </div>
+            </div>
           </div>
-          <h4 class="text-xs font-bold text-gray-900 mt-1">${item.marca}</h4>
+          <h4 class="text-xs font-bold text-gray-900 mt-0.5">${item.marca}</h4>
           <p class="text-[11px] text-gray-500">${item.contacto}</p>
         `;
         container.appendChild(card);
       });
+
+      lucide.createIcons();
     }
 
+    // FICHA INDIVIDUAL CON DETALLE SUSTENTABLE Y DESCARGA PDF INDIVIDUAL
     function renderDetail(item) {
       const container = document.getElementById('detailContainer');
       if (!item) {
@@ -449,6 +484,7 @@
       container.innerHTML = `
         <div class="space-y-5">
           
+          <!-- Encabezado con Botón Descargar Ficha PDF -->
           <div class="flex items-start justify-between border-b pb-3">
             <div>
               <span class="text-[10px] font-bold text-sercotec-blue bg-blue-100 px-2 py-0.5 rounded border border-blue-200">${item.id}</span>
@@ -458,9 +494,15 @@
                 <span>Comuna: <strong>${item.comuna}</strong></span>
               </p>
             </div>
+            
+            <!-- BOTÓN DESCARGAR FICHA PDF -->
+            <button onclick="downloadSinglePDF()" class="inline-flex items-center space-x-1 bg-sercotec-red hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition">
+              <i data-lucide="file-down" class="w-4 h-4"></i>
+              <span>Ficha PDF</span>
+            </button>
           </div>
 
-          <!-- Contacto & Instagram Alineado -->
+          <!-- Contacto & Instagram -->
           <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs">
             <div>
               <span class="text-gray-400 block font-medium">Encargado/a</span>
@@ -531,15 +573,26 @@
             </div>
           </div>
 
-          <!-- TRES BOTONES AL FINAL: WHATSAPP, CORREO Y COPIAR FICHA -->
+          <!-- CAMPO DETALLE SUSTENTABLE -->
+          ${item.sustentableDetalle ? `
+            <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 space-y-1">
+              <span class="font-bold flex items-center space-x-1 text-emerald-800">
+                <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Detalle Sustentable:</span>
+              </span>
+              <p class="leading-relaxed">${item.sustentableDetalle}</p>
+            </div>
+          ` : ''}
+
+          <!-- BOTONES ACTUALIZADOS: ENVIAR WHATSAPP, ENVIAR CORREO, COPIAR FICHA -->
           <div class="pt-4 border-t grid grid-cols-1 md:grid-cols-3 gap-2">
             <a href="https://wa.me/${cleanPhone}" target="_blank" class="inline-flex items-center justify-center space-x-1.5 bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition">
               <i data-lucide="message-circle" class="w-4 h-4"></i>
-              <span>WhatsApp Empresa</span>
+              <span>Enviar WhatsApp</span>
             </a>
             <a href="mailto:${item.email}" class="inline-flex items-center justify-center space-x-1.5 bg-sercotec-blue hover:bg-sercotec-darkblue text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition">
               <i data-lucide="mail" class="w-4 h-4"></i>
-              <span>Correo Empresa</span>
+              <span>Enviar Correo</span>
             </a>
             <button onclick="copyDetailText()" id="btnCopyText" class="inline-flex items-center justify-center space-x-1.5 bg-sercotec-navy hover:bg-gray-800 text-white py-2.5 rounded-xl text-xs font-bold shadow-md transition">
               <i data-lucide="copy" class="w-4 h-4"></i>
@@ -553,7 +606,68 @@
       lucide.createIcons();
     }
 
-    // FUNCIÓN PARA COPIAR AL PORTAPAPELES
+    // DESCARGAR PDF DE LA FICHA INDIVIDUAL SELECCIONADA
+    function downloadSinglePDF() {
+      if (!selectedItem) return;
+      const item = selectedItem;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFillColor(0, 102, 179);
+      doc.rect(0, 0, 210, 25, 'F');
+      
+      doc.setFontSize(14);
+      doc.setTextColor(255, 255, 255);
+      doc.text("FICHA DE EMPRENDIMIENTO - VITRINA ELQUI", 14, 16);
+
+      doc.setFontSize(10);
+      doc.setTextColor(0, 102, 179);
+      doc.text(`ID Neoserra: ${item.id}`, 14, 35);
+      
+      doc.setFontSize(16);
+      doc.setTextColor(30);
+      doc.text(item.marca, 14, 43);
+
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.text(`Comuna: ${item.comuna}`, 14, 49);
+
+      doc.autoTable({
+        startY: 55,
+        head: [['DATOS DE CONTACTO', 'INFORMACIÓN']],
+        body: [
+          ['Encargado/a', item.contacto],
+          ['Teléfono Directo', item.telefono],
+          ['Correo Electrónico', item.email],
+          ['Instagram', item.instagram ? '@' + item.instagram.replace('@', '') : 'No registrado'],
+          ['Asesor CDN a Cargo', item.asesor || 'No Asignado']
+        ],
+        theme: 'striped',
+        headStyles: { fillColor: [0, 102, 179] }
+      });
+
+      doc.autoTable({
+        startY: doc.lastAutoTable.finalY + 10,
+        head: [['CLASIFICACIÓN Y PRODUCTOS', 'DETALLE']],
+        body: [
+          ['Categoría', item.categoria],
+          ['Rubro Principal', item.rubro],
+          ['Productos Principales', item.productos],
+          ['Permisos Sectoriales', item.permisos],
+          ['¿Sustentable?', item.sustentable],
+          ['Detalle Sustentabilidad', item.sustentableDetalle || 'N/A']
+        ],
+        theme: 'striped',
+        headStyles: { fillColor: [227, 6, 19] }
+      });
+
+      doc.setFontSize(8);
+      doc.setTextColor(150);
+      doc.text("Fuente: Centro de Negocios Sercotec La Serena - Directorio Vitrina Elqui", 14, 285);
+
+      doc.save(`Ficha_${item.id}_${item.marca.replace(/\s+/g, '_')}.pdf`);
+    }
+
     function copyDetailText() {
       if (!selectedItem) return;
 
@@ -592,9 +706,7 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
           btn.classList.remove('bg-sercotec-navy');
           btn.classList.add('bg-emerald-700');
           lucide.createIcons();
-          setTimeout(() => {
-            renderDetail(selectedItem);
-          }, 2000);
+          setTimeout(() => { renderDetail(selectedItem); }, 2000);
         }
       }).catch(err => alert("Error al copiar texto: " + err));
     }
@@ -604,6 +716,7 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
       const comuna = document.getElementById('filterComuna').value;
       const cat = document.getElementById('filterCategoria').value;
       const rubro = document.getElementById('filterRubro').value;
+      const perm = document.getElementById('filterPermisos').value;
       const sust = document.getElementById('filterSustentable').value;
 
       filteredData = rawData.filter(item => {
@@ -611,8 +724,10 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
         const matchesComuna = !comuna || item.comuna === comuna;
         const matchesCat = !cat || item.categoria === cat;
         const matchesRubro = !rubro || item.rubro === rubro;
+        const matchesPerm = !perm || item.permisos.includes(perm);
         const matchesSust = !sust || item.sustentable === sust;
-        return matchesQ && matchesComuna && matchesCat && matchesRubro && matchesSust;
+
+        return matchesQ && matchesComuna && matchesCat && matchesRubro && matchesPerm && matchesSust;
       });
 
       selectedItem = filteredData[0] || null;
