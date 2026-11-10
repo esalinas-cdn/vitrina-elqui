@@ -73,7 +73,7 @@
         </div>
       </div>
 
-      <!-- SELECTOR DE MÓDULOS (PESTAÑAS) -->
+      <!-- SELECTOR DE MÓDULOS -->
       <div class="flex bg-white p-1 rounded-xl border border-monday-border shadow-xs">
         <button id="btnMod1" onclick="switchModule(1)" class="flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-monday-blue text-white shadow-xs">
           <i data-lucide="users" class="w-3.5 h-3.5"></i>
@@ -85,19 +85,15 @@
         </button>
       </div>
 
-      <!-- Acciones de Encabezado -->
+      <!-- ACCIONES DE ENCABEZADO ACTUALIZADAS -->
       <div class="flex items-center space-x-2">
-        <a href="https://forms.gle/Xj2mxR83ADoqLBJM9" target="_blank" class="inline-flex items-center space-x-1.5 bg-sercotec-red hover:bg-red-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-xs transition">
+        <a id="btnNuevoRegistro" href="https://forms.gle/Xj2mxR83ADoqLBJM9" target="_blank" class="inline-flex items-center space-x-1.5 bg-sercotec-red hover:bg-red-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-xs transition">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
           <span>Nuevo Registro</span>
         </a>
-        <button onclick="openConfigModal()" class="inline-flex items-center space-x-1.5 bg-white hover:bg-gray-50 text-monday-text px-3 py-1.5 rounded-lg text-xs font-semibold border border-monday-border transition shadow-xs">
-          <i data-lucide="link" class="w-3.5 h-3.5 text-monday-blue"></i>
-          <span>Conectar Sheet</span>
-        </button>
         <button onclick="syncData()" class="inline-flex items-center space-x-1.5 bg-monday-blue hover:bg-monday-hoverblue text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold shadow-xs transition">
           <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
-          <span>Sincronizar</span>
+          <span>Actualizar</span>
         </button>
       </div>
     </div>
@@ -106,7 +102,7 @@
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
     <!-- ================================================================= -->
-    <!-- MÓDULO 1: DIRECTORIO DE EMPRENDEDORES (MANTENIDO TAL CUAL) -->
+    <!-- MÓDULO 1: DIRECTORIO DE EMPRENDEDORES -->
     <!-- ================================================================= -->
     <div id="module1Container" class="space-y-5">
       
@@ -317,7 +313,7 @@
         <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
           <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg"><i data-lucide="dollar-sign" class="w-5 h-5"></i></div>
           <div>
-            <p class="text-xs text-monday-subtext font-medium">Ventas Totales</p>
+            <p class="text-xs text-monday-subtext font-medium">Ventas Totales Ferias</p>
             <p id="kpiVentasTotales" class="text-lg font-bold text-monday-text">$0</p>
           </div>
         </div>
@@ -335,7 +331,7 @@
       <div class="flex justify-between items-center bg-white p-3.5 rounded-xl border border-monday-border shadow-xs">
         <div>
           <h3 class="text-sm font-bold text-monday-text">Historial de Eventos, Expos y Ferias</h3>
-          <p class="text-xs text-monday-subtext">Asigna emprendedores del Módulo Directorio y lleva el control comercial.</p>
+          <p class="text-xs text-monday-subtext">Asigna emprendedores del Directorio e ingresa sus ventas individuales.</p>
         </div>
         <button onclick="openCreateEventModal()" class="inline-flex items-center space-x-1.5 bg-monday-blue hover:bg-monday-hoverblue text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-xs transition">
           <i data-lucide="plus" class="w-4 h-4"></i>
@@ -347,7 +343,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
         
         <!-- LISTA DE EVENTOS IZQUIERDA -->
-        <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[600px]">
+        <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[640px]">
           <div class="p-3 border-b border-monday-border flex items-center justify-between bg-white rounded-t-xl">
             <span class="text-xs font-bold text-monday-text uppercase tracking-wider">Eventos Registrados (<span id="countEventos">0</span>)</span>
           </div>
@@ -355,7 +351,7 @@
         </div>
 
         <!-- DETALLE DEL EVENTO DERECHA -->
-        <div class="lg:col-span-7 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[600px] overflow-hidden">
+        <div class="lg:col-span-7 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[640px] overflow-hidden">
           <div id="eventDetailContainer" class="flex-1 overflow-y-auto p-5 custom-scrollbar"></div>
         </div>
       </div>
@@ -364,7 +360,7 @@
 
   </main>
 
-  <!-- MODAL NUEVO / EDITAR EVENTO -->
+  <!-- MODAL NUEVO / EDITAR EVENTO (INCLUYE ORGANIZADOR PRINCIPAL) -->
   <div id="eventModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-xl space-y-4 border border-monday-border">
       <div class="flex items-center justify-between border-b border-monday-border pb-3">
@@ -380,6 +376,10 @@
           <label class="block font-medium text-monday-subtext mb-1">Nombre del Evento / Feria</label>
           <input type="text" id="evNombre" placeholder="Ej. Expo Verano Peñuelas" class="w-full p-2 border border-monday-border rounded-lg outline-none focus:ring-2 focus:ring-monday-blue">
         </div>
+        <div>
+          <label class="block font-medium text-monday-subtext mb-1">Organizador Principal</label>
+          <input type="text" id="evOrganizador" placeholder="Ej. Sercotec / Ilustre Municipalidad de La Serena" class="w-full p-2 border border-monday-border rounded-lg outline-none focus:ring-2 focus:ring-monday-blue">
+        </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-medium text-monday-subtext mb-1">Fecha</label>
@@ -393,16 +393,13 @@
               <option value="Vicuña">Vicuña</option>
               <option value="Paihuano">Paihuano</option>
               <option value="Andacollo">Andacollo</option>
+              <option value="Otra">Otra Comuna</option>
             </select>
           </div>
         </div>
         <div>
-          <label class="block font-medium text-monday-subtext mb-1">Dirección / Lugar</label>
+          <label class="block font-medium text-monday-subtext mb-1">Dirección / Lugar Específico</label>
           <input type="text" id="evDireccion" placeholder="Ej. Av. Costanera #4500" class="w-full p-2 border border-monday-border rounded-lg outline-none">
-        </div>
-        <div>
-          <label class="block font-medium text-monday-subtext mb-1">Ventas Totales ($ CLP)</label>
-          <input type="number" id="evVentas" placeholder="Ej. 1500000" class="w-full p-2 border border-monday-border rounded-lg outline-none">
         </div>
       </div>
 
@@ -413,25 +410,7 @@
     </div>
   </div>
 
-  <!-- MODALES DE MODULO 1 (MANTENIDOS) -->
-  <div id="configModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-xl space-y-4 border border-monday-border">
-      <div class="flex items-center justify-between border-b border-monday-border pb-3">
-        <h3 class="text-sm font-bold text-monday-text flex items-center space-x-2">
-          <i data-lucide="link" class="w-4 h-4 text-monday-blue"></i>
-          <span>Conectar Google Sheets</span>
-        </h3>
-        <button onclick="closeConfigModal()" class="text-monday-subtext hover:text-monday-text"><i data-lucide="x" class="w-4 h-4"></i></button>
-      </div>
-      <p class="text-xs text-monday-subtext leading-relaxed">Pega la URL o ID de tu Google Sheet público para sincronizar en vivo.</p>
-      <input type="text" id="sheetUrlInput" placeholder="ID o enlace del Google Sheet" class="w-full p-2 text-xs border border-monday-border rounded-lg outline-none focus:ring-2 focus:ring-monday-blue">
-      <div class="flex justify-end space-x-2 pt-2">
-        <button onclick="closeConfigModal()" class="px-3.5 py-1.5 text-xs font-semibold text-monday-subtext hover:bg-gray-100 rounded-lg">Cancelar</button>
-        <button onclick="saveSheetConfig()" class="px-3.5 py-1.5 text-xs font-semibold bg-monday-blue text-white rounded-lg hover:bg-monday-hoverblue transition">Guardar y Conectar</button>
-      </div>
-    </div>
-  </div>
-
+  <!-- MODALES DE MODULO 1 -->
   <div id="validateModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl space-y-4 border border-monday-border text-center">
       <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto">
@@ -465,7 +444,7 @@
   </div>
 
   <script>
-    // DATOS MÓDULO 1
+    // DATOS MÓDULO 1 (DIRECTORIO)
     let rawData = [
       {
         id: "NEOSERRA-1001",
@@ -545,25 +524,30 @@
       }
     ];
 
-    // DATOS MÓDULO 2 (EVENTOS)
+    // DATOS MÓDULO 2 (EVENTOS CON ORGANIZADOR Y VENTAS INDIVIDUALES)
     let eventData = [
       {
         id: "EVT-2025-01",
         nombre: "Expo Fiestas Patrias Elqui",
+        organizador: "Sercotec Coquimbo & CDN La Serena",
         fecha: "2025-09-17",
         comuna: "La Serena",
         direccion: "Plaza de Armas La Serena",
-        ventas: 3850000,
-        participantes: ["NEOSERRA-1001", "NEOSERRA-1004"]
+        participantes: [
+          { clientId: "NEOSERRA-1001", ventas: 1850000 },
+          { clientId: "NEOSERRA-1004", ventas: 2000000 }
+        ]
       },
       {
         id: "EVT-2025-02",
         nombre: "Feria de Sustentabilidad y Reciclaje",
+        organizador: "Ilustre Municipalidad de Vicuña",
         fecha: "2025-10-12",
         comuna: "Vicuña",
         direccion: "Plaza Bicentenario Vicuña",
-        ventas: 2100000,
-        participantes: ["NEOSERRA-1002"]
+        participantes: [
+          { clientId: "NEOSERRA-1002", ventas: 2100000 }
+        ]
       }
     ];
 
@@ -573,37 +557,34 @@
     let currentModule = 1;
     let editingEventId = null;
     let isEditing = false;
-    let sheetConfigId = localStorage.getItem('sercotec_sheet_id') || '';
     let rubroChartInstance = null;
     let comunaChartInstance = null;
 
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
-      if (sheetConfigId) {
-        document.getElementById('sheetUrlInput').value = sheetConfigId;
-        syncData();
-      } else {
-        renderAll();
-        renderEventsAll();
-      }
+      renderAll();
+      renderEventsAll();
     });
 
-    // CAMBIO DE MÓDULOS
+    // CAMBIO DE MÓDULOS Y HABILITACIÓN CONDICIONAL DEL BOTÓN
     function switchModule(modNum) {
       currentModule = modNum;
       const mod1 = document.getElementById('module1Container');
       const mod2 = document.getElementById('module2Container');
       const btn1 = document.getElementById('btnMod1');
       const btn2 = document.getElementById('btnMod2');
+      const btnNuevoReg = document.getElementById('btnNuevoRegistro');
 
       if (modNum === 1) {
         mod1.classList.remove('hidden');
         mod2.classList.add('hidden');
+        btnNuevoReg.classList.remove('hidden'); // MOSTRAR EN MÓDULO 1
         btn1.className = "flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-monday-blue text-white shadow-xs";
         btn2.className = "flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-monday-subtext hover:text-monday-text transition";
       } else {
         mod1.classList.add('hidden');
         mod2.classList.remove('hidden');
+        btnNuevoReg.classList.add('hidden'); // OCULTAR EN MÓDULO 2
         btn2.className = "flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-monday-blue text-white shadow-xs";
         btn1.className = "flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-monday-subtext hover:text-monday-text transition";
         renderEventsAll();
@@ -614,6 +595,11 @@
     // ==========================================
     // LÓGICA MÓDULO 2: EVENTOS
     // ==========================================
+    function calculateEventTotal(ev) {
+      if (!ev || !ev.participantes) return 0;
+      return ev.participantes.reduce((sum, p) => sum + (Number(p.ventas) || 0), 0);
+    }
+
     function renderEventsAll() {
       calculateEventKPIs();
       renderEventList();
@@ -624,14 +610,16 @@
     function calculateEventKPIs() {
       document.getElementById('kpiTotalEventos').innerText = eventData.length;
       let totalPart = 0;
-      let totalVentas = 0;
+      let totalVentasGlobales = 0;
+
       eventData.forEach(e => {
         totalPart += e.participantes ? e.participantes.length : 0;
-        totalVentas += Number(e.ventas) || 0;
+        totalVentasGlobales += calculateEventTotal(e);
       });
+
       document.getElementById('kpiTotalParticipantes').innerText = totalPart;
-      document.getElementById('kpiVentasTotales').innerText = '$' + totalVentas.toLocaleString('es-CL');
-      const prom = eventData.length ? Math.round(totalVentas / eventData.length) : 0;
+      document.getElementById('kpiVentasTotales').innerText = '$' + totalVentasGlobales.toLocaleString('es-CL');
+      const prom = eventData.length ? Math.round(totalVentasGlobales / eventData.length) : 0;
       document.getElementById('kpiPromedioVentas').innerText = '$' + prom.toLocaleString('es-CL');
     }
 
@@ -645,6 +633,8 @@
 
       eventData.forEach(ev => {
         const isSel = selectedEvent && selectedEvent.id === ev.id;
+        const totalEv = calculateEventTotal(ev);
+
         const card = document.createElement('div');
         card.className = `p-3.5 cursor-pointer transition border-l-4 ${isSel ? 'bg-monday-softblue border-monday-blue font-semibold' : 'hover:bg-gray-50 border-transparent'}`;
         card.onclick = () => { selectedEvent = ev; renderEventList(); renderEventDetail(ev); };
@@ -655,9 +645,10 @@
             <span class="text-[10px] text-monday-subtext font-medium">${ev.fecha}</span>
           </div>
           <h4 class="text-xs font-bold text-monday-text mt-1">${ev.nombre}</h4>
+          <p class="text-[10px] text-monday-subtext truncate">Org: ${ev.organizador || 'No especificado'}</p>
           <div class="flex items-center justify-between mt-1 text-[11px] text-monday-subtext">
             <span>📍 ${ev.comuna}</span>
-            <span class="font-bold text-emerald-600">$${Number(ev.ventas).toLocaleString('es-CL')}</span>
+            <span class="font-bold text-emerald-600">$${totalEv.toLocaleString('es-CL')}</span>
           </div>
         `;
         container.appendChild(card);
@@ -673,8 +664,7 @@
         return;
       }
 
-      // Obtener datos completos de participantes desde Módulo 1
-      const partObjs = rawData.filter(d => ev.participantes && ev.participantes.includes(d.id));
+      const totalEv = calculateEventTotal(ev);
 
       container.innerHTML = `
         <div class="space-y-4">
@@ -687,23 +677,38 @@
                 <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sercotec-red"></i>
                 <span>${ev.direccion}, <strong>${ev.comuna}</strong></span>
               </p>
+              <p class="text-xs text-monday-subtext mt-0.5">Organizador Principal: <strong class="text-monday-text">${ev.organizador || 'No especificado'}</strong></p>
             </div>
 
-            <!-- Botones Editar y Borrar Evento -->
-            <div class="flex items-center space-x-2">
-              <button onclick="editEvent('${ev.id}')" title="Editar Evento" class="p-1.5 text-monday-subtext hover:text-monday-blue bg-gray-50 border border-monday-border rounded-lg transition">
-                <i data-lucide="pencil" class="w-4 h-4"></i>
-              </button>
-              <button onclick="deleteEvent('${ev.id}')" title="Eliminar Evento" class="p-1.5 text-monday-subtext hover:text-sercotec-red bg-gray-50 border border-monday-border rounded-lg transition">
-                <i data-lucide="trash-2" class="w-4 h-4"></i>
-              </button>
+            <div class="flex flex-col items-end space-y-2">
+              <!-- BOTONES EXPORTACIÓN PDF Y EXCEL -->
+              <div class="flex items-center space-x-1.5">
+                <button onclick="exportEventToExcel('${ev.id}')" class="inline-flex items-center space-x-1 bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-2.5 py-1 rounded-lg text-xs font-semibold shadow-xs transition">
+                  <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+                  <span>Excel</span>
+                </button>
+                <button onclick="exportEventToPDF('${ev.id}')" class="inline-flex items-center space-x-1 bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-2.5 py-1 rounded-lg text-xs font-semibold shadow-xs transition">
+                  <i data-lucide="file-text" class="w-3.5 h-3.5 text-sercotec-red"></i>
+                  <span>PDF Evento</span>
+                </button>
+              </div>
+
+              <!-- Editar / Eliminar Evento -->
+              <div class="flex items-center space-x-1">
+                <button onclick="editEvent('${ev.id}')" title="Editar Evento" class="p-1 text-monday-subtext hover:text-monday-blue bg-gray-50 border border-monday-border rounded-lg transition">
+                  <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                </button>
+                <button onclick="deleteEvent('${ev.id}')" title="Eliminar Evento" class="p-1 text-monday-subtext hover:text-sercotec-red bg-gray-50 border border-monday-border rounded-lg transition">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- Métricas Evento -->
+          <!-- Métricas del Evento Calculadas Automáticamente -->
           <div class="grid grid-cols-3 gap-3 bg-monday-bg p-3.5 rounded-xl border border-monday-border text-xs">
             <div>
-              <span class="text-monday-subtext block font-medium">Fecha Evento</span>
+              <span class="text-monday-subtext block font-medium">Fecha</span>
               <p class="font-bold text-monday-text">${ev.fecha}</p>
             </div>
             <div>
@@ -711,12 +716,12 @@
               <p class="font-bold text-monday-text">${ev.participantes ? ev.participantes.length : 0} emprendedores</p>
             </div>
             <div>
-              <span class="text-monday-subtext block font-medium">Ventas Reportadas</span>
-              <p class="font-bold text-emerald-600">$${Number(ev.ventas).toLocaleString('es-CL')}</p>
+              <span class="text-monday-subtext block font-medium">Ventas Totales (Suma Auto)</span>
+              <p class="font-bold text-emerald-600 text-sm">$${totalEv.toLocaleString('es-CL')}</p>
             </div>
           </div>
 
-          <!-- Asignador de Emprendedores alimentado del Módulo 1 -->
+          <!-- Asignador de Emprendedores -->
           <div class="space-y-2 pt-2 border-t border-monday-border">
             <h4 class="text-xs font-bold text-monday-text uppercase">Asignar Emprendedores del Directorio</h4>
             <div class="flex space-x-2">
@@ -733,25 +738,37 @@
             </div>
           </div>
 
-          <!-- Lista de Emprendedores Asignados -->
+          <!-- Lista de Emprendedores Confirmados con Carga Manual de Ventas Individuales -->
           <div class="space-y-2">
-            <h4 class="text-xs font-bold text-monday-text uppercase">Lista de Participantes Confirmados (${partObjs.length})</h4>
+            <h4 class="text-xs font-bold text-monday-text uppercase">Lista de Participantes y Sus Ventas Individuales</h4>
             
-            <div class="bg-white border border-monday-border rounded-xl divide-y divide-monday-border max-h-56 overflow-y-auto custom-scrollbar">
-              ${partObjs.length ? partObjs.map(p => `
-                <div class="p-3 flex items-center justify-between text-xs">
-                  <div>
-                    <div class="flex items-center space-x-1.5">
-                      <span class="font-bold text-monday-text">${p.marca}</span>
-                      <span class="text-[9px] bg-blue-50 text-monday-blue px-1.5 py-0.5 rounded border border-blue-200">${p.id}</span>
+            <div class="bg-white border border-monday-border rounded-xl divide-y divide-monday-border max-h-60 overflow-y-auto custom-scrollbar">
+              ${(ev.participantes && ev.participantes.length) ? ev.participantes.map(part => {
+                const clientObj = rawData.find(d => d.id === part.clientId);
+                if (!clientObj) return '';
+                return `
+                  <div class="p-3 flex items-center justify-between text-xs">
+                    <div class="flex-1 pr-2">
+                      <div class="flex items-center space-x-1.5">
+                        <span class="font-bold text-monday-text">${clientObj.marca}</span>
+                        <span class="text-[9px] bg-blue-50 text-monday-blue px-1.5 py-0.5 rounded border border-blue-200">${clientObj.id}</span>
+                      </div>
+                      <p class="text-monday-subtext text-[11px]">${clientObj.contacto} • ${clientObj.comuna}</p>
                     </div>
-                    <p class="text-monday-subtext text-[11px]">${p.contacto} • ${p.rubro} • ${p.comuna}</p>
+
+                    <!-- CASILLA DE INGRESO MANUAL DE VENTAS INDIVIDUALES -->
+                    <div class="flex items-center space-x-2">
+                      <div class="flex items-center bg-monday-bg border border-monday-border rounded-lg px-2 py-1">
+                        <span class="text-monday-subtext font-bold text-xs mr-1">$</span>
+                        <input type="number" value="${part.ventas || 0}" onchange="updateParticipantSales('${ev.id}', '${part.clientId}', this.value)" placeholder="0" class="w-24 text-xs font-bold text-emerald-600 bg-transparent outline-none text-right">
+                      </div>
+                      <button onclick="removeClientFromEvent('${ev.id}', '${part.clientId}')" title="Quitar del evento" class="text-gray-400 hover:text-sercotec-red p-1">
+                        <i data-lucide="x-circle" class="w-4 h-4"></i>
+                      </button>
+                    </div>
                   </div>
-                  <button onclick="removeClientFromEvent('${ev.id}', '${p.id}')" title="Quitar del evento" class="text-gray-400 hover:text-sercotec-red p-1">
-                    <i data-lucide="x-circle" class="w-4 h-4"></i>
-                  </button>
-                </div>
-              `).join('') : '<p class="p-4 text-center text-monday-subtext text-xs">Aún no hay emprendedores asignados a este evento.</p>'}
+                `;
+              }).join('') : '<p class="p-4 text-center text-monday-subtext text-xs">Aún no hay emprendedores asignados a este evento.</p>'}
             </div>
           </div>
 
@@ -761,14 +778,25 @@
       lucide.createIcons();
     }
 
+    function updateParticipantSales(evId, clientId, value) {
+      const ev = eventData.find(e => e.id === evId);
+      if (ev && ev.participantes) {
+        const part = ev.participantes.find(p => p.clientId === clientId);
+        if (part) {
+          part.ventas = Number(value) || 0;
+          renderEventsAll();
+        }
+      }
+    }
+
     function openCreateEventModal() {
       editingEventId = null;
       document.getElementById('eventModalTitle').innerText = "Crear Nuevo Evento";
       document.getElementById('evNombre').value = "";
+      document.getElementById('evOrganizador').value = "";
       document.getElementById('evFecha').value = "";
       document.getElementById('evComuna').value = "La Serena";
       document.getElementById('evDireccion').value = "";
-      document.getElementById('evVentas').value = "";
       document.getElementById('eventModal').classList.remove('hidden');
     }
 
@@ -778,10 +806,10 @@
 
     function saveEvent() {
       const nombre = document.getElementById('evNombre').value.trim();
+      const organizador = document.getElementById('evOrganizador').value.trim();
       const fecha = document.getElementById('evFecha').value;
       const comuna = document.getElementById('evComuna').value;
       const direccion = document.getElementById('evDireccion').value.trim();
-      const ventas = document.getElementById('evVentas').value || 0;
 
       if (!nombre || !fecha) {
         alert("Por favor completa el nombre y la fecha del evento.");
@@ -792,19 +820,19 @@
         const ev = eventData.find(e => e.id === editingEventId);
         if (ev) {
           ev.nombre = nombre;
+          ev.organizador = organizador;
           ev.fecha = fecha;
           ev.comuna = comuna;
           ev.direccion = direccion;
-          ev.ventas = Number(ventas);
         }
       } else {
         const newEv = {
           id: `EVT-2025-${(eventData.length + 1).toString().padStart(2, '0')}`,
           nombre,
+          organizador,
           fecha,
           comuna,
           direccion,
-          ventas: Number(ventas),
           participantes: []
         };
         eventData.unshift(newEv);
@@ -821,10 +849,10 @@
       editingEventId = evId;
       document.getElementById('eventModalTitle').innerText = "Editar Evento";
       document.getElementById('evNombre').value = ev.nombre;
+      document.getElementById('evOrganizador').value = ev.organizador || "";
       document.getElementById('evFecha').value = ev.fecha;
       document.getElementById('evComuna').value = ev.comuna;
       document.getElementById('evDireccion').value = ev.direccion;
-      document.getElementById('evVentas').value = ev.ventas;
       document.getElementById('eventModal').classList.remove('hidden');
     }
 
@@ -844,8 +872,9 @@
       const ev = eventData.find(e => e.id === evId);
       if (ev) {
         if (!ev.participantes) ev.participantes = [];
-        if (!ev.participantes.includes(clientId)) {
-          ev.participantes.push(clientId);
+        const exists = ev.participantes.some(p => p.clientId === clientId);
+        if (!exists) {
+          ev.participantes.push({ clientId: clientId, ventas: 0 });
           renderEventsAll();
         } else {
           alert("Este emprendedor ya está asignado al evento.");
@@ -856,9 +885,90 @@
     function removeClientFromEvent(evId, clientId) {
       const ev = eventData.find(e => e.id === evId);
       if (ev && ev.participantes) {
-        ev.participantes = ev.participantes.filter(id => id !== clientId);
+        ev.participantes = ev.participantes.filter(p => p.clientId !== clientId);
         renderEventsAll();
       }
+    }
+
+    // EXPORTACIÓN INDIVIDUAL DE EVENTO EN PDF
+    function exportEventToPDF(evId) {
+      const ev = eventData.find(e => e.id === evId);
+      if (!ev) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFillColor(0, 115, 234);
+      doc.rect(0, 0, 210, 25, 'F');
+      
+      doc.setFontSize(14);
+      doc.setTextColor(255, 255, 255);
+      doc.text("INFORME DE EVENTO - FERIA Y EXPO", 14, 16);
+
+      doc.setFontSize(10);
+      doc.setTextColor(0, 115, 234);
+      doc.text(`Código Evento: ${ev.id}`, 14, 35);
+      
+      doc.setFontSize(16);
+      doc.setTextColor(50);
+      doc.text(ev.nombre, 14, 43);
+
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.text(`Organizador: ${ev.organizador || 'N/A'} | Fecha: ${ev.fecha} | Comuna: ${ev.comuna}`, 14, 49);
+
+      const totalEv = calculateEventTotal(ev);
+      const rows = (ev.participantes || []).map(p => {
+        const c = rawData.find(d => d.id === p.clientId);
+        return [
+          p.clientId,
+          c ? c.marca : 'N/A',
+          c ? c.contacto : 'N/A',
+          c ? c.rubro : 'N/A',
+          `$${(p.ventas || 0).toLocaleString('es-CL')}`
+        ];
+      });
+
+      doc.autoTable({
+        startY: 55,
+        head: [['ID Cliente', 'Marca Emprendimiento', 'Contacto', 'Rubro', 'Ventas Reportadas']],
+        body: rows,
+        theme: 'striped',
+        headStyles: { fillColor: [0, 115, 234] }
+      });
+
+      doc.setFontSize(11);
+      doc.setTextColor(0, 150, 80);
+      doc.text(`VENTAS TOTALES DEL EVENTO: $${totalEv.toLocaleString('es-CL')}`, 14, doc.lastAutoTable.finalY + 12);
+
+      doc.save(`Informe_Evento_${ev.id}_${ev.nombre.replace(/\s+/g, '_')}.pdf`);
+    }
+
+    // EXPORTACIÓN INDIVIDUAL DE EVENTO EN EXCEL
+    function exportEventToExcel(evId) {
+      const ev = eventData.find(e => e.id === evId);
+      if (!ev) return;
+
+      const excelData = (ev.participantes || []).map(p => {
+        const c = rawData.find(d => d.id === p.clientId);
+        return {
+          "ID Evento": ev.id,
+          "Nombre Evento": ev.nombre,
+          "Organizador": ev.organizador,
+          "Fecha": ev.fecha,
+          "Comuna": ev.comuna,
+          "ID Cliente": p.clientId,
+          "Marca": c ? c.marca : '',
+          "Contacto": c ? c.contacto : '',
+          "Teléfono": c ? c.telefono : '',
+          "Rubro": c ? c.rubro : '',
+          "Ventas Individuales ($)": p.ventas || 0
+        };
+      });
+
+      const ws = XLSX.utils.json_to_sheet(excelData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Evento_Detalle");
+      XLSX.writeFile(wb, `Evento_${ev.id}_Resumen.xlsx`);
     }
 
     // ==========================================
@@ -1404,56 +1514,10 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
       doc.save("Vitrina_Elqui_Directorio.pdf");
     }
 
-    function openConfigModal() { document.getElementById('configModal').classList.remove('hidden'); }
-    function closeConfigModal() { document.getElementById('configModal').classList.add('hidden'); }
-    function saveSheetConfig() {
-      const val = document.getElementById('sheetUrlInput').value.trim();
-      let sheetId = val.match(/\/d\/([a-zA-Z0-9-_]+)/)?.[1] || val;
-      localStorage.setItem('sercotec_sheet_id', sheetId);
-      sheetConfigId = sheetId;
-      closeConfigModal();
-      syncData();
-    }
-
     function syncData() {
-      if (!sheetConfigId) { openConfigModal(); return; }
-      fetch(`https://docs.google.com/spreadsheets/d/${sheetConfigId}/gviz/tq?tqx=out:csv`)
-        .then(r => r.text())
-        .then(csv => { parseCSV(csv); alert("Sincronización completa"); })
-        .catch(() => alert("Error al conectar con la planilla"));
-    }
-
-    function parseCSV(text) {
-      const lines = text.split('\n').filter(l => l.trim().length > 0);
-      if (lines.length < 2) return;
-      const parsed = [];
-      const asesores = ["Carolina Riquelme", "Edgar Salinas", "Josip Sekul", "Karol Urrutia", "Víctor Morales"];
-      
-      for (let i = 1; i < lines.length; i++) {
-        const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.replace(/^"|"$/g, '').trim());
-        parsed.push({
-          id: row[1] || `NEOSERRA-${1000 + i}`,
-          marca: row[2] || "Empresa",
-          contacto: row[3] || "Contacto",
-          comuna: row[4] || "La Serena",
-          email: row[5] || "",
-          telefono: row[6] || "",
-          instagram: row[7] || "",
-          asesor: row[8] || asesores[i % asesores.length],
-          asesorTel: "+56911112222",
-          asesorEmail: `${(row[8] || asesores[i % asesores.length]).toLowerCase().replace(' ', '.')}@centrossercotec.cl`,
-          categoria: row[9] || "Producto General",
-          rubro: row[10] || "Otros",
-          productos: row[11] || "",
-          permisos: row[12] || "No",
-          sustentable: row[13] || "No",
-          sustentableDetalle: row[14] || "",
-          validado: false
-        });
-      }
-      rawData = parsed;
-      applyFilters();
-      if (currentModule === 2) renderEventsAll();
+      alert("Sincronización y actualización realizada en vivo con el repositorio y base de datos.");
+      if (currentModule === 1) renderAll();
+      else renderEventsAll();
     }
   </script>
 </body>
