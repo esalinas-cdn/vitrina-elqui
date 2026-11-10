@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Directorio Vitrina Elqui | CDN La Serena</title>
+  <title>Sistema de Gestión | CDN La Serena</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -55,22 +55,34 @@
 </head>
 <body class="bg-monday-bg font-sans text-monday-text antialiased min-h-screen flex flex-col">
 
-  <!-- ENCABEZADO SUPERIOR -->
+  <!-- ENCABEZADO SUPERIOR Y SELECTOR DE MÓDULOS -->
   <header class="bg-monday-headerBg border-b border-monday-border sticky top-0 z-30 shadow-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
       
-      <!-- Título & Subtítulo -->
+      <!-- Logo y Título -->
       <div class="flex items-center space-x-3.5">
         <div class="h-11 w-11 bg-white border border-monday-border p-2 rounded-xl shadow-xs flex items-center justify-center flex-shrink-0 text-monday-blue">
           <i data-lucide="shopping-bag" class="w-6 h-6"></i>
         </div>
         <div>
           <div class="flex items-center space-x-2">
-            <h1 class="text-lg font-bold text-monday-text leading-tight tracking-tight">Directorio Vitrina Elqui</h1>
+            <h1 class="text-lg font-bold text-monday-text leading-tight tracking-tight">Sistema Vitrina Elqui</h1>
             <span class="text-[10px] font-bold bg-white text-monday-blue px-2 py-0.5 rounded-full border border-blue-200">CDN La Serena</span>
           </div>
-          <p class="text-xs text-monday-subtext font-normal">Base de datos de clientes para Eventos</p>
+          <p class="text-xs text-monday-subtext font-normal">Plataforma Integral de Clientes y Eventos</p>
         </div>
+      </div>
+
+      <!-- SELECTOR DE MÓDULOS (PESTAÑAS) -->
+      <div class="flex bg-white p-1 rounded-xl border border-monday-border shadow-xs">
+        <button id="btnMod1" onclick="switchModule(1)" class="flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-monday-blue text-white shadow-xs">
+          <i data-lucide="users" class="w-3.5 h-3.5"></i>
+          <span>Módulo 1: Directorio</span>
+        </button>
+        <button id="btnMod2" onclick="switchModule(2)" class="flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-monday-subtext hover:text-monday-text transition">
+          <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+          <span>Módulo 2: Eventos</span>
+        </button>
       </div>
 
       <!-- Acciones de Encabezado -->
@@ -85,200 +97,323 @@
         </button>
         <button onclick="syncData()" class="inline-flex items-center space-x-1.5 bg-monday-blue hover:bg-monday-hoverblue text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold shadow-xs transition">
           <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
-          <span>Sincronizar en Vivo</span>
+          <span>Sincronizar</span>
         </button>
       </div>
     </div>
   </header>
 
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-    <!-- KPI METRICS -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
-        <div class="p-2.5 bg-monday-softblue text-monday-blue rounded-lg"><i data-lucide="building-2" class="w-5 h-5"></i></div>
-        <div>
-          <p class="text-xs text-monday-subtext font-medium">Total Registros</p>
-          <p id="kpiTotal" class="text-lg font-bold text-monday-text">0</p>
-        </div>
-      </div>
-
-      <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
-        <div class="p-2.5 bg-amber-50 text-amber-600 rounded-lg"><i data-lucide="compass" class="w-5 h-5"></i></div>
-        <div>
-          <p class="text-xs text-monday-subtext font-medium">Identidad Local</p>
-          <p id="kpiIdentidad" class="text-lg font-bold text-monday-text">0%</p>
-        </div>
-      </div>
-
-      <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
-        <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
-        <div>
-          <p class="text-xs text-monday-subtext font-medium">Permisos Sanidad OK</p>
-          <p id="kpiPermisos" class="text-lg font-bold text-monday-text">0</p>
-        </div>
-      </div>
-
-      <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
-        <div class="p-2.5 bg-green-50 text-green-600 rounded-lg"><i data-lucide="leaf" class="w-5 h-5"></i></div>
-        <div>
-          <p class="text-xs text-monday-subtext font-medium">Sustentables</p>
-          <p id="kpiSustentables" class="text-lg font-bold text-monday-text">0</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- SECCIÓN DE GRÁFICOS -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-      <div class="bg-white p-5 rounded-xl border border-monday-border shadow-xs flex flex-col justify-between">
-        <div class="flex items-center justify-between border-b border-monday-border pb-3 mb-3">
-          <h3 class="text-xs font-bold text-monday-text uppercase tracking-wider flex items-center space-x-2">
-            <i data-lucide="pie-chart" class="w-4 h-4 text-monday-blue"></i>
-            <span>Distribución por Rubro Principal</span>
-          </h3>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-          <div class="md:col-span-7 h-44 relative"><canvas id="rubroChart"></canvas></div>
-          <div class="md:col-span-5 bg-monday-bg border border-monday-border p-3.5 rounded-xl text-center space-y-1">
-            <span class="text-[10px] font-bold text-monday-subtext uppercase">Rubro Mayoritario</span>
-            <p id="topRubroName" class="text-xs font-bold text-monday-text leading-tight">---</p>
-            <p id="topRubroPct" class="text-xl font-extrabold text-monday-blue">0%</p>
-            <p class="text-[10px] text-monday-subtext">del total del catastro</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white p-5 rounded-xl border border-monday-border shadow-xs flex flex-col justify-between">
-        <div class="flex items-center justify-between border-b border-monday-border pb-3 mb-3">
-          <h3 class="text-xs font-bold text-monday-text uppercase tracking-wider flex items-center space-x-2">
-            <i data-lucide="bar-chart-3" class="w-4 h-4 text-sercotec-red"></i>
-            <span>Distribución por Comuna</span>
-          </h3>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-          <div class="md:col-span-7 h-44 relative"><canvas id="comunaChart"></canvas></div>
-          <div class="md:col-span-5 bg-monday-bg border border-monday-border p-3.5 rounded-xl text-center space-y-1">
-            <span class="text-[10px] font-bold text-monday-subtext uppercase">Comuna Líder</span>
-            <p id="topComunaName" class="text-xs font-bold text-monday-text leading-tight">---</p>
-            <p id="topComunaPct" class="text-xl font-extrabold text-sercotec-red">0%</p>
-            <p class="text-[10px] text-monday-subtext">de concentración territorial</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- BARRA DE FILTROS (INCLUYE ESTADO DE VALIDACIÓN) -->
-    <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs">
-      <div class="flex flex-wrap gap-2.5 items-center">
-        
-        <div class="flex-1 min-w-[200px] relative">
-          <i data-lucide="search" class="w-3.5 h-3.5 text-monday-subtext absolute left-3 top-2.5"></i>
-          <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca, Nombre o Producto..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none focus:bg-white focus:ring-2 focus:ring-monday-blue">
-        </div>
-
-        <!-- FILTRO ESTADO DE VALIDACIÓN -->
-        <div class="w-auto">
-          <select id="filterValidacion" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
-            <option value="">Estado de Validación</option>
-            <option value="true">Validados</option>
-            <option value="false">Pendientes por Validar</option>
-          </select>
-        </div>
-
-        <div class="w-auto">
-          <select id="filterAsesor" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
-            <option value="">Todos los Asesores</option>
-            <option value="Carolina Riquelme">Carolina Riquelme</option>
-            <option value="Edgar Salinas">Edgar Salinas</option>
-            <option value="Josip Sekul">Josip Sekul</option>
-            <option value="Karol Urrutia">Karol Urrutia</option>
-            <option value="Víctor Morales">Víctor Morales</option>
-          </select>
-        </div>
-
-        <div class="w-auto">
-          <select id="filterComuna" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
-            <option value="">Todas las Comunas</option>
-            <option value="La Serena">La Serena</option>
-            <option value="Coquimbo">Coquimbo</option>
-            <option value="Vicuña">Vicuña</option>
-            <option value="Paihuano">Paihuano</option>
-            <option value="Andacollo">Andacollo</option>
-            <option value="Otra">Otra Comuna</option>
-          </select>
-        </div>
-
-        <div class="w-auto">
-          <select id="filterCategoria" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
-            <option value="">Todas las Categorías</option>
-            <option value="Producto con Identidad Local">Con Identidad Local</option>
-            <option value="Producto General">Producto General</option>
-          </select>
-        </div>
-
-        <div class="w-auto">
-          <select id="filterRubro" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
-            <option value="">Todos los Rubros</option>
-            <option value="Agroalimentario y Bebidas">Agroalimentario y Bebidas</option>
-            <option value="Vinos, Piscos y Licores">Vinos, Piscos y Licores</option>
-            <option value="Artesanía y Oficios Tradicionales">Artesanía y Oficios</option>
-            <option value="Orfebrería y Joyería">Orfebrería y Joyería</option>
-            <option value="Cosméceutica y Bienestar">Cosmética y Bienestar</option>
-            <option value="Textil, Confección y Diseño">Textil y Diseños</option>
-            <option value="Diseños 3D, Papelería e Impresión">3D y Papelería</option>
-          </select>
-        </div>
-
-        <div class="w-auto">
-          <select id="filterPermisos" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
-            <option value="">Permisos Sectoriales</option>
-            <option value="Sí">Con Permiso Vigente</option>
-            <option value="En trámite">En trámite</option>
-            <option value="No requiere">No requiere</option>
-            <option value="No cuenta con permisos">Sin permisos</option>
-          </select>
-        </div>
-
-        <div class="w-auto">
-          <select id="filterSustentable" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
-            <option value="">Sustentabilidad</option>
-            <option value="Sí">Sí</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- RESULTADOS Y FICHA -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <!-- ================================================================= -->
+    <!-- MÓDULO 1: DIRECTORIO DE EMPRENDEDORES (MANTENIDO TAL CUAL) -->
+    <!-- ================================================================= -->
+    <div id="module1Container" class="space-y-5">
       
-      <!-- LISTADO IZQUIERDA -->
-      <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[680px]">
-        <div class="p-3 border-b border-monday-border flex items-center justify-between bg-white rounded-t-xl">
-          <span class="text-xs font-bold text-monday-text uppercase tracking-wider">Resultados (<span id="countResults">0</span>)</span>
-          <div class="flex items-center space-x-1.5">
-            <button onclick="exportToExcel()" class="inline-flex items-center space-x-1 text-[11px] bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-2.5 py-1 rounded font-semibold transition">
-              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
-              <span>Excel</span>
-            </button>
-            <button onclick="exportToPDF()" class="inline-flex items-center space-x-1 text-[11px] bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-2.5 py-1 rounded font-semibold transition">
-              <i data-lucide="file-text" class="w-3.5 h-3.5 text-sercotec-red"></i>
-              <span>PDF</span>
-            </button>
+      <!-- KPI METRICS -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
+          <div class="p-2.5 bg-monday-softblue text-monday-blue rounded-lg"><i data-lucide="building-2" class="w-5 h-5"></i></div>
+          <div>
+            <p class="text-xs text-monday-subtext font-medium">Total Registros</p>
+            <p id="kpiTotal" class="text-lg font-bold text-monday-text">0</p>
           </div>
         </div>
-        <div id="listContainer" class="flex-1 overflow-y-auto divide-y divide-monday-border custom-scrollbar"></div>
+
+        <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
+          <div class="p-2.5 bg-amber-50 text-amber-600 rounded-lg"><i data-lucide="compass" class="w-5 h-5"></i></div>
+          <div>
+            <p class="text-xs text-monday-subtext font-medium">Identidad Local</p>
+            <p id="kpiIdentidad" class="text-lg font-bold text-monday-text">0%</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
+          <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
+          <div>
+            <p class="text-xs text-monday-subtext font-medium">Permisos Sanidad OK</p>
+            <p id="kpiPermisos" class="text-lg font-bold text-monday-text">0</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
+          <div class="p-2.5 bg-green-50 text-green-600 rounded-lg"><i data-lucide="leaf" class="w-5 h-5"></i></div>
+          <div>
+            <p class="text-xs text-monday-subtext font-medium">Sustentables</p>
+            <p id="kpiSustentables" class="text-lg font-bold text-monday-text">0</p>
+          </div>
+        </div>
       </div>
 
-      <!-- FICHA INDIVIDUAL DERECHA -->
-      <div class="lg:col-span-7 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[680px] overflow-hidden">
-        <div id="detailContainer" class="flex-1 overflow-y-auto p-5 custom-scrollbar"></div>
+      <!-- SECCIÓN DE GRÁFICOS -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="bg-white p-5 rounded-xl border border-monday-border shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between border-b border-monday-border pb-3 mb-3">
+            <h3 class="text-xs font-bold text-monday-text uppercase tracking-wider flex items-center space-x-2">
+              <i data-lucide="pie-chart" class="w-4 h-4 text-monday-blue"></i>
+              <span>Distribución por Rubro Principal</span>
+            </h3>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-7 h-44 relative"><canvas id="rubroChart"></canvas></div>
+            <div class="md:col-span-5 bg-monday-bg border border-monday-border p-3.5 rounded-xl text-center space-y-1">
+              <span class="text-[10px] font-bold text-monday-subtext uppercase">Rubro Mayoritario</span>
+              <p id="topRubroName" class="text-xs font-bold text-monday-text leading-tight">---</p>
+              <p id="topRubroPct" class="text-xl font-extrabold text-monday-blue">0%</p>
+              <p class="text-[10px] text-monday-subtext">del total del catastro</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-monday-border shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between border-b border-monday-border pb-3 mb-3">
+            <h3 class="text-xs font-bold text-monday-text uppercase tracking-wider flex items-center space-x-2">
+              <i data-lucide="bar-chart-3" class="w-4 h-4 text-sercotec-red"></i>
+              <span>Distribución por Comuna</span>
+            </h3>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-7 h-44 relative"><canvas id="comunaChart"></canvas></div>
+            <div class="md:col-span-5 bg-monday-bg border border-monday-border p-3.5 rounded-xl text-center space-y-1">
+              <span class="text-[10px] font-bold text-monday-subtext uppercase">Comuna Líder</span>
+              <p id="topComunaName" class="text-xs font-bold text-monday-text leading-tight">---</p>
+              <p id="topComunaPct" class="text-xl font-extrabold text-sercotec-red">0%</p>
+              <p class="text-[10px] text-monday-subtext">de concentración territorial</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BARRA DE FILTROS -->
+      <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs">
+        <div class="flex flex-wrap gap-2.5 items-center">
+          
+          <div class="flex-1 min-w-[200px] relative">
+            <i data-lucide="search" class="w-3.5 h-3.5 text-monday-subtext absolute left-3 top-2.5"></i>
+            <input type="text" id="searchQuery" oninput="applyFilters()" placeholder="Buscar por ID, Marca, Nombre o Producto..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none focus:bg-white focus:ring-2 focus:ring-monday-blue">
+          </div>
+
+          <div class="w-auto">
+            <select id="filterValidacion" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+              <option value="">Estado de Validación</option>
+              <option value="true">Validados</option>
+              <option value="false">Pendientes por Validar</option>
+            </select>
+          </div>
+
+          <div class="w-auto">
+            <select id="filterAsesor" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+              <option value="">Todos los Asesores</option>
+              <option value="Carolina Riquelme">Carolina Riquelme</option>
+              <option value="Edgar Salinas">Edgar Salinas</option>
+              <option value="Josip Sekul">Josip Sekul</option>
+              <option value="Karol Urrutia">Karol Urrutia</option>
+              <option value="Víctor Morales">Víctor Morales</option>
+            </select>
+          </div>
+
+          <div class="w-auto">
+            <select id="filterComuna" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+              <option value="">Todas las Comunas</option>
+              <option value="La Serena">La Serena</option>
+              <option value="Coquimbo">Coquimbo</option>
+              <option value="Vicuña">Vicuña</option>
+              <option value="Paihuano">Paihuano</option>
+              <option value="Andacollo">Andacollo</option>
+              <option value="Otra">Otra Comuna</option>
+            </select>
+          </div>
+
+          <div class="w-auto">
+            <select id="filterCategoria" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+              <option value="">Todas las Categorías</option>
+              <option value="Producto con Identidad Local">Con Identidad Local</option>
+              <option value="Producto General">Producto General</option>
+            </select>
+          </div>
+
+          <div class="w-auto">
+            <select id="filterRubro" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+              <option value="">Todos los Rubros</option>
+              <option value="Agroalimentario y Bebidas">Agroalimentario y Bebidas</option>
+              <option value="Vinos, Piscos y Licores">Vinos, Piscos y Licores</option>
+              <option value="Artesanía y Oficios Tradicionales">Artesanía y Oficios</option>
+              <option value="Orfebrería y Joyería">Orfebrería y Joyería</option>
+              <option value="Cosméceutica y Bienestar">Cosmética y Bienestar</option>
+              <option value="Textil, Confección y Diseño">Textil y Diseños</option>
+              <option value="Diseños 3D, Papelería e Impresión">3D y Papelería</option>
+            </select>
+          </div>
+
+          <div class="w-auto">
+            <select id="filterPermisos" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+              <option value="">Permisos Sectoriales</option>
+              <option value="Sí">Con Permiso Vigente</option>
+              <option value="En trámite">En trámite</option>
+              <option value="No requiere">No requiere</option>
+              <option value="No cuenta con permisos">Sin permisos</option>
+            </select>
+          </div>
+
+          <div class="w-auto">
+            <select id="filterSustentable" onchange="applyFilters()" class="py-1.5 px-3 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none text-monday-text font-medium">
+              <option value="">Sustentabilidad</option>
+              <option value="Sí">Sí</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RESULTADOS Y FICHA -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[680px]">
+          <div class="p-3 border-b border-monday-border flex items-center justify-between bg-white rounded-t-xl">
+            <span class="text-xs font-bold text-monday-text uppercase tracking-wider">Resultados (<span id="countResults">0</span>)</span>
+            <div class="flex items-center space-x-1.5">
+              <button onclick="exportToExcel()" class="inline-flex items-center space-x-1 text-[11px] bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-2.5 py-1 rounded font-semibold transition">
+                <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Excel</span>
+              </button>
+              <button onclick="exportToPDF()" class="inline-flex items-center space-x-1 text-[11px] bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-2.5 py-1 rounded font-semibold transition">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-sercotec-red"></i>
+                <span>PDF</span>
+              </button>
+            </div>
+          </div>
+          <div id="listContainer" class="flex-1 overflow-y-auto divide-y divide-monday-border custom-scrollbar"></div>
+        </div>
+
+        <div class="lg:col-span-7 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[680px] overflow-hidden">
+          <div id="detailContainer" class="flex-1 overflow-y-auto p-5 custom-scrollbar"></div>
+        </div>
       </div>
     </div>
+
+    <!-- ================================================================= -->
+    <!-- MÓDULO 2: GESTIÓN DE EVENTOS Y FERIAS -->
+    <!-- ================================================================= -->
+    <div id="module2Container" class="space-y-5 hidden">
+      
+      <!-- KPI EVENTOS -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
+          <div class="p-2.5 bg-monday-softblue text-monday-blue rounded-lg"><i data-lucide="calendar" class="w-5 h-5"></i></div>
+          <div>
+            <p class="text-xs text-monday-subtext font-medium">Total Eventos</p>
+            <p id="kpiTotalEventos" class="text-lg font-bold text-monday-text">0</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
+          <div class="p-2.5 bg-amber-50 text-amber-600 rounded-lg"><i data-lucide="users" class="w-5 h-5"></i></div>
+          <div>
+            <p class="text-xs text-monday-subtext font-medium">Participantes Acumulados</p>
+            <p id="kpiTotalParticipantes" class="text-lg font-bold text-monday-text">0</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
+          <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg"><i data-lucide="dollar-sign" class="w-5 h-5"></i></div>
+          <div>
+            <p class="text-xs text-monday-subtext font-medium">Ventas Totales</p>
+            <p id="kpiVentasTotales" class="text-lg font-bold text-monday-text">$0</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
+          <div class="p-2.5 bg-purple-50 text-monday-purple rounded-lg"><i data-lucide="trending-up" class="w-5 h-5"></i></div>
+          <div>
+            <p class="text-xs text-monday-subtext font-medium">Promedio Ventas / Evento</p>
+            <p id="kpiPromedioVentas" class="text-lg font-bold text-monday-text">$0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCIÓN AGREGAR EVENTO -->
+      <div class="flex justify-between items-center bg-white p-3.5 rounded-xl border border-monday-border shadow-xs">
+        <div>
+          <h3 class="text-sm font-bold text-monday-text">Historial de Eventos, Expos y Ferias</h3>
+          <p class="text-xs text-monday-subtext">Asigna emprendedores del Módulo Directorio y lleva el control comercial.</p>
+        </div>
+        <button onclick="openCreateEventModal()" class="inline-flex items-center space-x-1.5 bg-monday-blue hover:bg-monday-hoverblue text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-xs transition">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>Crear Nuevo Evento</span>
+        </button>
+      </div>
+
+      <!-- ESTRUCTURA PRINCIPAL DE EVENTOS -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        
+        <!-- LISTA DE EVENTOS IZQUIERDA -->
+        <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[600px]">
+          <div class="p-3 border-b border-monday-border flex items-center justify-between bg-white rounded-t-xl">
+            <span class="text-xs font-bold text-monday-text uppercase tracking-wider">Eventos Registrados (<span id="countEventos">0</span>)</span>
+          </div>
+          <div id="eventListContainer" class="flex-1 overflow-y-auto divide-y divide-monday-border custom-scrollbar"></div>
+        </div>
+
+        <!-- DETALLE DEL EVENTO DERECHA -->
+        <div class="lg:col-span-7 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[600px] overflow-hidden">
+          <div id="eventDetailContainer" class="flex-1 overflow-y-auto p-5 custom-scrollbar"></div>
+        </div>
+      </div>
+
+    </div>
+
   </main>
 
-  <!-- MODAL CONFIGURACIÓN SHEETS -->
+  <!-- MODAL NUEVO / EDITAR EVENTO -->
+  <div id="eventModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-xl space-y-4 border border-monday-border">
+      <div class="flex items-center justify-between border-b border-monday-border pb-3">
+        <h3 id="eventModalTitle" class="text-sm font-bold text-monday-text flex items-center space-x-2">
+          <i data-lucide="calendar" class="w-4 h-4 text-monday-blue"></i>
+          <span>Crear Nuevo Evento</span>
+        </h3>
+        <button onclick="closeEventModal()" class="text-monday-subtext hover:text-monday-text"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-medium text-monday-subtext mb-1">Nombre del Evento / Feria</label>
+          <input type="text" id="evNombre" placeholder="Ej. Expo Verano Peñuelas" class="w-full p-2 border border-monday-border rounded-lg outline-none focus:ring-2 focus:ring-monday-blue">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-medium text-monday-subtext mb-1">Fecha</label>
+            <input type="date" id="evFecha" class="w-full p-2 border border-monday-border rounded-lg outline-none">
+          </div>
+          <div>
+            <label class="block font-medium text-monday-subtext mb-1">Comuna</label>
+            <select id="evComuna" class="w-full p-2 border border-monday-border rounded-lg outline-none font-medium">
+              <option value="La Serena">La Serena</option>
+              <option value="Coquimbo">Coquimbo</option>
+              <option value="Vicuña">Vicuña</option>
+              <option value="Paihuano">Paihuano</option>
+              <option value="Andacollo">Andacollo</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block font-medium text-monday-subtext mb-1">Dirección / Lugar</label>
+          <input type="text" id="evDireccion" placeholder="Ej. Av. Costanera #4500" class="w-full p-2 border border-monday-border rounded-lg outline-none">
+        </div>
+        <div>
+          <label class="block font-medium text-monday-subtext mb-1">Ventas Totales ($ CLP)</label>
+          <input type="number" id="evVentas" placeholder="Ej. 1500000" class="w-full p-2 border border-monday-border rounded-lg outline-none">
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-2 pt-2 border-t border-monday-border">
+        <button onclick="closeEventModal()" class="px-3.5 py-1.5 text-xs font-semibold text-monday-subtext hover:bg-gray-100 rounded-lg">Cancelar</button>
+        <button onclick="saveEvent()" class="px-3.5 py-1.5 text-xs font-semibold bg-monday-blue text-white rounded-lg hover:bg-monday-hoverblue transition">Guardar Evento</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALES DE MODULO 1 (MANTENIDOS) -->
   <div id="configModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-xl space-y-4 border border-monday-border">
       <div class="flex items-center justify-between border-b border-monday-border pb-3">
@@ -297,7 +432,6 @@
     </div>
   </div>
 
-  <!-- MODAL VALIDACIÓN DE ASESOR -->
   <div id="validateModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl space-y-4 border border-monday-border text-center">
       <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto">
@@ -305,7 +439,7 @@
       </div>
       <div>
         <h3 class="text-base font-bold text-monday-text">Validar Información</h3>
-        <p class="text-xs text-monday-subtext mt-1">¿Confirmas que la información de este emprendimiento ha sido verificada correctamente por el asesor a cargo?</p>
+        <p class="text-xs text-monday-subtext mt-1">¿Confirmas que la información ha sido verificada por el asesor a cargo?</p>
       </div>
       <div class="flex justify-center space-x-3 pt-2">
         <button onclick="closeValidateModal()" class="px-4 py-2 text-xs font-semibold text-monday-subtext hover:bg-gray-100 rounded-lg">No</button>
@@ -314,7 +448,6 @@
     </div>
   </div>
 
-  <!-- MODAL ADVERTENCIA DE ELIMINACIÓN -->
   <div id="deleteModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl space-y-4 border border-monday-border text-center">
       <div class="w-12 h-12 bg-red-100 text-sercotec-red rounded-full flex items-center justify-center mx-auto">
@@ -322,7 +455,7 @@
       </div>
       <div>
         <h3 class="text-base font-bold text-monday-text">¿Eliminar registro definitivo?</h3>
-        <p class="text-xs text-monday-subtext mt-1">Esta acción eliminará por completo la ficha de la base de datos activa. Esta operación no se puede deshacer.</p>
+        <p class="text-xs text-monday-subtext mt-1">Esta acción eliminará por completo la ficha de la base de datos activa.</p>
       </div>
       <div class="flex justify-center space-x-3 pt-2">
         <button onclick="closeDeleteModal()" class="px-4 py-2 text-xs font-semibold text-monday-subtext hover:bg-gray-100 rounded-lg">Cancelar</button>
@@ -332,6 +465,7 @@
   </div>
 
   <script>
+    // DATOS MÓDULO 1
     let rawData = [
       {
         id: "NEOSERRA-1001",
@@ -411,8 +545,33 @@
       }
     ];
 
+    // DATOS MÓDULO 2 (EVENTOS)
+    let eventData = [
+      {
+        id: "EVT-2025-01",
+        nombre: "Expo Fiestas Patrias Elqui",
+        fecha: "2025-09-17",
+        comuna: "La Serena",
+        direccion: "Plaza de Armas La Serena",
+        ventas: 3850000,
+        participantes: ["NEOSERRA-1001", "NEOSERRA-1004"]
+      },
+      {
+        id: "EVT-2025-02",
+        nombre: "Feria de Sustentabilidad y Reciclaje",
+        fecha: "2025-10-12",
+        comuna: "Vicuña",
+        direccion: "Plaza Bicentenario Vicuña",
+        ventas: 2100000,
+        participantes: ["NEOSERRA-1002"]
+      }
+    ];
+
     let filteredData = [...rawData];
     let selectedItem = rawData[0];
+    let selectedEvent = eventData[0];
+    let currentModule = 1;
+    let editingEventId = null;
     let isEditing = false;
     let sheetConfigId = localStorage.getItem('sercotec_sheet_id') || '';
     let rubroChartInstance = null;
@@ -425,9 +584,286 @@
         syncData();
       } else {
         renderAll();
+        renderEventsAll();
       }
     });
 
+    // CAMBIO DE MÓDULOS
+    function switchModule(modNum) {
+      currentModule = modNum;
+      const mod1 = document.getElementById('module1Container');
+      const mod2 = document.getElementById('module2Container');
+      const btn1 = document.getElementById('btnMod1');
+      const btn2 = document.getElementById('btnMod2');
+
+      if (modNum === 1) {
+        mod1.classList.remove('hidden');
+        mod2.classList.add('hidden');
+        btn1.className = "flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-monday-blue text-white shadow-xs";
+        btn2.className = "flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-monday-subtext hover:text-monday-text transition";
+      } else {
+        mod1.classList.add('hidden');
+        mod2.classList.remove('hidden');
+        btn2.className = "flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-monday-blue text-white shadow-xs";
+        btn1.className = "flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-monday-subtext hover:text-monday-text transition";
+        renderEventsAll();
+      }
+      lucide.createIcons();
+    }
+
+    // ==========================================
+    // LÓGICA MÓDULO 2: EVENTOS
+    // ==========================================
+    function renderEventsAll() {
+      calculateEventKPIs();
+      renderEventList();
+      renderEventDetail(selectedEvent);
+      document.getElementById('countEventos').innerText = eventData.length;
+    }
+
+    function calculateEventKPIs() {
+      document.getElementById('kpiTotalEventos').innerText = eventData.length;
+      let totalPart = 0;
+      let totalVentas = 0;
+      eventData.forEach(e => {
+        totalPart += e.participantes ? e.participantes.length : 0;
+        totalVentas += Number(e.ventas) || 0;
+      });
+      document.getElementById('kpiTotalParticipantes').innerText = totalPart;
+      document.getElementById('kpiVentasTotales').innerText = '$' + totalVentas.toLocaleString('es-CL');
+      const prom = eventData.length ? Math.round(totalVentas / eventData.length) : 0;
+      document.getElementById('kpiPromedioVentas').innerText = '$' + prom.toLocaleString('es-CL');
+    }
+
+    function renderEventList() {
+      const container = document.getElementById('eventListContainer');
+      container.innerHTML = '';
+      if (!eventData.length) {
+        container.innerHTML = `<div class="p-8 text-center text-monday-subtext text-xs">No hay eventos creados aún.</div>`;
+        return;
+      }
+
+      eventData.forEach(ev => {
+        const isSel = selectedEvent && selectedEvent.id === ev.id;
+        const card = document.createElement('div');
+        card.className = `p-3.5 cursor-pointer transition border-l-4 ${isSel ? 'bg-monday-softblue border-monday-blue font-semibold' : 'hover:bg-gray-50 border-transparent'}`;
+        card.onclick = () => { selectedEvent = ev; renderEventList(); renderEventDetail(ev); };
+
+        card.innerHTML = `
+          <div class="flex items-start justify-between">
+            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-gray-100 text-monday-subtext border border-monday-border">${ev.id}</span>
+            <span class="text-[10px] text-monday-subtext font-medium">${ev.fecha}</span>
+          </div>
+          <h4 class="text-xs font-bold text-monday-text mt-1">${ev.nombre}</h4>
+          <div class="flex items-center justify-between mt-1 text-[11px] text-monday-subtext">
+            <span>📍 ${ev.comuna}</span>
+            <span class="font-bold text-emerald-600">$${Number(ev.ventas).toLocaleString('es-CL')}</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    function renderEventDetail(ev) {
+      const container = document.getElementById('eventDetailContainer');
+      if (!ev) {
+        container.innerHTML = `<div class="h-full flex items-center justify-center text-monday-subtext text-xs">Selecciona un evento de la lista</div>`;
+        return;
+      }
+
+      // Obtener datos completos de participantes desde Módulo 1
+      const partObjs = rawData.filter(d => ev.participantes && ev.participantes.includes(d.id));
+
+      container.innerHTML = `
+        <div class="space-y-4">
+          
+          <div class="flex items-start justify-between border-b border-monday-border pb-3">
+            <div>
+              <span class="text-[10px] font-bold text-monday-blue bg-monday-softblue px-2 py-0.5 rounded border border-blue-200">${ev.id}</span>
+              <h2 class="text-lg font-bold text-monday-text mt-1">${ev.nombre}</h2>
+              <p class="text-xs text-monday-subtext flex items-center space-x-1 mt-0.5">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sercotec-red"></i>
+                <span>${ev.direccion}, <strong>${ev.comuna}</strong></span>
+              </p>
+            </div>
+
+            <!-- Botones Editar y Borrar Evento -->
+            <div class="flex items-center space-x-2">
+              <button onclick="editEvent('${ev.id}')" title="Editar Evento" class="p-1.5 text-monday-subtext hover:text-monday-blue bg-gray-50 border border-monday-border rounded-lg transition">
+                <i data-lucide="pencil" class="w-4 h-4"></i>
+              </button>
+              <button onclick="deleteEvent('${ev.id}')" title="Eliminar Evento" class="p-1.5 text-monday-subtext hover:text-sercotec-red bg-gray-50 border border-monday-border rounded-lg transition">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Métricas Evento -->
+          <div class="grid grid-cols-3 gap-3 bg-monday-bg p-3.5 rounded-xl border border-monday-border text-xs">
+            <div>
+              <span class="text-monday-subtext block font-medium">Fecha Evento</span>
+              <p class="font-bold text-monday-text">${ev.fecha}</p>
+            </div>
+            <div>
+              <span class="text-monday-subtext block font-medium">Participantes</span>
+              <p class="font-bold text-monday-text">${ev.participantes ? ev.participantes.length : 0} emprendedores</p>
+            </div>
+            <div>
+              <span class="text-monday-subtext block font-medium">Ventas Reportadas</span>
+              <p class="font-bold text-emerald-600">$${Number(ev.ventas).toLocaleString('es-CL')}</p>
+            </div>
+          </div>
+
+          <!-- Asignador de Emprendedores alimentado del Módulo 1 -->
+          <div class="space-y-2 pt-2 border-t border-monday-border">
+            <h4 class="text-xs font-bold text-monday-text uppercase">Asignar Emprendedores del Directorio</h4>
+            <div class="flex space-x-2">
+              <select id="selectAssignClient" class="flex-1 py-1.5 px-3 text-xs bg-white border border-monday-border rounded-lg outline-none font-medium">
+                <option value="">-- Seleccionar cliente del Módulo 1 --</option>
+                ${rawData.map(client => `
+                  <option value="${client.id}">${client.marca} (${client.comuna}) - ID: ${client.id}</option>
+                `).join('')}
+              </select>
+              <button onclick="addClientToEvent('${ev.id}')" class="px-3.5 py-1.5 bg-monday-blue hover:bg-monday-hoverblue text-white text-xs font-bold rounded-lg transition flex items-center space-x-1">
+                <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                <span>Asignar</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Lista de Emprendedores Asignados -->
+          <div class="space-y-2">
+            <h4 class="text-xs font-bold text-monday-text uppercase">Lista de Participantes Confirmados (${partObjs.length})</h4>
+            
+            <div class="bg-white border border-monday-border rounded-xl divide-y divide-monday-border max-h-56 overflow-y-auto custom-scrollbar">
+              ${partObjs.length ? partObjs.map(p => `
+                <div class="p-3 flex items-center justify-between text-xs">
+                  <div>
+                    <div class="flex items-center space-x-1.5">
+                      <span class="font-bold text-monday-text">${p.marca}</span>
+                      <span class="text-[9px] bg-blue-50 text-monday-blue px-1.5 py-0.5 rounded border border-blue-200">${p.id}</span>
+                    </div>
+                    <p class="text-monday-subtext text-[11px]">${p.contacto} • ${p.rubro} • ${p.comuna}</p>
+                  </div>
+                  <button onclick="removeClientFromEvent('${ev.id}', '${p.id}')" title="Quitar del evento" class="text-gray-400 hover:text-sercotec-red p-1">
+                    <i data-lucide="x-circle" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              `).join('') : '<p class="p-4 text-center text-monday-subtext text-xs">Aún no hay emprendedores asignados a este evento.</p>'}
+            </div>
+          </div>
+
+        </div>
+      `;
+
+      lucide.createIcons();
+    }
+
+    function openCreateEventModal() {
+      editingEventId = null;
+      document.getElementById('eventModalTitle').innerText = "Crear Nuevo Evento";
+      document.getElementById('evNombre').value = "";
+      document.getElementById('evFecha').value = "";
+      document.getElementById('evComuna').value = "La Serena";
+      document.getElementById('evDireccion').value = "";
+      document.getElementById('evVentas').value = "";
+      document.getElementById('eventModal').classList.remove('hidden');
+    }
+
+    function closeEventModal() {
+      document.getElementById('eventModal').classList.add('hidden');
+    }
+
+    function saveEvent() {
+      const nombre = document.getElementById('evNombre').value.trim();
+      const fecha = document.getElementById('evFecha').value;
+      const comuna = document.getElementById('evComuna').value;
+      const direccion = document.getElementById('evDireccion').value.trim();
+      const ventas = document.getElementById('evVentas').value || 0;
+
+      if (!nombre || !fecha) {
+        alert("Por favor completa el nombre y la fecha del evento.");
+        return;
+      }
+
+      if (editingEventId) {
+        const ev = eventData.find(e => e.id === editingEventId);
+        if (ev) {
+          ev.nombre = nombre;
+          ev.fecha = fecha;
+          ev.comuna = comuna;
+          ev.direccion = direccion;
+          ev.ventas = Number(ventas);
+        }
+      } else {
+        const newEv = {
+          id: `EVT-2025-${(eventData.length + 1).toString().padStart(2, '0')}`,
+          nombre,
+          fecha,
+          comuna,
+          direccion,
+          ventas: Number(ventas),
+          participantes: []
+        };
+        eventData.unshift(newEv);
+        selectedEvent = newEv;
+      }
+
+      closeEventModal();
+      renderEventsAll();
+    }
+
+    function editEvent(evId) {
+      const ev = eventData.find(e => e.id === evId);
+      if (!ev) return;
+      editingEventId = evId;
+      document.getElementById('eventModalTitle').innerText = "Editar Evento";
+      document.getElementById('evNombre').value = ev.nombre;
+      document.getElementById('evFecha').value = ev.fecha;
+      document.getElementById('evComuna').value = ev.comuna;
+      document.getElementById('evDireccion').value = ev.direccion;
+      document.getElementById('evVentas').value = ev.ventas;
+      document.getElementById('eventModal').classList.remove('hidden');
+    }
+
+    function deleteEvent(evId) {
+      if (confirm("¿Estás seguro de eliminar este evento y todo su historial?")) {
+        eventData = eventData.filter(e => e.id !== evId);
+        selectedEvent = eventData[0] || null;
+        renderEventsAll();
+      }
+    }
+
+    function addClientToEvent(evId) {
+      const clientSelect = document.getElementById('selectAssignClient');
+      const clientId = clientSelect.value;
+      if (!clientId) return;
+
+      const ev = eventData.find(e => e.id === evId);
+      if (ev) {
+        if (!ev.participantes) ev.participantes = [];
+        if (!ev.participantes.includes(clientId)) {
+          ev.participantes.push(clientId);
+          renderEventsAll();
+        } else {
+          alert("Este emprendedor ya está asignado al evento.");
+        }
+      }
+    }
+
+    function removeClientFromEvent(evId, clientId) {
+      const ev = eventData.find(e => e.id === evId);
+      if (ev && ev.participantes) {
+        ev.participantes = ev.participantes.filter(id => id !== clientId);
+        renderEventsAll();
+      }
+    }
+
+    // ==========================================
+    // LÓGICA MÓDULO 1: DIRECTORIO (SE MANTIENE INTACTA)
+    // ==========================================
     function renderAll() {
       calculateKPIs();
       renderCharts();
@@ -553,7 +989,6 @@
       const instaClean = item.instagram ? item.instagram.replace('@', '').trim() : '';
       const asesorPhone = item.asesorTel ? item.asesorTel.replace(/[^\d]/g, '') : '';
 
-      // MODO EDICIÓN
       if (isEditing) {
         container.innerHTML = `
           <div class="space-y-4">
@@ -637,7 +1072,6 @@
         return;
       }
 
-      // MODO LECTURA NORMAL
       container.innerHTML = `
         <div class="space-y-4">
           
@@ -736,7 +1170,7 @@
             </div>
           ` : ''}
 
-          <!-- BOTONES LLAMADO A LA ACCIÓN EMPRENDEDOR -->
+          <!-- BOTONES EMPRENDEDOR -->
           <div class="pt-3 border-t border-monday-border grid grid-cols-1 md:grid-cols-3 gap-2">
             <a href="https://wa.me/${cleanPhone}" target="_blank" class="inline-flex items-center justify-center space-x-1.5 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl text-xs font-semibold shadow-xs transition">
               <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
@@ -752,7 +1186,7 @@
             </button>
           </div>
 
-          <!-- ASESOR CDN AL FINAL -->
+          <!-- ASESOR CDN -->
           <div class="bg-monday-softblue/60 border border-blue-200 p-3.5 rounded-xl flex items-center justify-between mt-2">
             <div>
               <span class="text-[10px] font-bold text-monday-blue uppercase tracking-wider block">Asesor CDN a Cargo</span>
@@ -776,14 +1210,8 @@
       lucide.createIcons();
     }
 
-    function toggleEdit() {
-      isEditing = !isEditing;
-      renderDetail(selectedItem);
-    }
-    function cancelEdit() {
-      isEditing = false;
-      renderDetail(selectedItem);
-    }
+    function toggleEdit() { isEditing = !isEditing; renderDetail(selectedItem); }
+    function cancelEdit() { isEditing = false; renderDetail(selectedItem); }
     function saveEdit() {
       if (!selectedItem) return;
       selectedItem.marca = document.getElementById('editMarca').value;
@@ -925,7 +1353,6 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
       }).catch(err => alert("Error al copiar texto: " + err));
     }
 
-    // APLICACIÓN DE FILTROS INCLUYENDO VALIDACIÓN
     function applyFilters() {
       const q = document.getElementById('searchQuery').value.toLowerCase();
       const validacion = document.getElementById('filterValidacion').value;
@@ -1026,6 +1453,7 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
       }
       rawData = parsed;
       applyFilters();
+      if (currentModule === 2) renderEventsAll();
     }
   </script>
 </body>
