@@ -247,7 +247,7 @@
               <option value="Sí">Con Permiso Vigente</option>
               <option value="En trámite">En trámite</option>
               <option value="No requiere">No requiere</option>
-              <option value="No cuenta com permisos">Sin permisos</option>
+              <option value="No cuenta con permisos">Sin permisos</option>
             </select>
           </div>
 
@@ -292,7 +292,7 @@
     <!-- ================================================================= -->
     <div id="module2Container" class="space-y-5 hidden">
       
-      <!-- KPI EVENTOS (ACTUALIZADO A 5 TARJETAS CON RUBRO LÍDER) -->
+      <!-- KPI EVENTOS (5 TARJETAS SUPERIORES) -->
       <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
         <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs flex items-center space-x-2.5">
           <div class="p-2 bg-monday-softblue text-monday-blue rounded-lg"><i data-lucide="calendar" class="w-4 h-4"></i></div>
@@ -326,7 +326,6 @@
           </div>
         </div>
 
-        <!-- NUEVA TARJETA: RUBRO LÍDER GLOBAL -->
         <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs flex items-center space-x-2.5">
           <div class="p-2 bg-amber-100 text-amber-700 rounded-lg"><i data-lucide="award" class="w-4 h-4"></i></div>
           <div class="overflow-hidden">
@@ -387,12 +386,11 @@
       <!-- ESTRUCTURA PRINCIPAL DE EVENTOS -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
         
-        <!-- LISTA DE EVENTOS IZQUIERDA (INCLUYE BOTONES EXCEL Y PDF DEL LISTADO FILTRADO) -->
-        <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[640px]">
+        <!-- LISTA DE EVENTOS IZQUIERDA -->
+        <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[660px]">
           <div class="p-3 border-b border-monday-border flex items-center justify-between bg-white rounded-t-xl">
             <span class="text-xs font-bold text-monday-text uppercase tracking-wider">Eventos Filtrados (<span id="countEventos">0</span>)</span>
             
-            <!-- ACCIONES DE EXPORTACIÓN DEL LISTADO DE EVENTOS -->
             <div class="flex items-center space-x-1.5">
               <button onclick="exportEventListToExcel()" class="inline-flex items-center space-x-1 text-[11px] bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-2.5 py-1 rounded font-semibold transition" title="Exportar Lista de Eventos a Excel">
                 <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
@@ -408,7 +406,7 @@
         </div>
 
         <!-- DETALLE DEL EVENTO DERECHA -->
-        <div class="lg:col-span-7 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[640px] overflow-hidden">
+        <div class="lg:col-span-7 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[660px] overflow-hidden">
           <div id="eventDetailContainer" class="flex-1 overflow-y-auto p-5 custom-scrollbar"></div>
         </div>
       </div>
@@ -588,7 +586,7 @@
       }
     ];
 
-    // DATOS MÓDULO 2 (EVENTOS)
+    // DATOS MÓDULO 2 (EVENTOS CON EVALUACIÓN Y ESTADOS DE ENCUESTA)
     let eventData = [
       {
         id: "EVT-2025-01",
@@ -598,9 +596,11 @@
         fechaFin: "2025-09-20",
         comuna: "La Serena",
         direccion: "Plaza de Armas La Serena",
+        rating: 4.8,
+        respuestasCount: 2,
         participantes: [
-          { clientId: "NEOSERRA-1001", ventas: 1850000 },
-          { clientId: "NEOSERRA-1004", ventas: 2000000 }
+          { clientId: "NEOSERRA-1001", ventas: 1850000, encuestaRespondida: true },
+          { clientId: "NEOSERRA-1004", ventas: 2000000, encuestaRespondida: true }
         ]
       },
       {
@@ -611,8 +611,10 @@
         fechaFin: "2025-10-14",
         comuna: "Vicuña",
         direccion: "Plaza Bicentenario Vicuña",
+        rating: 4.2,
+        respuestasCount: 1,
         participantes: [
-          { clientId: "NEOSERRA-1002", ventas: 2100000 }
+          { clientId: "NEOSERRA-1002", ventas: 2100000, encuestaRespondida: false }
         ]
       }
     ];
@@ -658,6 +660,24 @@
         renderEventsAll();
       }
       lucide.createIcons();
+    }
+
+    // HELPER PARA RENDERIZAR ESTRELLAS DE EVALUACIÓN
+    function renderStarsHTML(score) {
+      const full = Math.floor(score);
+      const hasHalf = score - full >= 0.3;
+      let stars = '';
+      for (let i = 0; i < full; i++) {
+        stars += '<span class="text-amber-400">★</span>';
+      }
+      if (hasHalf) {
+        stars += '<span class="text-amber-400">½</span>';
+      }
+      const empty = 5 - Math.ceil(score);
+      for (let i = 0; i < empty; i++) {
+        stars += '<span class="text-gray-300">★</span>';
+      }
+      return stars;
     }
 
     // ==========================================
@@ -711,7 +731,6 @@
       const prom = eventData.length ? Math.round(totalVentasGlobales / eventData.length) : 0;
       document.getElementById('kpiPromedioVentas').innerText = '$' + prom.toLocaleString('es-CL');
 
-      // Calcular Rubro Líder en Ventas a Nivel Global
       let topRubroGlobal = "N/A";
       let maxSalesGlobal = 0;
       Object.keys(globalRubroSales).forEach(r => {
@@ -811,7 +830,7 @@
       applyEventFilters();
     }
 
-    // RENDERIZAR LISTADO CON CANTIDAD DE PARTICIPANTES
+    // LISTADO CON EVALUACIÓN DE ESTRELLAS
     function renderEventList() {
       const container = document.getElementById('eventListContainer');
       container.innerHTML = '';
@@ -825,6 +844,7 @@
         const totalEv = calculateEventTotal(ev);
         const dias = calculateEventDays(ev);
         const numPart = ev.participantes ? ev.participantes.length : 0;
+        const score = ev.rating || 0;
 
         const card = document.createElement('div');
         card.className = `p-3.5 cursor-pointer transition border-l-4 ${isSel ? 'bg-monday-softblue border-monday-blue font-semibold' : 'hover:bg-gray-50 border-transparent'}`;
@@ -833,12 +853,18 @@
         card.innerHTML = `
           <div class="flex items-start justify-between">
             <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-gray-100 text-monday-subtext border border-monday-border">${ev.id}</span>
-            <span class="text-[10px] bg-blue-50 text-monday-blue px-2 py-0.5 rounded-full font-bold border border-blue-200">${dias} día(s)</span>
+            <div class="flex items-center space-x-1.5">
+              <!-- INSIGNIA DE ESTRELLAS EN LISTADO -->
+              <span class="inline-flex items-center text-[10px] bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full font-bold border border-amber-200">
+                <span class="mr-1">${score.toFixed(1)}</span>
+                <span class="text-xs leading-none">${renderStarsHTML(score)}</span>
+              </span>
+              <span class="text-[10px] bg-blue-50 text-monday-blue px-2 py-0.5 rounded-full font-bold border border-blue-200">${dias}d</span>
+            </div>
           </div>
           <h4 class="text-xs font-bold text-monday-text mt-1">${ev.nombre}</h4>
           <p class="text-[10px] text-monday-subtext truncate">Del ${ev.fechaInicio} al ${ev.fechaFin}</p>
           
-          <!-- DATOS INCLUYENDO CANTIDAD DE PARTICIPANTES Y VENTAS -->
           <div class="flex items-center justify-between mt-1 text-[11px] text-monday-subtext">
             <span>📍 ${ev.comuna} • <strong>${numPart} part.</strong></span>
             <span class="font-bold text-emerald-600">$${totalEv.toLocaleString('es-CL')}</span>
@@ -850,7 +876,7 @@
       lucide.createIcons();
     }
 
-    // RENDERIZAR FICHA INDIVIDUAL (INCLUYE CANTIDAD DE PARTICIPANTES QUE SE ACTUALIZA AUTOMÁTICAMENTE)
+    // FICHA INDIVIDUAL (INCLUYE EVALUACIÓN DE ESTRELLAS + 2 BOTONES DE ACCIÓN AUTOMÁTICOS)
     function renderEventDetail(ev) {
       const container = document.getElementById('eventDetailContainer');
       if (!ev) {
@@ -862,6 +888,8 @@
       const dias = calculateEventDays(ev);
       const promedioDiario = Math.round(totalEv / dias);
       const numParticipantes = ev.participantes ? ev.participantes.length : 0;
+      const score = ev.rating || 0;
+      const respuestasCount = ev.respuestasCount || 0;
 
       const rubroTotals = {};
       if (ev.participantes) {
@@ -920,7 +948,7 @@
             </div>
           </div>
 
-          <!-- Métricas del Evento Incluyendo Cantidad de Participantes Auto-actualizable -->
+          <!-- Métricas del Evento Incluyendo Evaluación con Estrellas -->
           <div class="grid grid-cols-2 md:grid-cols-5 gap-2.5 bg-monday-bg p-3.5 rounded-xl border border-monday-border text-xs">
             <div>
               <span class="text-monday-subtext block font-medium">Fechas & Duración</span>
@@ -939,14 +967,20 @@
               <span class="text-monday-subtext block font-medium">Prom. Ventas Diarias</span>
               <p class="font-bold text-monday-purple text-sm">$${promedioDiario.toLocaleString('es-CL')}</p>
             </div>
-            <div>
-              <span class="text-monday-subtext block font-medium">Rubro Líder</span>
-              <p class="font-bold text-monday-text text-[11px] truncate" title="${topRubroName}">${topRubroName}</p>
+            
+            <!-- BLOQUE DE EVALUACIÓN GENERAL CON ESTRELLAS -->
+            <div class="bg-amber-50/80 p-2 rounded-lg border border-amber-200">
+              <span class="text-amber-800 block font-bold text-[10px] uppercase">Evaluación General</span>
+              <div class="flex items-center space-x-1 mt-0.5">
+                <span class="text-sm font-extrabold text-amber-900">${score.toFixed(1)}</span>
+                <span class="text-sm tracking-tighter">${renderStarsHTML(score)}</span>
+              </div>
+              <span class="text-[9px] text-amber-700 block mt-0.5">(${respuestasCount}/${numParticipantes} respondidas)</span>
             </div>
           </div>
 
           <!-- Asignador de Emprendedores -->
-          <div class="space-y-2 pt-2 border-t border-monday-border">
+          <div class="space-y-2 pt-1 border-t border-monday-border">
             <h4 class="text-xs font-bold text-monday-text uppercase">Asignar Emprendedores del Directorio</h4>
             <div class="flex space-x-2">
               <select id="selectAssignClient" class="flex-1 py-1.5 px-3 text-xs bg-white border border-monday-border rounded-lg outline-none font-medium">
@@ -966,7 +1000,7 @@
           <div class="space-y-2">
             <h4 class="text-xs font-bold text-monday-text uppercase">Lista de Participantes Confirmados (${numParticipantes})</h4>
             
-            <div class="bg-white border border-monday-border rounded-xl divide-y divide-monday-border max-h-52 overflow-y-auto custom-scrollbar">
+            <div class="bg-white border border-monday-border rounded-xl divide-y divide-monday-border max-h-48 overflow-y-auto custom-scrollbar">
               ${(ev.participantes && ev.participantes.length) ? ev.participantes.map(part => {
                 const clientObj = rawData.find(d => d.id === part.clientId);
                 if (!clientObj) return '';
@@ -976,6 +1010,12 @@
                       <div class="flex items-center space-x-1.5">
                         <span class="font-bold text-monday-text">${clientObj.marca}</span>
                         <span class="text-[9px] bg-blue-50 text-monday-blue px-1.5 py-0.5 rounded border border-blue-200">${clientObj.id}</span>
+                        
+                        <!-- BADGE ESTADO ENCUESTA PARTICIPANTE -->
+                        ${part.encuestaRespondida ? 
+                          '<span class="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full font-medium">Encuesta: OK</span>' : 
+                          '<span class="text-[9px] bg-amber-100 text-amber-800 px-1.5 py-0.2 rounded-full font-medium">Encuesta: Pendiente</span>'
+                        }
                       </div>
                       <p class="text-monday-subtext text-[11px]">${clientObj.contacto} • ${clientObj.rubro} • ${clientObj.comuna}</p>
                     </div>
@@ -995,10 +1035,31 @@
             </div>
           </div>
 
+          <!-- BOTONES DE ACCIÓN AUTOMÁTICOS AL FINAL DE LA FICHA -->
+          <div class="pt-3 border-t border-monday-border grid grid-cols-1 md:grid-cols-2 gap-3">
+            <button onclick="triggerSatisfactionSurvey('${ev.id}')" class="inline-flex items-center justify-center space-x-2 bg-monday-purple hover:bg-indigo-600 text-white py-2.5 px-4 rounded-xl text-xs font-bold shadow-xs transition">
+              <i data-lucide="star" class="w-4 h-4 text-amber-300"></i>
+              <span>Enviar Encuesta de Satisfacción</span>
+            </button>
+
+            <button onclick="triggerSalesRequest('${ev.id}')" class="inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 px-4 rounded-xl text-xs font-bold shadow-xs transition">
+              <i data-lucide="badge-dollar-sign" class="w-4 h-4"></i>
+              <span>Solicitar Registro de Ventas</span>
+            </button>
+          </div>
+
         </div>
       `;
 
       lucide.createIcons();
+    }
+
+    function triggerSatisfactionSurvey(evId) {
+      alert("Simulación de envío: Se han enviado los correos de evaluación de satisfacción a los participantes del evento " + evId);
+    }
+
+    function triggerSalesRequest(evId) {
+      alert("Simulación de envío: Se ha enviado el formulario para que los participantes registren sus ventas en el evento " + evId);
     }
 
     function updateParticipantSales(evId, clientId, value) {
@@ -1060,6 +1121,8 @@
           fechaFin,
           comuna,
           direccion,
+          rating: 5.0,
+          respuestasCount: 0,
           participantes: []
         };
         eventData.unshift(newEv);
@@ -1102,7 +1165,7 @@
         if (!ev.participantes) ev.participantes = [];
         const exists = ev.participantes.some(p => p.clientId === clientId);
         if (!exists) {
-          ev.participantes.push({ clientId: clientId, ventas: 0 });
+          ev.participantes.push({ clientId: clientId, ventas: 0, encuestaRespondida: false });
           renderEventsAll();
         } else {
           alert("Este emprendedor ya está asignado al evento.");
@@ -1118,7 +1181,6 @@
       }
     }
 
-    // EXPORTAR LISTADO FILTRADO DE EVENTOS A EXCEL
     function exportEventListToExcel() {
       const excelData = filteredEvents.map(ev => ({
         "ID Evento": ev.id,
@@ -1129,6 +1191,7 @@
         "Duración (Días)": calculateEventDays(ev),
         "Comuna": ev.comuna,
         "Dirección": ev.direccion,
+        "Evaluación": `${(ev.rating || 0).toFixed(1)} / 5.0`,
         "Cantidad Participantes": ev.participantes ? ev.participantes.length : 0,
         "Ventas Totales ($)": calculateEventTotal(ev)
       }));
@@ -1139,7 +1202,6 @@
       XLSX.writeFile(wb, "Vitrina_Elqui_Listado_Eventos.xlsx");
     }
 
-    // EXPORTAR LISTADO FILTRADO DE EVENTOS A PDF
     function exportEventListToPDF() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF('landscape');
@@ -1156,7 +1218,7 @@
         ev.nombre,
         ev.organizador || 'N/A',
         `${ev.fechaInicio} al ${ev.fechaFin}`,
-        `${calculateEventDays(ev)} d`,
+        `${(ev.rating || 0).toFixed(1)} ★`,
         ev.comuna,
         ev.participantes ? ev.participantes.length : 0,
         `$${calculateEventTotal(ev).toLocaleString('es-CL')}`
@@ -1164,7 +1226,7 @@
 
       doc.autoTable({
         startY: 25,
-        head: [['ID', 'Nombre Evento', 'Organizador', 'Rango Fechas', 'Días', 'Comuna', 'Part.', 'Ventas Totales']],
+        head: [['ID', 'Nombre Evento', 'Organizador', 'Rango Fechas', 'Nota', 'Comuna', 'Part.', 'Ventas Totales']],
         body: rows,
         theme: 'striped',
         headStyles: { fillColor: [0, 115, 234] }
@@ -1196,7 +1258,7 @@
 
       doc.setFontSize(10);
       doc.setTextColor(100);
-      doc.text(`Organizador: ${ev.organizador || 'N/A'} | Fechas: ${ev.fechaInicio} al ${ev.fechaFin} (${calculateEventDays(ev)} días)`, 14, 49);
+      doc.text(`Organizador: ${ev.organizador || 'N/A'} | Fechas: ${ev.fechaInicio} al ${ev.fechaFin} | Nota: ${(ev.rating||0).toFixed(1)}/5.0`, 14, 49);
 
       const totalEv = calculateEventTotal(ev);
       const rows = (ev.participantes || []).map(p => {
