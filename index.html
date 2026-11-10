@@ -85,7 +85,7 @@
         </button>
       </div>
 
-      <!-- ACCIONES DE ENCABEZADO ACTUALIZADAS -->
+      <!-- ACCIONES DE ENCABEZADO -->
       <div class="flex items-center space-x-2">
         <a id="btnNuevoRegistro" href="https://forms.gle/Xj2mxR83ADoqLBJM9" target="_blank" class="inline-flex items-center space-x-1.5 bg-sercotec-red hover:bg-red-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-xs transition">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
@@ -102,7 +102,7 @@
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
     <!-- ================================================================= -->
-    <!-- MÓDULO 1: DIRECTORIO DE EMPRENDEDORES -->
+    <!-- MÓDULO 1: DIRECTORIO DE EMPRENDEDORES (INTACTO) -->
     <!-- ================================================================= -->
     <div id="module1Container" class="space-y-5">
       
@@ -141,7 +141,7 @@
         </div>
       </div>
 
-      <!-- SECCIÓN DE GRÁFICOS -->
+      <!-- SECCIÓN DE GRÁFICOS DIRECTORIO -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div class="bg-white p-5 rounded-xl border border-monday-border shadow-xs flex flex-col justify-between">
           <div class="flex items-center justify-between border-b border-monday-border pb-3 mb-3">
@@ -180,7 +180,7 @@
         </div>
       </div>
 
-      <!-- BARRA DE FILTROS -->
+      <!-- BARRA DE FILTROS DIRECTORIO -->
       <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs">
         <div class="flex flex-wrap gap-2.5 items-center">
           
@@ -262,7 +262,7 @@
         </div>
       </div>
 
-      <!-- RESULTADOS Y FICHA -->
+      <!-- RESULTADOS Y FICHA DIRECTORIO -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
         <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[680px]">
           <div class="p-3 border-b border-monday-border flex items-center justify-between bg-white rounded-t-xl">
@@ -327,15 +327,55 @@
         </div>
       </div>
 
-      <!-- ACCIÓN AGREGAR EVENTO -->
-      <div class="flex justify-between items-center bg-white p-3.5 rounded-xl border border-monday-border shadow-xs">
-        <div>
-          <h3 class="text-sm font-bold text-monday-text">Historial de Eventos, Expos y Ferias</h3>
-          <p class="text-xs text-monday-subtext">Asigna emprendedores del Directorio e ingresa sus ventas individuales.</p>
+      <!-- NUEVOS GRÁFICOS DEL MÓDULO 2 (RUBROS Y COBERTURA POR COMUNA) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="bg-white p-5 rounded-xl border border-monday-border shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between border-b border-monday-border pb-3 mb-3">
+            <h3 class="text-xs font-bold text-monday-text uppercase tracking-wider flex items-center space-x-2">
+              <i data-lucide="bar-chart-2" class="w-4 h-4 text-monday-blue"></i>
+              <span>Ventas Totales por Rubro ($)</span>
+            </h3>
+          </div>
+          <div class="h-44 relative">
+            <canvas id="eventRubroSalesChart"></canvas>
+          </div>
         </div>
+
+        <div class="bg-white p-5 rounded-xl border border-monday-border shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between border-b border-monday-border pb-3 mb-3">
+            <h3 class="text-xs font-bold text-monday-text uppercase tracking-wider flex items-center space-x-2">
+              <i data-lucide="map-pin" class="w-4 h-4 text-sercotec-red"></i>
+              <span>Distribución por Comunas CDN</span>
+            </h3>
+          </div>
+          <div class="h-44 relative">
+            <canvas id="eventComunaChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- BARRA DE BÚSQUEDA Y FILTRO DE FECHAS DE MÓDULO 2 -->
+      <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs flex flex-wrap gap-3 items-center justify-between">
+        
+        <!-- Búsqueda por Nombre -->
+        <div class="flex-1 min-w-[220px] relative">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-monday-subtext absolute left-3 top-2.5"></i>
+          <input type="text" id="eventSearchQuery" oninput="applyEventFilters()" placeholder="Buscar por Nombre de Evento u Organizador..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none focus:bg-white focus:ring-2 focus:ring-monday-blue">
+        </div>
+
+        <!-- Filtro Rango de Fechas -->
+        <div class="flex items-center space-x-2 text-xs">
+          <span class="font-semibold text-monday-subtext">Inicio Desde:</span>
+          <input type="date" id="eventDateFrom" onchange="applyEventFilters()" class="py-1 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none">
+          <span class="font-semibold text-monday-subtext">Hasta:</span>
+          <input type="date" id="eventDateTo" onchange="applyEventFilters()" class="py-1 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none">
+          <button onclick="clearEventDateFilters()" class="p-1 text-monday-subtext hover:text-monday-text" title="Limpiar fechas"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i></button>
+        </div>
+
+        <!-- Botón Crear Evento -->
         <button onclick="openCreateEventModal()" class="inline-flex items-center space-x-1.5 bg-monday-blue hover:bg-monday-hoverblue text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-xs transition">
           <i data-lucide="plus" class="w-4 h-4"></i>
-          <span>Crear Nuevo Evento</span>
+          <span>Crear Evento</span>
         </button>
       </div>
 
@@ -345,7 +385,7 @@
         <!-- LISTA DE EVENTOS IZQUIERDA -->
         <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[640px]">
           <div class="p-3 border-b border-monday-border flex items-center justify-between bg-white rounded-t-xl">
-            <span class="text-xs font-bold text-monday-text uppercase tracking-wider">Eventos Registrados (<span id="countEventos">0</span>)</span>
+            <span class="text-xs font-bold text-monday-text uppercase tracking-wider">Eventos Filtrados (<span id="countEventos">0</span>)</span>
           </div>
           <div id="eventListContainer" class="flex-1 overflow-y-auto divide-y divide-monday-border custom-scrollbar"></div>
         </div>
@@ -360,7 +400,7 @@
 
   </main>
 
-  <!-- MODAL NUEVO / EDITAR EVENTO (INCLUYE ORGANIZADOR PRINCIPAL) -->
+  <!-- MODAL NUEVO / EDITAR EVENTO (INCLUYE FECHA INICIO Y TÉRMINO) -->
   <div id="eventModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-xl space-y-4 border border-monday-border">
       <div class="flex items-center justify-between border-b border-monday-border pb-3">
@@ -380,26 +420,33 @@
           <label class="block font-medium text-monday-subtext mb-1">Organizador Principal</label>
           <input type="text" id="evOrganizador" placeholder="Ej. Sercotec / Ilustre Municipalidad de La Serena" class="w-full p-2 border border-monday-border rounded-lg outline-none focus:ring-2 focus:ring-monday-blue">
         </div>
+        
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block font-medium text-monday-subtext mb-1">Fecha</label>
-            <input type="date" id="evFecha" class="w-full p-2 border border-monday-border rounded-lg outline-none">
+            <label class="block font-medium text-monday-subtext mb-1">Fecha Inicio</label>
+            <input type="date" id="evFechaInicio" class="w-full p-2 border border-monday-border rounded-lg outline-none">
           </div>
           <div>
-            <label class="block font-medium text-monday-subtext mb-1">Comuna</label>
-            <select id="evComuna" class="w-full p-2 border border-monday-border rounded-lg outline-none font-medium">
-              <option value="La Serena">La Serena</option>
-              <option value="Coquimbo">Coquimbo</option>
-              <option value="Vicuña">Vicuña</option>
-              <option value="Paihuano">Paihuano</option>
-              <option value="Andacollo">Andacollo</option>
-              <option value="Otra">Otra Comuna</option>
-            </select>
+            <label class="block font-medium text-monday-subtext mb-1">Fecha Término</label>
+            <input type="date" id="evFechaFin" class="w-full p-2 border border-monday-border rounded-lg outline-none">
           </div>
         </div>
-        <div>
-          <label class="block font-medium text-monday-subtext mb-1">Dirección / Lugar Específico</label>
-          <input type="text" id="evDireccion" placeholder="Ej. Av. Costanera #4500" class="w-full p-2 border border-monday-border rounded-lg outline-none">
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-medium text-monday-subtext mb-1">Comuna (Cobertura CDN)</label>
+            <select id="evComuna" class="w-full p-2 border border-monday-border rounded-lg outline-none font-medium">
+              <option value="La Serena">La Serena</option>
+              <option value="La Higuera">La Higuera</option>
+              <option value="Vicuña">Vicuña</option>
+              <option value="Paihuano">Paihuano</option>
+              <option value="Otra Comuna">Otra Comuna</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-medium text-monday-subtext mb-1">Lugar Específico</label>
+            <input type="text" id="evDireccion" placeholder="Ej. Av. Costanera #4500" class="w-full p-2 border border-monday-border rounded-lg outline-none">
+          </div>
         </div>
       </div>
 
@@ -524,13 +571,14 @@
       }
     ];
 
-    // DATOS MÓDULO 2 (EVENTOS CON ORGANIZADOR Y VENTAS INDIVIDUALES)
+    // DATOS MÓDULO 2 (EVENTOS CON FECHA INICIO/TÉRMINO)
     let eventData = [
       {
         id: "EVT-2025-01",
         nombre: "Expo Fiestas Patrias Elqui",
         organizador: "Sercotec Coquimbo & CDN La Serena",
-        fecha: "2025-09-17",
+        fechaInicio: "2025-09-17",
+        fechaFin: "2025-09-20",
         comuna: "La Serena",
         direccion: "Plaza de Armas La Serena",
         participantes: [
@@ -542,7 +590,8 @@
         id: "EVT-2025-02",
         nombre: "Feria de Sustentabilidad y Reciclaje",
         organizador: "Ilustre Municipalidad de Vicuña",
-        fecha: "2025-10-12",
+        fechaInicio: "2025-10-12",
+        fechaFin: "2025-10-14",
         comuna: "Vicuña",
         direccion: "Plaza Bicentenario Vicuña",
         participantes: [
@@ -552,6 +601,7 @@
     ];
 
     let filteredData = [...rawData];
+    let filteredEvents = [...eventData];
     let selectedItem = rawData[0];
     let selectedEvent = eventData[0];
     let currentModule = 1;
@@ -559,6 +609,8 @@
     let isEditing = false;
     let rubroChartInstance = null;
     let comunaChartInstance = null;
+    let eventRubroChartInstance = null;
+    let eventComunaChartInstance = null;
 
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
@@ -566,7 +618,6 @@
       renderEventsAll();
     });
 
-    // CAMBIO DE MÓDULOS Y HABILITACIÓN CONDICIONAL DEL BOTÓN
     function switchModule(modNum) {
       currentModule = modNum;
       const mod1 = document.getElementById('module1Container');
@@ -578,13 +629,13 @@
       if (modNum === 1) {
         mod1.classList.remove('hidden');
         mod2.classList.add('hidden');
-        btnNuevoReg.classList.remove('hidden'); // MOSTRAR EN MÓDULO 1
+        btnNuevoReg.classList.remove('hidden');
         btn1.className = "flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-monday-blue text-white shadow-xs";
         btn2.className = "flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-monday-subtext hover:text-monday-text transition";
       } else {
         mod1.classList.add('hidden');
         mod2.classList.remove('hidden');
-        btnNuevoReg.classList.add('hidden'); // OCULTAR EN MÓDULO 2
+        btnNuevoReg.classList.add('hidden');
         btn2.className = "flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-monday-blue text-white shadow-xs";
         btn1.className = "flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-monday-subtext hover:text-monday-text transition";
         renderEventsAll();
@@ -600,11 +651,21 @@
       return ev.participantes.reduce((sum, p) => sum + (Number(p.ventas) || 0), 0);
     }
 
+    function calculateEventDays(ev) {
+      if (!ev || !ev.fechaInicio || !ev.fechaFin) return 1;
+      const d1 = new Date(ev.fechaInicio);
+      const d2 = new Date(ev.fechaFin);
+      const diffTime = Math.abs(d2 - d1);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // Incluye el día final
+      return diffDays > 0 ? diffDays : 1;
+    }
+
     function renderEventsAll() {
       calculateEventKPIs();
+      renderEventCharts();
       renderEventList();
       renderEventDetail(selectedEvent);
-      document.getElementById('countEventos').innerText = eventData.length;
+      document.getElementById('countEventos').innerText = filteredEvents.length;
     }
 
     function calculateEventKPIs() {
@@ -623,17 +684,109 @@
       document.getElementById('kpiPromedioVentas').innerText = '$' + prom.toLocaleString('es-CL');
     }
 
+    // GRÁFICOS MÓDULO 2
+    function renderEventCharts() {
+      // 1. Ventas Totales por Rubro
+      const rubroSales = {};
+      eventData.forEach(ev => {
+        if (ev.participantes) {
+          ev.participantes.forEach(p => {
+            const client = rawData.find(d => d.id === p.clientId);
+            if (client) {
+              const rubro = client.rubro || 'Otros';
+              rubroSales[rubro] = (rubroSales[rubro] || 0) + (Number(p.ventas) || 0);
+            }
+          });
+        }
+      });
+
+      const ctxRubro = document.getElementById('eventRubroSalesChart').getContext('2d');
+      if (eventRubroChartInstance) eventRubroChartInstance.destroy();
+      eventRubroChartInstance = new Chart(ctxRubro, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(rubroSales),
+          datasets: [{
+            data: Object.values(rubroSales),
+            backgroundColor: '#0073EA',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } }
+        }
+      });
+
+      // 2. Cobertura por Comunas CDN (La Serena, La Higuera, Vicuña, Paihuano, Otra Comuna)
+      const comunasCDN = ["La Serena", "La Higuera", "Vicuña", "Paihuano", "Otra Comuna"];
+      const comunaCounts = { "La Serena": 0, "La Higuera": 0, "Vicuña": 0, "Paihuano": 0, "Otra Comuna": 0 };
+
+      eventData.forEach(ev => {
+        if (comunasCDN.includes(ev.comuna)) comunaCounts[ev.comuna]++;
+        else comunaCounts["Otra Comuna"]++;
+      });
+
+      const ctxComuna = document.getElementById('eventComunaChart').getContext('2d');
+      if (eventComunaChartInstance) eventComunaChartInstance.destroy();
+      eventComunaChartInstance = new Chart(ctxComuna, {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(comunaCounts),
+          datasets: [{
+            data: Object.values(comunaCounts),
+            backgroundColor: ['#0073EA', '#E2445C', '#FDAB3D', '#00C875', '#6164FF']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 } } } }
+        }
+      });
+    }
+
+    function applyEventFilters() {
+      const q = document.getElementById('eventSearchQuery').value.toLowerCase();
+      const dateFrom = document.getElementById('eventDateFrom').value;
+      const dateTo = document.getElementById('eventDateTo').value;
+
+      filteredEvents = eventData.filter(ev => {
+        const matchesQ = !q || 
+          ev.nombre.toLowerCase().includes(q) || 
+          (ev.organizador && ev.organizador.toLowerCase().includes(q));
+
+        let matchesDate = true;
+        if (dateFrom && ev.fechaInicio < dateFrom) matchesDate = false;
+        if (dateTo && ev.fechaInicio > dateTo) matchesDate = false;
+
+        return matchesQ && matchesDate;
+      });
+
+      selectedEvent = filteredEvents[0] || null;
+      renderEventsAll();
+    }
+
+    function clearEventDateFilters() {
+      document.getElementById('eventDateFrom').value = '';
+      document.getElementById('eventDateTo').value = '';
+      applyEventFilters();
+    }
+
     function renderEventList() {
       const container = document.getElementById('eventListContainer');
       container.innerHTML = '';
-      if (!eventData.length) {
-        container.innerHTML = `<div class="p-8 text-center text-monday-subtext text-xs">No hay eventos creados aún.</div>`;
+      if (!filteredEvents.length) {
+        container.innerHTML = `<div class="p-8 text-center text-monday-subtext text-xs">No hay eventos que coincidan con la búsqueda.</div>`;
         return;
       }
 
-      eventData.forEach(ev => {
+      filteredEvents.forEach(ev => {
         const isSel = selectedEvent && selectedEvent.id === ev.id;
         const totalEv = calculateEventTotal(ev);
+        const dias = calculateEventDays(ev);
 
         const card = document.createElement('div');
         card.className = `p-3.5 cursor-pointer transition border-l-4 ${isSel ? 'bg-monday-softblue border-monday-blue font-semibold' : 'hover:bg-gray-50 border-transparent'}`;
@@ -642,10 +795,10 @@
         card.innerHTML = `
           <div class="flex items-start justify-between">
             <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-gray-100 text-monday-subtext border border-monday-border">${ev.id}</span>
-            <span class="text-[10px] text-monday-subtext font-medium">${ev.fecha}</span>
+            <span class="text-[10px] bg-blue-50 text-monday-blue px-2 py-0.5 rounded-full font-bold border border-blue-200">${dias} día(s)</span>
           </div>
           <h4 class="text-xs font-bold text-monday-text mt-1">${ev.nombre}</h4>
-          <p class="text-[10px] text-monday-subtext truncate">Org: ${ev.organizador || 'No especificado'}</p>
+          <p class="text-[10px] text-monday-subtext truncate">Del ${ev.fechaInicio} al ${ev.fechaFin}</p>
           <div class="flex items-center justify-between mt-1 text-[11px] text-monday-subtext">
             <span>📍 ${ev.comuna}</span>
             <span class="font-bold text-emerald-600">$${totalEv.toLocaleString('es-CL')}</span>
@@ -665,6 +818,29 @@
       }
 
       const totalEv = calculateEventTotal(ev);
+      const dias = calculateEventDays(ev);
+      const promedioDiario = Math.round(totalEv / dias);
+
+      // Calcular Rubro con Mayores Ventas
+      const rubroTotals = {};
+      if (ev.participantes) {
+        ev.participantes.forEach(p => {
+          const client = rawData.find(d => d.id === p.clientId);
+          if (client) {
+            const rubro = client.rubro || 'Otros';
+            rubroTotals[rubro] = (rubroTotals[rubro] || 0) + (Number(p.ventas) || 0);
+          }
+        });
+      }
+
+      let topRubroName = "Sin ventas aún";
+      let maxRubroVal = 0;
+      Object.keys(rubroTotals).forEach(r => {
+        if (rubroTotals[r] > maxRubroVal) {
+          maxRubroVal = rubroTotals[r];
+          topRubroName = r;
+        }
+      });
 
       container.innerHTML = `
         <div class="space-y-4">
@@ -681,7 +857,6 @@
             </div>
 
             <div class="flex flex-col items-end space-y-2">
-              <!-- BOTONES EXPORTACIÓN PDF Y EXCEL -->
               <div class="flex items-center space-x-1.5">
                 <button onclick="exportEventToExcel('${ev.id}')" class="inline-flex items-center space-x-1 bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-2.5 py-1 rounded-lg text-xs font-semibold shadow-xs transition">
                   <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
@@ -693,7 +868,6 @@
                 </button>
               </div>
 
-              <!-- Editar / Eliminar Evento -->
               <div class="flex items-center space-x-1">
                 <button onclick="editEvent('${ev.id}')" title="Editar Evento" class="p-1 text-monday-subtext hover:text-monday-blue bg-gray-50 border border-monday-border rounded-lg transition">
                   <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
@@ -705,19 +879,24 @@
             </div>
           </div>
 
-          <!-- Métricas del Evento Calculadas Automáticamente -->
-          <div class="grid grid-cols-3 gap-3 bg-monday-bg p-3.5 rounded-xl border border-monday-border text-xs">
+          <!-- Métricas del Evento Reorganizadas -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-monday-bg p-3.5 rounded-xl border border-monday-border text-xs">
             <div>
-              <span class="text-monday-subtext block font-medium">Fecha</span>
-              <p class="font-bold text-monday-text">${ev.fecha}</p>
+              <span class="text-monday-subtext block font-medium">Fechas & Duración</span>
+              <p class="font-bold text-monday-text">${ev.fechaInicio} al ${ev.fechaFin}</p>
+              <span class="text-[10px] text-monday-blue font-bold">(${dias} día(s) de duración)</span>
             </div>
             <div>
-              <span class="text-monday-subtext block font-medium">Participantes</span>
-              <p class="font-bold text-monday-text">${ev.participantes ? ev.participantes.length : 0} emprendedores</p>
-            </div>
-            <div>
-              <span class="text-monday-subtext block font-medium">Ventas Totales (Suma Auto)</span>
+              <span class="text-monday-subtext block font-medium">Ventas Totales</span>
               <p class="font-bold text-emerald-600 text-sm">$${totalEv.toLocaleString('es-CL')}</p>
+            </div>
+            <div>
+              <span class="text-monday-subtext block font-medium">Promedio Ventas Diarias</span>
+              <p class="font-bold text-monday-purple text-sm">$${promedioDiario.toLocaleString('es-CL')}</p>
+            </div>
+            <div>
+              <span class="text-monday-subtext block font-medium">Rubro con Mayores Ventas</span>
+              <p class="font-bold text-monday-text truncate" title="${topRubroName}">${topRubroName}</p>
             </div>
           </div>
 
@@ -738,11 +917,11 @@
             </div>
           </div>
 
-          <!-- Lista de Emprendedores Confirmados con Carga Manual de Ventas Individuales -->
+          <!-- Lista de Emprendedores Confirmados -->
           <div class="space-y-2">
-            <h4 class="text-xs font-bold text-monday-text uppercase">Lista de Participantes y Sus Ventas Individuales</h4>
+            <h4 class="text-xs font-bold text-monday-text uppercase">Lista de Participantes y Ventas Individuales</h4>
             
-            <div class="bg-white border border-monday-border rounded-xl divide-y divide-monday-border max-h-60 overflow-y-auto custom-scrollbar">
+            <div class="bg-white border border-monday-border rounded-xl divide-y divide-monday-border max-h-56 overflow-y-auto custom-scrollbar">
               ${(ev.participantes && ev.participantes.length) ? ev.participantes.map(part => {
                 const clientObj = rawData.find(d => d.id === part.clientId);
                 if (!clientObj) return '';
@@ -753,10 +932,9 @@
                         <span class="font-bold text-monday-text">${clientObj.marca}</span>
                         <span class="text-[9px] bg-blue-50 text-monday-blue px-1.5 py-0.5 rounded border border-blue-200">${clientObj.id}</span>
                       </div>
-                      <p class="text-monday-subtext text-[11px]">${clientObj.contacto} • ${clientObj.comuna}</p>
+                      <p class="text-monday-subtext text-[11px]">${clientObj.contacto} • ${clientObj.rubro} • ${clientObj.comuna}</p>
                     </div>
 
-                    <!-- CASILLA DE INGRESO MANUAL DE VENTAS INDIVIDUALES -->
                     <div class="flex items-center space-x-2">
                       <div class="flex items-center bg-monday-bg border border-monday-border rounded-lg px-2 py-1">
                         <span class="text-monday-subtext font-bold text-xs mr-1">$</span>
@@ -794,7 +972,8 @@
       document.getElementById('eventModalTitle').innerText = "Crear Nuevo Evento";
       document.getElementById('evNombre').value = "";
       document.getElementById('evOrganizador').value = "";
-      document.getElementById('evFecha').value = "";
+      document.getElementById('evFechaInicio').value = "";
+      document.getElementById('evFechaFin').value = "";
       document.getElementById('evComuna').value = "La Serena";
       document.getElementById('evDireccion').value = "";
       document.getElementById('eventModal').classList.remove('hidden');
@@ -807,12 +986,13 @@
     function saveEvent() {
       const nombre = document.getElementById('evNombre').value.trim();
       const organizador = document.getElementById('evOrganizador').value.trim();
-      const fecha = document.getElementById('evFecha').value;
+      const fechaInicio = document.getElementById('evFechaInicio').value;
+      const fechaFin = document.getElementById('evFechaFin').value;
       const comuna = document.getElementById('evComuna').value;
       const direccion = document.getElementById('evDireccion').value.trim();
 
-      if (!nombre || !fecha) {
-        alert("Por favor completa el nombre y la fecha del evento.");
+      if (!nombre || !fechaInicio || !fechaFin) {
+        alert("Por favor completa el nombre, fecha de inicio y fecha de término del evento.");
         return;
       }
 
@@ -821,7 +1001,8 @@
         if (ev) {
           ev.nombre = nombre;
           ev.organizador = organizador;
-          ev.fecha = fecha;
+          ev.fechaInicio = fechaInicio;
+          ev.fechaFin = fechaFin;
           ev.comuna = comuna;
           ev.direccion = direccion;
         }
@@ -830,7 +1011,8 @@
           id: `EVT-2025-${(eventData.length + 1).toString().padStart(2, '0')}`,
           nombre,
           organizador,
-          fecha,
+          fechaInicio,
+          fechaFin,
           comuna,
           direccion,
           participantes: []
@@ -840,7 +1022,7 @@
       }
 
       closeEventModal();
-      renderEventsAll();
+      applyEventFilters();
     }
 
     function editEvent(evId) {
@@ -850,7 +1032,8 @@
       document.getElementById('eventModalTitle').innerText = "Editar Evento";
       document.getElementById('evNombre').value = ev.nombre;
       document.getElementById('evOrganizador').value = ev.organizador || "";
-      document.getElementById('evFecha').value = ev.fecha;
+      document.getElementById('evFechaInicio').value = ev.fechaInicio || "";
+      document.getElementById('evFechaFin').value = ev.fechaFin || "";
       document.getElementById('evComuna').value = ev.comuna;
       document.getElementById('evDireccion').value = ev.direccion;
       document.getElementById('eventModal').classList.remove('hidden');
@@ -860,7 +1043,7 @@
       if (confirm("¿Estás seguro de eliminar este evento y todo su historial?")) {
         eventData = eventData.filter(e => e.id !== evId);
         selectedEvent = eventData[0] || null;
-        renderEventsAll();
+        applyEventFilters();
       }
     }
 
@@ -890,7 +1073,6 @@
       }
     }
 
-    // EXPORTACIÓN INDIVIDUAL DE EVENTO EN PDF
     function exportEventToPDF(evId) {
       const ev = eventData.find(e => e.id === evId);
       if (!ev) return;
@@ -914,7 +1096,7 @@
 
       doc.setFontSize(10);
       doc.setTextColor(100);
-      doc.text(`Organizador: ${ev.organizador || 'N/A'} | Fecha: ${ev.fecha} | Comuna: ${ev.comuna}`, 14, 49);
+      doc.text(`Organizador: ${ev.organizador || 'N/A'} | Fechas: ${ev.fechaInicio} al ${ev.fechaFin} (${calculateEventDays(ev)} días)`, 14, 49);
 
       const totalEv = calculateEventTotal(ev);
       const rows = (ev.participantes || []).map(p => {
@@ -943,7 +1125,6 @@
       doc.save(`Informe_Evento_${ev.id}_${ev.nombre.replace(/\s+/g, '_')}.pdf`);
     }
 
-    // EXPORTACIÓN INDIVIDUAL DE EVENTO EN EXCEL
     function exportEventToExcel(evId) {
       const ev = eventData.find(e => e.id === evId);
       if (!ev) return;
@@ -954,7 +1135,8 @@
           "ID Evento": ev.id,
           "Nombre Evento": ev.nombre,
           "Organizador": ev.organizador,
-          "Fecha": ev.fecha,
+          "Fecha Inicio": ev.fechaInicio,
+          "Fecha Fin": ev.fechaFin,
           "Comuna": ev.comuna,
           "ID Cliente": p.clientId,
           "Marca": c ? c.marca : '',
@@ -972,7 +1154,7 @@
     }
 
     // ==========================================
-    // LÓGICA MÓDULO 1: DIRECTORIO (SE MANTIENE INTACTA)
+    // LÓGICA MÓDULO 1: DIRECTORIO (INTACTA)
     // ==========================================
     function renderAll() {
       calculateKPIs();
@@ -1515,7 +1697,7 @@ Fuente: Directorio Vitrina Elqui - CDN La Serena`;
     }
 
     function syncData() {
-      alert("Sincronización y actualización realizada en vivo con el repositorio y base de datos.");
+      alert("Sincronización y actualización realizada en vivo.");
       if (currentModule === 1) renderAll();
       else renderEventsAll();
     }
