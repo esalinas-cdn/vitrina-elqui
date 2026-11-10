@@ -106,7 +106,7 @@
     <!-- ================================================================= -->
     <div id="module1Container" class="space-y-5">
       
-      <!-- KPI METRICS -->
+      <!-- KPI METRICS DIRECTORIO -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
           <div class="p-2.5 bg-monday-softblue text-monday-blue rounded-lg"><i data-lucide="building-2" class="w-5 h-5"></i></div>
@@ -247,7 +247,7 @@
               <option value="Sí">Con Permiso Vigente</option>
               <option value="En trámite">En trámite</option>
               <option value="No requiere">No requiere</option>
-              <option value="No cuenta con permisos">Sin permisos</option>
+              <option value="No cuenta com permisos">Sin permisos</option>
             </select>
           </div>
 
@@ -292,42 +292,51 @@
     <!-- ================================================================= -->
     <div id="module2Container" class="space-y-5 hidden">
       
-      <!-- KPI EVENTOS -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
-          <div class="p-2.5 bg-monday-softblue text-monday-blue rounded-lg"><i data-lucide="calendar" class="w-5 h-5"></i></div>
+      <!-- KPI EVENTOS (ACTUALIZADO A 5 TARJETAS CON RUBRO LÍDER) -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs flex items-center space-x-2.5">
+          <div class="p-2 bg-monday-softblue text-monday-blue rounded-lg"><i data-lucide="calendar" class="w-4 h-4"></i></div>
           <div>
-            <p class="text-xs text-monday-subtext font-medium">Total Eventos</p>
-            <p id="kpiTotalEventos" class="text-lg font-bold text-monday-text">0</p>
+            <p class="text-[11px] text-monday-subtext font-medium leading-none">Total Eventos</p>
+            <p id="kpiTotalEventos" class="text-base font-bold text-monday-text mt-1">0</p>
           </div>
         </div>
 
-        <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
-          <div class="p-2.5 bg-amber-50 text-amber-600 rounded-lg"><i data-lucide="users" class="w-5 h-5"></i></div>
+        <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs flex items-center space-x-2.5">
+          <div class="p-2 bg-amber-50 text-amber-600 rounded-lg"><i data-lucide="users" class="w-4 h-4"></i></div>
           <div>
-            <p class="text-xs text-monday-subtext font-medium">Participantes Acumulados</p>
-            <p id="kpiTotalParticipantes" class="text-lg font-bold text-monday-text">0</p>
+            <p class="text-[11px] text-monday-subtext font-medium leading-none">Participantes Acum.</p>
+            <p id="kpiTotalParticipantes" class="text-base font-bold text-monday-text mt-1">0</p>
           </div>
         </div>
 
-        <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
-          <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg"><i data-lucide="dollar-sign" class="w-5 h-5"></i></div>
+        <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs flex items-center space-x-2.5">
+          <div class="p-2 bg-emerald-50 text-emerald-600 rounded-lg"><i data-lucide="dollar-sign" class="w-4 h-4"></i></div>
           <div>
-            <p class="text-xs text-monday-subtext font-medium">Ventas Totales Ferias</p>
-            <p id="kpiVentasTotales" class="text-lg font-bold text-monday-text">$0</p>
+            <p class="text-[11px] text-monday-subtext font-medium leading-none">Ventas Totales Eventos</p>
+            <p id="kpiVentasTotales" class="text-base font-bold text-emerald-600 mt-1">$0</p>
           </div>
         </div>
 
-        <div class="bg-white p-4 rounded-xl border border-monday-border shadow-xs flex items-center space-x-3">
-          <div class="p-2.5 bg-purple-50 text-monday-purple rounded-lg"><i data-lucide="trending-up" class="w-5 h-5"></i></div>
+        <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs flex items-center space-x-2.5">
+          <div class="p-2 bg-purple-50 text-monday-purple rounded-lg"><i data-lucide="trending-up" class="w-4 h-4"></i></div>
           <div>
-            <p class="text-xs text-monday-subtext font-medium">Promedio Ventas / Evento</p>
-            <p id="kpiPromedioVentas" class="text-lg font-bold text-monday-text">$0</p>
+            <p class="text-[11px] text-monday-subtext font-medium leading-none">Prom. Ventas / Evento</p>
+            <p id="kpiPromedioVentas" class="text-base font-bold text-monday-text mt-1">$0</p>
+          </div>
+        </div>
+
+        <!-- NUEVA TARJETA: RUBRO LÍDER GLOBAL -->
+        <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs flex items-center space-x-2.5">
+          <div class="p-2 bg-amber-100 text-amber-700 rounded-lg"><i data-lucide="award" class="w-4 h-4"></i></div>
+          <div class="overflow-hidden">
+            <p class="text-[11px] text-monday-subtext font-medium leading-none">Rubro Líder Ventas</p>
+            <p id="kpiRubroLiderGlobal" class="text-xs font-bold text-monday-text mt-1 truncate" title="Cargando...">---</p>
           </div>
         </div>
       </div>
 
-      <!-- NUEVOS GRÁFICOS DEL MÓDULO 2 (RUBROS Y COBERTURA POR COMUNA) -->
+      <!-- GRÁFICOS MÓDULO 2 -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div class="bg-white p-5 rounded-xl border border-monday-border shadow-xs flex flex-col justify-between">
           <div class="flex items-center justify-between border-b border-monday-border pb-3 mb-3">
@@ -354,16 +363,13 @@
         </div>
       </div>
 
-      <!-- BARRA DE BÚSQUEDA Y FILTRO DE FECHAS DE MÓDULO 2 -->
+      <!-- BARRA DE BÚSQUEDA Y FILTROS MÓDULO 2 -->
       <div class="bg-white p-3.5 rounded-xl border border-monday-border shadow-xs flex flex-wrap gap-3 items-center justify-between">
-        
-        <!-- Búsqueda por Nombre -->
         <div class="flex-1 min-w-[220px] relative">
           <i data-lucide="search" class="w-3.5 h-3.5 text-monday-subtext absolute left-3 top-2.5"></i>
           <input type="text" id="eventSearchQuery" oninput="applyEventFilters()" placeholder="Buscar por Nombre de Evento u Organizador..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none focus:bg-white focus:ring-2 focus:ring-monday-blue">
         </div>
 
-        <!-- Filtro Rango de Fechas -->
         <div class="flex items-center space-x-2 text-xs">
           <span class="font-semibold text-monday-subtext">Inicio Desde:</span>
           <input type="date" id="eventDateFrom" onchange="applyEventFilters()" class="py-1 px-2 text-xs bg-monday-bg border border-monday-border rounded-lg outline-none">
@@ -372,7 +378,6 @@
           <button onclick="clearEventDateFilters()" class="p-1 text-monday-subtext hover:text-monday-text" title="Limpiar fechas"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i></button>
         </div>
 
-        <!-- Botón Crear Evento -->
         <button onclick="openCreateEventModal()" class="inline-flex items-center space-x-1.5 bg-monday-blue hover:bg-monday-hoverblue text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-xs transition">
           <i data-lucide="plus" class="w-4 h-4"></i>
           <span>Crear Evento</span>
@@ -382,10 +387,22 @@
       <!-- ESTRUCTURA PRINCIPAL DE EVENTOS -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
         
-        <!-- LISTA DE EVENTOS IZQUIERDA -->
+        <!-- LISTA DE EVENTOS IZQUIERDA (INCLUYE BOTONES EXCEL Y PDF DEL LISTADO FILTRADO) -->
         <div class="lg:col-span-5 bg-white rounded-xl border border-monday-border shadow-xs flex flex-col h-[640px]">
           <div class="p-3 border-b border-monday-border flex items-center justify-between bg-white rounded-t-xl">
             <span class="text-xs font-bold text-monday-text uppercase tracking-wider">Eventos Filtrados (<span id="countEventos">0</span>)</span>
+            
+            <!-- ACCIONES DE EXPORTACIÓN DEL LISTADO DE EVENTOS -->
+            <div class="flex items-center space-x-1.5">
+              <button onclick="exportEventListToExcel()" class="inline-flex items-center space-x-1 text-[11px] bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-2.5 py-1 rounded font-semibold transition" title="Exportar Lista de Eventos a Excel">
+                <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Excel</span>
+              </button>
+              <button onclick="exportEventListToPDF()" class="inline-flex items-center space-x-1 text-[11px] bg-white hover:bg-gray-50 text-monday-text border border-monday-border px-2.5 py-1 rounded font-semibold transition" title="Exportar Lista de Eventos a PDF">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-sercotec-red"></i>
+                <span>PDF</span>
+              </button>
+            </div>
           </div>
           <div id="eventListContainer" class="flex-1 overflow-y-auto divide-y divide-monday-border custom-scrollbar"></div>
         </div>
@@ -400,7 +417,7 @@
 
   </main>
 
-  <!-- MODAL NUEVO / EDITAR EVENTO (INCLUYE FECHA INICIO Y TÉRMINO) -->
+  <!-- MODAL NUEVO / EDITAR EVENTO -->
   <div id="eventModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-xl space-y-4 border border-monday-border">
       <div class="flex items-center justify-between border-b border-monday-border pb-3">
@@ -457,7 +474,7 @@
     </div>
   </div>
 
-  <!-- MODALES DE MODULO 1 -->
+  <!-- MODALES MÓDULO 1 -->
   <div id="validateModal" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl space-y-4 border border-monday-border text-center">
       <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto">
@@ -571,7 +588,7 @@
       }
     ];
 
-    // DATOS MÓDULO 2 (EVENTOS CON FECHA INICIO/TÉRMINO)
+    // DATOS MÓDULO 2 (EVENTOS)
     let eventData = [
       {
         id: "EVT-2025-01",
@@ -656,7 +673,7 @@
       const d1 = new Date(ev.fechaInicio);
       const d2 = new Date(ev.fechaFin);
       const diffTime = Math.abs(d2 - d1);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // Incluye el día final
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
       return diffDays > 0 ? diffDays : 1;
     }
 
@@ -672,21 +689,41 @@
       document.getElementById('kpiTotalEventos').innerText = eventData.length;
       let totalPart = 0;
       let totalVentasGlobales = 0;
+      const globalRubroSales = {};
 
       eventData.forEach(e => {
         totalPart += e.participantes ? e.participantes.length : 0;
         totalVentasGlobales += calculateEventTotal(e);
+
+        if (e.participantes) {
+          e.participantes.forEach(p => {
+            const client = rawData.find(d => d.id === p.clientId);
+            if (client) {
+              const r = client.rubro || 'Otros';
+              globalRubroSales[r] = (globalRubroSales[r] || 0) + (Number(p.ventas) || 0);
+            }
+          });
+        }
       });
 
       document.getElementById('kpiTotalParticipantes').innerText = totalPart;
       document.getElementById('kpiVentasTotales').innerText = '$' + totalVentasGlobales.toLocaleString('es-CL');
       const prom = eventData.length ? Math.round(totalVentasGlobales / eventData.length) : 0;
       document.getElementById('kpiPromedioVentas').innerText = '$' + prom.toLocaleString('es-CL');
+
+      // Calcular Rubro Líder en Ventas a Nivel Global
+      let topRubroGlobal = "N/A";
+      let maxSalesGlobal = 0;
+      Object.keys(globalRubroSales).forEach(r => {
+        if (globalRubroSales[r] > maxSalesGlobal) {
+          maxSalesGlobal = globalRubroSales[r];
+          topRubroGlobal = r;
+        }
+      });
+      document.getElementById('kpiRubroLiderGlobal').innerText = topRubroGlobal;
     }
 
-    // GRÁFICOS MÓDULO 2
     function renderEventCharts() {
-      // 1. Ventas Totales por Rubro
       const rubroSales = {};
       eventData.forEach(ev => {
         if (ev.participantes) {
@@ -720,7 +757,6 @@
         }
       });
 
-      // 2. Cobertura por Comunas CDN (La Serena, La Higuera, Vicuña, Paihuano, Otra Comuna)
       const comunasCDN = ["La Serena", "La Higuera", "Vicuña", "Paihuano", "Otra Comuna"];
       const comunaCounts = { "La Serena": 0, "La Higuera": 0, "Vicuña": 0, "Paihuano": 0, "Otra Comuna": 0 };
 
@@ -775,6 +811,7 @@
       applyEventFilters();
     }
 
+    // RENDERIZAR LISTADO CON CANTIDAD DE PARTICIPANTES
     function renderEventList() {
       const container = document.getElementById('eventListContainer');
       container.innerHTML = '';
@@ -787,6 +824,7 @@
         const isSel = selectedEvent && selectedEvent.id === ev.id;
         const totalEv = calculateEventTotal(ev);
         const dias = calculateEventDays(ev);
+        const numPart = ev.participantes ? ev.participantes.length : 0;
 
         const card = document.createElement('div');
         card.className = `p-3.5 cursor-pointer transition border-l-4 ${isSel ? 'bg-monday-softblue border-monday-blue font-semibold' : 'hover:bg-gray-50 border-transparent'}`;
@@ -799,8 +837,10 @@
           </div>
           <h4 class="text-xs font-bold text-monday-text mt-1">${ev.nombre}</h4>
           <p class="text-[10px] text-monday-subtext truncate">Del ${ev.fechaInicio} al ${ev.fechaFin}</p>
+          
+          <!-- DATOS INCLUYENDO CANTIDAD DE PARTICIPANTES Y VENTAS -->
           <div class="flex items-center justify-between mt-1 text-[11px] text-monday-subtext">
-            <span>📍 ${ev.comuna}</span>
+            <span>📍 ${ev.comuna} • <strong>${numPart} part.</strong></span>
             <span class="font-bold text-emerald-600">$${totalEv.toLocaleString('es-CL')}</span>
           </div>
         `;
@@ -810,6 +850,7 @@
       lucide.createIcons();
     }
 
+    // RENDERIZAR FICHA INDIVIDUAL (INCLUYE CANTIDAD DE PARTICIPANTES QUE SE ACTUALIZA AUTOMÁTICAMENTE)
     function renderEventDetail(ev) {
       const container = document.getElementById('eventDetailContainer');
       if (!ev) {
@@ -820,8 +861,8 @@
       const totalEv = calculateEventTotal(ev);
       const dias = calculateEventDays(ev);
       const promedioDiario = Math.round(totalEv / dias);
+      const numParticipantes = ev.participantes ? ev.participantes.length : 0;
 
-      // Calcular Rubro con Mayores Ventas
       const rubroTotals = {};
       if (ev.participantes) {
         ev.participantes.forEach(p => {
@@ -879,24 +920,28 @@
             </div>
           </div>
 
-          <!-- Métricas del Evento Reorganizadas -->
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-monday-bg p-3.5 rounded-xl border border-monday-border text-xs">
+          <!-- Métricas del Evento Incluyendo Cantidad de Participantes Auto-actualizable -->
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-2.5 bg-monday-bg p-3.5 rounded-xl border border-monday-border text-xs">
             <div>
               <span class="text-monday-subtext block font-medium">Fechas & Duración</span>
-              <p class="font-bold text-monday-text">${ev.fechaInicio} al ${ev.fechaFin}</p>
-              <span class="text-[10px] text-monday-blue font-bold">(${dias} día(s) de duración)</span>
+              <p class="font-bold text-monday-text text-[11px]">${ev.fechaInicio} al ${ev.fechaFin}</p>
+              <span class="text-[10px] text-monday-blue font-bold">(${dias} día(s))</span>
+            </div>
+            <div>
+              <span class="text-monday-subtext block font-medium">Participantes</span>
+              <p class="font-bold text-monday-text text-sm">${numParticipantes} <span class="text-[10px] text-monday-subtext">emprendedores</span></p>
             </div>
             <div>
               <span class="text-monday-subtext block font-medium">Ventas Totales</span>
               <p class="font-bold text-emerald-600 text-sm">$${totalEv.toLocaleString('es-CL')}</p>
             </div>
             <div>
-              <span class="text-monday-subtext block font-medium">Promedio Ventas Diarias</span>
+              <span class="text-monday-subtext block font-medium">Prom. Ventas Diarias</span>
               <p class="font-bold text-monday-purple text-sm">$${promedioDiario.toLocaleString('es-CL')}</p>
             </div>
             <div>
-              <span class="text-monday-subtext block font-medium">Rubro con Mayores Ventas</span>
-              <p class="font-bold text-monday-text truncate" title="${topRubroName}">${topRubroName}</p>
+              <span class="text-monday-subtext block font-medium">Rubro Líder</span>
+              <p class="font-bold text-monday-text text-[11px] truncate" title="${topRubroName}">${topRubroName}</p>
             </div>
           </div>
 
@@ -919,9 +964,9 @@
 
           <!-- Lista de Emprendedores Confirmados -->
           <div class="space-y-2">
-            <h4 class="text-xs font-bold text-monday-text uppercase">Lista de Participantes y Ventas Individuales</h4>
+            <h4 class="text-xs font-bold text-monday-text uppercase">Lista de Participantes Confirmados (${numParticipantes})</h4>
             
-            <div class="bg-white border border-monday-border rounded-xl divide-y divide-monday-border max-h-56 overflow-y-auto custom-scrollbar">
+            <div class="bg-white border border-monday-border rounded-xl divide-y divide-monday-border max-h-52 overflow-y-auto custom-scrollbar">
               ${(ev.participantes && ev.participantes.length) ? ev.participantes.map(part => {
                 const clientObj = rawData.find(d => d.id === part.clientId);
                 if (!clientObj) return '';
@@ -1071,6 +1116,61 @@
         ev.participantes = ev.participantes.filter(p => p.clientId !== clientId);
         renderEventsAll();
       }
+    }
+
+    // EXPORTAR LISTADO FILTRADO DE EVENTOS A EXCEL
+    function exportEventListToExcel() {
+      const excelData = filteredEvents.map(ev => ({
+        "ID Evento": ev.id,
+        "Nombre Evento": ev.nombre,
+        "Organizador": ev.organizador || 'N/A',
+        "Fecha Inicio": ev.fechaInicio,
+        "Fecha Fin": ev.fechaFin,
+        "Duración (Días)": calculateEventDays(ev),
+        "Comuna": ev.comuna,
+        "Dirección": ev.direccion,
+        "Cantidad Participantes": ev.participantes ? ev.participantes.length : 0,
+        "Ventas Totales ($)": calculateEventTotal(ev)
+      }));
+
+      const ws = XLSX.utils.json_to_sheet(excelData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Listado_Eventos");
+      XLSX.writeFile(wb, "Vitrina_Elqui_Listado_Eventos.xlsx");
+    }
+
+    // EXPORTAR LISTADO FILTRADO DE EVENTOS A PDF
+    function exportEventListToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('landscape');
+
+      doc.setFillColor(0, 115, 234);
+      doc.rect(0, 0, 297, 20, 'F');
+
+      doc.setFontSize(14);
+      doc.setTextColor(255, 255, 255);
+      doc.text("LISTADO GENERAL DE EVENTOS Y FERIAS - CDN LA SERENA", 14, 13);
+
+      const rows = filteredEvents.map(ev => [
+        ev.id,
+        ev.nombre,
+        ev.organizador || 'N/A',
+        `${ev.fechaInicio} al ${ev.fechaFin}`,
+        `${calculateEventDays(ev)} d`,
+        ev.comuna,
+        ev.participantes ? ev.participantes.length : 0,
+        `$${calculateEventTotal(ev).toLocaleString('es-CL')}`
+      ]);
+
+      doc.autoTable({
+        startY: 25,
+        head: [['ID', 'Nombre Evento', 'Organizador', 'Rango Fechas', 'Días', 'Comuna', 'Part.', 'Ventas Totales']],
+        body: rows,
+        theme: 'striped',
+        headStyles: { fillColor: [0, 115, 234] }
+      });
+
+      doc.save("Vitrina_Elqui_Listado_Eventos.pdf");
     }
 
     function exportEventToPDF(evId) {
